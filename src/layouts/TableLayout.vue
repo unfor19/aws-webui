@@ -7,7 +7,6 @@
       :row-key="rowKey"
       :filter="filter"
       v-model:pagination="pagination"
-      hide-pagination
     >
       <template v-slot:top>
         <!-- <q-btn color="primary" :disable="loading" label="Add row" @click="addRow" />
