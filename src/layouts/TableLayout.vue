@@ -16,7 +16,7 @@
         <q-input
           bottom-slots
           dense
-          debounce="600"
+          debounce="100"
           label="Filter By Name"
           color="primary"
           v-model="filter"
@@ -31,6 +31,18 @@
             <q-icon name="search" />
           </template>
         </q-input>
+      </template>
+      <template v-slot:header-cell-Value="props">
+        <q-th :props="props">
+          <q-icon name="edit" size="1.6em" class="q-pa-xs" />
+          {{ props.col.label }}
+        </q-th>
+      </template>
+      <template v-slot:header-cell-Type="props">
+        <q-th :props="props">
+          <q-icon name="edit" size="1.6em" class="q-pa-xs" />
+          {{ props.col.label }}
+        </q-th>
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
