@@ -1,0 +1,15 @@
+**
+!.dist
+!public
+!scripts
+!src
+!.eslint*
+!.postcss*
+!babel.config.js
+!jsconfig.json
+!LICENSE
+!package.json
+!quasar.conf.js
+!yarn.lock
+!server
+node_modules

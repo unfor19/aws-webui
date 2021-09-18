@@ -8,13 +8,14 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "serve": "quasar dev",
+    "serve": "quasar dev -p 8080 --open",
     "localstack:up": "docker-compose -p awswebui -f docker-compose-localstack.yml up --detach && ./scripts/wait_for_endpoints.sh http://localhost:4566/health",
     "init-params:10": "./scripts/init_params.sh 10",
     "init-params:20": "./scripts/init_params.sh 20",
     "init-params:32": "./scripts/init_params.sh 32",
     "localstack:down": "docker-compose -p parzival -f docker-compose-localstack.yml down",
-    "build": "quasar build"
+    "build": "quasar build",
+    "serve:prod": "node server/server.js"
   },
   "dependencies": {
     "@aws-sdk/client-ssm": "^3.32.0",
@@ -25,10 +26,13 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
     "@quasar/app": "^3.0.0",
+    "connect-history-api-fallback": "1.6.0",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^7.0.0",
-    "eslint-webpack-plugin": "^2.4.0"
+    "eslint-webpack-plugin": "^2.4.0",
+    "express": "^4.17.1",
+    "serve-static": "^1.14.1"
   },
   "browserslist": [
     "last 10 Chrome versions",
