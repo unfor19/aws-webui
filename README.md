@@ -1,13 +1,13 @@
-# aws-webui (aws-webui)
+# aws-webui
 
 A Single Page Application to manage AWS resources efficiently
 
 ## Requirements
 
-- Node 14.x+
-- NPM 6.x+
-- Docker and Docker-Compose for testing locally with localstack
-
+- [Node](https://nodejs.org/en/download/) 14.x+
+- [quaser CLI](https://quasar.dev/quasar-cli/installation) v3.x
+- [Docker](https://docs.docker.com/get-docker/) and [Docker-Compose](https://docs.docker.com/compose/install/) for testing locally with localstack
+- (Optional) [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) - for modifying values via terminal
 ## Install the dependencies
 ```bash
 yarn
@@ -15,13 +15,31 @@ yarn
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 
-```bash
-make up-localstack
-```
+1. Start localstack
+    ```bash
+    make up-localstack
+    ```
+1. Add parameters with AWS CLI (required until I add the `Add parameter` feature)
+   ```bash
+   export \
+    AWS_ACCESS_KEY_ID="mock_aws" \
+    AWS_SECRET_ACCESS_KEY="mock_aws" \
+    AWS_REGION="us-east-1" \
+    AWS_SSM_ENDPOINT_URL="http://localhost:4566"
 
-```bash
-quasar dev
-```
+   for i in {1..32}; do
+     P_NAME="/myapp/dev/test${i}"
+     P_VALUE="testvalue${i}"
+     P_TYPE="SecureString"
+     aws ssm --endpoint-url="$AWS_SSM_ENDPOINT_URL" put-parameter --overwrite --name "$P_NAME" --value "$P_VALUE" --type "$P_TYPE"
+   done
+   ```
+   
+2. Start development server
+
+    ```bash
+    quasar dev
+    ```
 
 ### Lint the files
 ```bash
