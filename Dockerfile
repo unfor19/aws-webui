@@ -29,4 +29,5 @@ COPY --from=build /usr/src/app/dist/ .
 
 EXPOSE 8080
 WORKDIR /app/
+COPY package.json .
 CMD [ "yarn", "serve:prod" ]
