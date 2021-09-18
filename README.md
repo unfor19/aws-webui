@@ -73,10 +73,6 @@ docker run --rm -it -p 8080:8080 unfor19/aws-webui
    docker run --rm -it -p 8080:8080 aws-webui
    ```
 
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v2.quasar.dev/quasar-cli/quasar-conf-js).
-
-
 ## TODO
 
 - Decouple "SsmLayout" from `TableLayout` - Currently, TableLayout can only support SSM, so I need to break it down to templates, so each AWS Service can implement TableLayout by injecting values with `props`
