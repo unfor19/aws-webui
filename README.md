@@ -19,38 +19,27 @@ yarn
 
 1. Start localstack
     ```bash
-    make up-localstack
+    yarn localstack:up
     ```
 1. Add parameters with AWS CLI (required until I add the `Add parameter` feature)
    ```bash
-   export \
-    AWS_ACCESS_KEY_ID="mock_aws" \
-    AWS_SECRET_ACCESS_KEY="mock_aws" \
-    AWS_REGION="us-east-1" \
-    AWS_SSM_ENDPOINT_URL="http://localhost:4566"
-
-   for i in {1..32}; do
-     P_NAME="/myapp/dev/test${i}"
-     P_VALUE="testvalue${i}"
-     P_TYPE="SecureString"
-     aws ssm --endpoint-url="$AWS_SSM_ENDPOINT_URL" put-parameter --overwrite --name "$P_NAME" --value "$P_VALUE" --type "$P_TYPE"
-   done
+   yarn init-params:20
    ```
    
 2. Start development server
 
     ```bash
-    quasar dev
+    yarn serve
     ```
 
 ### Lint the files
 ```bash
-yarn run lint
+yarn lint
 ```
 
 ### Build the app for production
 ```bash
-quasar build
+yarn build
 ```
 
 ### Customize the configuration
