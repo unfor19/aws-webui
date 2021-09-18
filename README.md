@@ -10,13 +10,14 @@ A Single Page Application to manage AWS resources efficiently.
 - [quaser CLI](https://quasar.dev/quasar-cli/installation) v3.x
 - [Docker](https://docs.docker.com/get-docker/) and [Docker-Compose](https://docs.docker.com/compose/install/) for testing locally with localstack
 - (Optional) [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) - for modifying values via terminal
-## Install the dependencies
+### Install the dependencies
 ```bash
 yarn
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+## Getting Started
 
+1. Fork/Clone this repo
 1. Start localstack
     ```bash
     yarn localstack:up
@@ -25,22 +26,52 @@ yarn
    ```bash
    yarn init-params:20
    ```
-   
-2. Start development server
+1. Start development server - will automatically open a new browser with hot-reload
+   ```bash
+   yarn serve
+   ```
 
+## Production Mode
+
+### Run From Source Code
+
+1. Fork/Clone this repo
+1. Build the application
     ```bash
-    yarn serve
+    yarn build
     ```
+1. Install server dependencies (do it once)
+   ```bash
+   cd server && \
+   yarn && \
+   cd ..
+   ```
+1. Run application in production mode
+   ```bash
+   yarn serve:prod
+   ```
 
-### Lint the files
+### Run With Docker
+
+#### Run Official Container
+
+TODO: Add CI/CD to build and push to DockerHub
+
 ```bash
-yarn lint
+docker run --rm -it -p 8080:8080 unfor19/aws-webui
 ```
 
-### Build the app for production
-```bash
-yarn build
-```
+#### Build Docker Image From Source Code
+
+1. Fork/Clone this repo
+1. Build the application
+   ```bash
+   docker build -t aws-webui .
+   ```
+1. Run application in production mode
+   ```bash
+   docker run --rm -it -p 8080:8080 aws-webui
+   ```
 
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://v2.quasar.dev/quasar-cli/quasar-conf-js).
