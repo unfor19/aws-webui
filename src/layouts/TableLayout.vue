@@ -128,8 +128,8 @@ export default {
       pagination: {
         sortBy: "desc",
         descending: false,
-        page: 2,
-        rowsPerPage: 3,
+        page: 1,
+        rowsPerPage: 10,
       },
       filter: "",
       editItem: {},
