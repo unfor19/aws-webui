@@ -42,7 +42,7 @@ const linksList = [
   {
     title: "SSM Parameters",
     caption: "ssm-parameters",
-    icon: "school",
+    icon: "cloud",
     link: "/#/ssm-parameters",
   },
   {
