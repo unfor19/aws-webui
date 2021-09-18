@@ -1,6 +1,8 @@
 # aws-webui
 
-A Single Page Application to manage AWS resources efficiently
+**Work In Progress (WIP)** - This is me, trying to learn frontend
+
+A Single Page Application to manage AWS resources efficiently.
 
 ## Requirements
 
