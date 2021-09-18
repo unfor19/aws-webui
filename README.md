@@ -42,3 +42,12 @@ See [Configuring quasar.conf.js](https://v2.quasar.dev/quasar-cli/quasar-conf-js
 - Decouple "SsmLayout" from `TableLayout` - Currently, TableLayout can only support SSM, so I need to break it down to templates, so each AWS Service can implement TableLayout by injecting values with `props`
 - Add `Create Item (Parameter)` - add a `ItemLayout` modal, to get data use `get-parameter` and to set data `put-parameter`. The `get-parameter` and `get-parameter-history` to get more information than `get-parameters-by-path`.
 - Add `Delete Item (Parameter)` - multiple selection of parameters and clicking on a button to delete
+
+
+## Authors
+
+Created and maintained by [Meir Gabay](https://github.com/unfor19)
+
+## License
+
+This project is licensed under the Apache License - see the [LICENSE](https://github.com/unfor19/aws-webui/blob/master/LICENSE) file for details
