@@ -6,6 +6,7 @@
       :items="items"
       :loading="loading"
       :setItem="setItem"
+      :getItems="getItems"
       rowKey="Name"
     />
   </q-page>
@@ -59,8 +60,7 @@ export default {
         params[item._changedProperty] = v;
         console.log("setItem params:", params);
         const data = await ssmSetParameter(params);
-        console.log(data);
-        this.getItems();
+        console.log("Response data: ", data);
       } catch (err) {
         console.log("get error", err);
       }

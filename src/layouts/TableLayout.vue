@@ -5,9 +5,33 @@
       :rows="items"
       :columns="keys"
       :row-key="rowKey"
+      :filter="filter"
       v-model:pagination="pagination"
       hide-pagination
     >
+      <template v-slot:top>
+        <!-- <q-btn color="primary" :disable="loading" label="Add row" @click="addRow" />
+        <q-btn class="q-ml-sm" color="primary" :disable="loading" label="Remove row" @click="removeRow" />
+        <q-space /> -->
+        <q-input
+          bottom-slots
+          dense
+          debounce="600"
+          label="Filter By Name"
+          color="primary"
+          v-model="filter"
+        >
+          <template v-slot:append>
+            <q-icon
+              v-if="filter !== ''"
+              name="close"
+              @click="filter = ''"
+              class="cursor-pointer"
+            />
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="Name" :props="props">
@@ -36,10 +60,16 @@
               @hide="onHidePopup"
               @show="onShowPopup(props.row)"
               @change="onChange('Type')"
+              @blur="onChange('Type')"
               v-slot="scope"
               buttons
             >
-              <q-input type="textarea" v-model="scope.value" dense autofocus />
+              <q-select
+                filled
+                v-model="scope.value"
+                :options="itemTypes"
+                label="Type"
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="LastModifiedDate" :props="props">
@@ -74,6 +104,12 @@ export default {
     title: String,
     rowKey: String,
     setItem: Function,
+    getItems: Function,
+  },
+  watch: {
+    editItem: function (v, ov) {
+      this.getItems();
+    },
   },
   data: function () {
     return {
@@ -83,7 +119,9 @@ export default {
         page: 2,
         rowsPerPage: 3,
       },
+      filter: "",
       editItem: {},
+      itemTypes: ["String", "SecureString", "StringList"],
     };
   },
   computed: {
