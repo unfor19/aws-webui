@@ -5,6 +5,7 @@
       :keys="keys"
       :items="items"
       :loading="loading"
+      :setItem="setItem"
       rowKey="Name"
     />
   </q-page>
@@ -13,10 +14,7 @@
 <script>
 import TableLayout from "../layouts/TableLayout.vue";
 import { ssmGetParametersByPath } from "../aws/ssm/get";
-
-import mitt from "mitt";
-
-const emitter = mitt();
+import { ssmSetParameter } from "../aws/ssm/set";
 
 export default {
   name: "SsmParameters",
@@ -32,7 +30,7 @@ export default {
     TableLayout,
   },
   methods: {
-    async get() {
+    async getItems() {
       this.loading = true;
       try {
         var params = {
@@ -41,6 +39,7 @@ export default {
           Recursive: true,
           WithDecryption: true,
         };
+        console.log("getItems params:", params);
         const data = await ssmGetParametersByPath(params);
         this.items = data.Items;
         this.keys = data.Keys;
@@ -49,12 +48,26 @@ export default {
         console.log("get error", err);
       }
     },
+    async setItem(item, v, ov) {
+      try {
+        var params = {
+          Name: item.Name,
+          Value: item.Value,
+          Type: item.Type,
+          Overwrite: true,
+        };
+        params[item._changedProperty] = v;
+        console.log("setItem params:", params);
+        const data = await ssmSetParameter(params);
+        console.log(data);
+        this.getItems();
+      } catch (err) {
+        console.log("get error", err);
+      }
+    },
   },
   mounted() {
-    this.get();
-    emitter.on("save", (data) => {
-      console.log("Custom event triggered!", data);
-    });
+    this.getItems();
   },
 };
 </script>

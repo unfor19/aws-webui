@@ -12,32 +12,41 @@
         <q-tr :props="props">
           <q-td key="Name" :props="props">
             {{ props.row.Name }}
-            <q-popup-edit
-              v-model="props.row.Name"
-              :validate="(val) => props.row.Name.length > 0"
-              @save="onSet"
-              v-slot="scope"
-              buttons
-            >
-              <q-input
-                v-model="scope.value"
-                dense
-                autofocus
-                counter
-                @keyup.enter="scope.set"
-              />
-            </q-popup-edit>
           </q-td>
           <q-td key="Value" :props="props">
             <div class="text-pre-wrap">{{ props.row.Value }}</div>
-            <q-popup-edit v-model="props.row.Value" buttons>
-              <q-input
-                type="textarea"
-                v-model="props.row.Value"
-                dense
-                autofocus
-              />
+            <q-popup-edit
+              v-model="props.row.Value"
+              :validate="(val) => props.row.Value.length > 0"
+              @save="onSave"
+              @hide="onHidePopup"
+              @show="onShowPopup(props.row)"
+              @change="onChange('Value')"
+              v-slot="scope"
+              buttons
+            >
+              <q-input type="textarea" v-model="scope.value" dense autofocus />
             </q-popup-edit>
+          </q-td>
+          <q-td key="Type" :props="props">
+            <div class="text-pre-wrap">{{ props.row.Type }}</div>
+            <q-popup-edit
+              v-model="props.row.Type"
+              @save="onSave"
+              @hide="onHidePopup"
+              @show="onShowPopup(props.row)"
+              @change="onChange('Type')"
+              v-slot="scope"
+              buttons
+            >
+              <q-input type="textarea" v-model="scope.value" dense autofocus />
+            </q-popup-edit>
+          </q-td>
+          <q-td key="LastModifiedDate" :props="props">
+            <div class="text-pre-wrap">{{ props.row.LastModifiedDate }}</div>
+          </q-td>
+          <q-td key="Version" :props="props">
+            <div class="text-pre-wrap">{{ props.row.Version }}</div>
           </q-td>
         </q-tr>
       </template>
@@ -55,10 +64,6 @@
 </template>
 
 <script>
-import mitt from "mitt";
-
-const emitter = mitt();
-
 export default {
   name: "TableLayout",
   props: {
@@ -68,6 +73,7 @@ export default {
     loading: Boolean,
     title: String,
     rowKey: String,
+    setItem: Function,
   },
   data: function () {
     return {
@@ -76,8 +82,8 @@ export default {
         descending: false,
         page: 2,
         rowsPerPage: 3,
-        // rowsNumber: xx if getting data from a server
       },
+      editItem: {},
     };
   },
   computed: {
@@ -86,10 +92,31 @@ export default {
     },
   },
   methods: {
-    onSet: function (v, ov) {
-      emitter.emit("save");
-      console.log("emitting save ...", v, ov);
-      this.$emit("save", v, ov);
+    // Methods are ordered according to the sequence of events
+    onShowPopup: function (item) {
+      console.log("onShowPopup was triggered, Started Editing Item:", item);
+      this.editItem = item;
+    },
+    onChange: function (name) {
+      console.log(
+        "onChange was triggered, setting editItem._changedProperty =",
+        name
+      );
+      this.editItem._changedProperty = name;
+    },
+    onSave: function (v, ov) {
+      console.log(
+        "onSave was triggered, invoking setItem on",
+        this.editItem.Name
+      );
+      this.setItem(this.editItem, v, ov);
+    },
+    onHidePopup: function (e) {
+      console.log(
+        "onHidePopup was triggeted, Stopped Editing Item:",
+        this.editItem.Name
+      );
+      this.editItem = {};
     },
   },
 };
