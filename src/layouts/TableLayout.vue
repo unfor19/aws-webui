@@ -8,36 +8,15 @@
       :filter="filter"
       v-model:pagination="pagination"
     >
-      <template v-slot:top>
-        <!-- <q-btn color="primary" :disable="loading" label="Add row" @click="addRow" />
-        <q-btn class="q-ml-sm" color="primary" :disable="loading" label="Remove row" @click="removeRow" />
-        <q-space /> -->
-        <q-input
-          bottom-slots
-          dense
-          debounce="100"
-          label="Filter By Name"
-          color="primary"
-          v-model="filter"
-        >
-          <template v-slot:append>
-            <q-icon
-              v-if="filter !== ''"
-              name="close"
-              @click="filter = ''"
-              class="cursor-pointer"
-            />
-            <q-icon name="search" />
-          </template>
-        </q-input>
-      </template>
-      <template v-slot:header-cell-Value="props">
-        <q-th :props="props">
-          <q-icon name="edit" size="1.6em" class="q-pa-xs" />
-          {{ props.col.label }}
-        </q-th>
-      </template>
-      <template v-slot:header-cell-Type="props">
+      <!-- Includes "Filter By", "Create" button and "Delete" button -->
+      <table-top-slot />
+
+      <!-- Show "edit" icon on specific headers -->
+      <template
+        v-for="(item, i) in headerCellSlots"
+        :key="item + i"
+        v-slot:[item]="props"
+      >
         <q-th :props="props">
           <q-icon name="edit" size="1.6em" class="q-pa-xs" />
           {{ props.col.label }}
@@ -105,8 +84,13 @@
 </template>
 
 <script>
+import TableTopSlot from "../components/TableTopSlot.vue";
+
 export default {
   name: "TableLayout",
+  components: {
+    TableTopSlot,
+  },
   props: {
     msg: String,
     keys: Array,
@@ -116,6 +100,10 @@ export default {
     rowKey: String,
     setItem: Function,
     getItems: Function,
+    editableColumns: {
+      type: Array[String],
+      default: [],
+    },
   },
   watch: {
     editItem: function (v, ov) {
@@ -138,6 +126,9 @@ export default {
   computed: {
     pagesNumber: function () {
       return Math.ceil(this.items.length / this.pagination.rowsPerPage);
+    },
+    headerCellSlots() {
+      return (this.editableColumns || []).map((n) => "header-cell-" + n);
     },
   },
   methods: {

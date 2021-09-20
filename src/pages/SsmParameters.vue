@@ -7,6 +7,7 @@
       :loading="loading"
       :setItem="setItem"
       :getItems="getItems"
+      :editableColumns="editableColumns"
       rowKey="Name"
     />
   </q-page>
@@ -25,6 +26,7 @@ export default {
       items: [],
       loading: true,
       title: "SsmParameters",
+      editableColumns: ["Value", "Type"],
     };
   },
   components: {
