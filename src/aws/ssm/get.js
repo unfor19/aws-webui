@@ -28,7 +28,7 @@ export async function ssmGetParametersByPath(params) {
   )) {
     parametersList.push(...page.Parameters);
   }
-  console.log(parametersList[0]);
+  console.log("First item in list:", parametersList[0]);
   return {
     Keys: [
       {
