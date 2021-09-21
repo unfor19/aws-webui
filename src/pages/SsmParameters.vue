@@ -102,8 +102,5 @@ export default {
       }
     },
   },
-  mounted() {
-    this.getItems();
-  },
 };
 </script>
