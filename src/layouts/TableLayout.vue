@@ -112,6 +112,10 @@ export default {
       type: String,
       default: "primary",
     },
+    rowsPerPage: {
+      type: Number,
+      default: 10,
+    },
     // Body
     keys: {
       type: Array[Object],
@@ -137,7 +141,7 @@ export default {
       pagination: {
         descending: false,
         page: 1,
-        rowsPerPage: 10,
+        rowsPerPage: this.rowsPerPage,
       },
       filter: "",
       editItem: {},
