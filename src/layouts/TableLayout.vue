@@ -107,7 +107,6 @@ export default {
   data: function () {
     return {
       pagination: {
-        sortBy: "desc",
         descending: false,
         page: 1,
         rowsPerPage: 10,
