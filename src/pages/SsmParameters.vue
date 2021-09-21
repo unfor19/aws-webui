@@ -1,25 +1,27 @@
 <template>
   <q-page padding>
-    <TableLayout
+    <table-layout
       :title="title"
       :keys="keys"
       :items="items"
+      :getItem="getItem"
       :setItem="setItem"
       :getItems="getItems"
-      rowKey="Name"
+      :rowKey="rowKey"
     />
   </q-page>
 </template>
 
 <script>
 import TableLayout from "../layouts/TableLayout.vue";
-import { ssmGetParametersByPath } from "../aws/ssm/get";
+import { ssmGetParametersByPath, ssmGetParameterHistory } from "../aws/ssm/get";
 import { ssmSetParameter } from "../aws/ssm/set";
 
 export default {
   name: "SsmParameters",
   data: function () {
     return {
+      rowKey: "Name",
       keys: [
         {
           name: "Name",
@@ -65,6 +67,19 @@ export default {
     TableLayout,
   },
   methods: {
+    async getItem(itemName) {
+      try {
+        var params = {
+          Name: itemName,
+          WithDecryption: true,
+        };
+        console.log("getItem params:", params);
+        const data = await ssmGetParameterHistory(params);
+        console.log("Data:", data);
+      } catch {
+        console.log("get item error", err);
+      }
+    },
     async getItems() {
       try {
         var params = {
@@ -78,7 +93,7 @@ export default {
         this.items = data.items;
         console.log("Keys:", this.keys);
       } catch (err) {
-        console.log("get error", err);
+        console.log("get itemS error", err);
       }
     },
     async setItem(item, v, ov) {

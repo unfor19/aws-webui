@@ -9,7 +9,29 @@
       v-model:pagination="pagination"
     >
       <!-- Includes "Filter By", "Create" button and "Delete" button -->
-      <table-top-slot />
+      <template v-slot:top>
+        <!-- <q-btn color="primary" :disable="loading" label="Add row" @click="addRow" />
+              <q-btn class="q-ml-sm" color="primary" :disable="loading" label="Remove row" @click="removeRow" />
+              <q-space /> -->
+        <q-input
+          bottom-slots
+          dense
+          :debounce="debounce"
+          :label="filterBy"
+          :color="color"
+          v-model="filter"
+        >
+          <template v-slot:append>
+            <q-icon
+              v-if="filter !== ''"
+              name="close"
+              @click="filter = ''"
+              class="cursor-pointer"
+            />
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
 
       <!-- Show "edit" icon on specific headers -->
       <template
@@ -74,15 +96,23 @@
 </template>
 
 <script>
-import TableTopSlot from "../components/TableTopSlot.vue";
-
 export default {
   name: "TableLayout",
-  components: {
-    TableTopSlot,
-  },
   props: {
-    msg: String,
+    title: {
+      type: String,
+      default: "Page Title",
+    },
+    // TopHeaderSlot
+    debounce: {
+      type: Number,
+      default: 100,
+    },
+    color: {
+      type: String,
+      default: "primary",
+    },
+    // Body
     keys: {
       type: Array[Object],
       default: [],
@@ -91,13 +121,11 @@ export default {
       type: Array[Object],
       default: [],
     },
-    title: {
-      type: String,
-      default: "Page Title",
-    },
     rowKey: String,
+    // Functions
     setItem: Function,
     getItems: Function,
+    getItem: Function,
   },
   watch: {
     editItem: function (v, ov) {
@@ -116,6 +144,9 @@ export default {
     };
   },
   computed: {
+    filterBy: function () {
+      return "Filter by " + this.rowKey;
+    },
     editableColumns: function () {
       const editableColumns = this.keys
         .filter((key) => key.editable)
