@@ -40,7 +40,12 @@ for (( c=0, i=0; c<"$_NUM_OF_PARAMS"; c++,i++ )); do
     fi
     P_TYPE="${_P_TYPES[$i]}"
     log_msg "Putting parameter: ${P_NAME} , Value: ${P_VALUE}, Type: ${P_TYPE}"
-    aws ssm --endpoint-url="$AWS_SSM_ENDPOINT_URL" put-parameter --overwrite --name "$P_NAME" --value "$P_VALUE" --type "$P_TYPE" 1>/dev/null
+    # Puts parameters in parallel with `&` which sets a command as a "background-job"
+    aws ssm --endpoint-url="$AWS_SSM_ENDPOINT_URL" put-parameter --overwrite --name "$P_NAME" --value "$P_VALUE" --type "$P_TYPE" 1>/dev/null &
 done
+
+# Wait for all background jobs "put all parameters" to complete
+# For 20 parameters, doing it parallel decreases the time from 25 seconds to 5 seconds
+wait
 
 log_msg "Completed successfully puting ${_NUM_OF_PARAMS} SSM Parameters"
