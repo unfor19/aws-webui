@@ -30,27 +30,7 @@ export async function ssmGetParametersByPath(params) {
   }
   console.log("First item in list:", parametersList[0]);
   return {
-    Keys: [
-      {
-        name: "Name",
-        align: "left",
-        field: (item) => item.Name,
-        format: (val) => `${val}`,
-        sortable: true,
-        label: "Name",
-      },
-      { name: "Value", field: "Value", label: "Value", sortable: true },
-      { name: "Type", field: "Type", label: "Type", sortable: true },
-      {
-        name: "LastModifiedDate",
-        field: "LastModifiedDate",
-        label: "LastModifiedDate",
-        format: (val) => `${val}`,
-        sortable: true,
-      },
-      { name: "Version", field: "Version", label: "Version" },
-    ],
-    Items: parametersList,
+    items: parametersList,
   };
 }
 

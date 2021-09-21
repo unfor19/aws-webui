@@ -7,7 +7,6 @@
       :loading="loading"
       :setItem="setItem"
       :getItems="getItems"
-      :editableColumns="editableColumns"
       rowKey="Name"
     />
   </q-page>
@@ -22,11 +21,46 @@ export default {
   name: "SsmParameters",
   data: function () {
     return {
-      keys: [],
+      keys: [
+        {
+          name: "Name",
+          align: "left",
+          field: (item) => item.Name,
+          format: (val) => `${val}`,
+          sortable: true,
+          label: "Name",
+        },
+        {
+          name: "Value",
+          field: "Value",
+          label: "Value",
+          sortable: true,
+          editable: {
+            type: "textarea",
+          },
+        },
+        {
+          name: "Type",
+          field: "Type",
+          label: "Type",
+          sortable: true,
+          editable: {
+            type: "select",
+            data: ["String", "SecureString", "StringList"],
+          },
+        },
+        {
+          name: "LastModifiedDate",
+          field: "LastModifiedDate",
+          label: "LastModifiedDate",
+          format: (val) => `${val}`,
+          sortable: true,
+        },
+        { name: "Version", field: "Version", label: "Version" },
+      ],
       items: [],
       loading: true,
       title: "SsmParameters",
-      editableColumns: ["Value", "Type"],
     };
   },
   components: {
@@ -44,8 +78,8 @@ export default {
         };
         console.log("getItems params:", params);
         const data = await ssmGetParametersByPath(params);
-        this.items = data.Items;
-        this.keys = data.Keys;
+        this.items = data.items;
+        console.log("Keys:", this.keys);
         this.loading = false;
       } catch (err) {
         console.log("get error", err);

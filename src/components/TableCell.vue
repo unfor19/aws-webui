@@ -1,7 +1,4 @@
-<template v-slot:top>
-  <!-- <q-btn color="primary" :disable="loading" label="Add row" @click="addRow" />
-        <q-btn class="q-ml-sm" color="primary" :disable="loading" label="Remove row" @click="removeRow" />
-        <q-space /> -->
+<template :props="props">
   <q-input
     bottom-slots
     dense
@@ -24,11 +21,11 @@
 
 <script>
 export default {
-  name: "TableTopSlot",
+  name: "TableCell",
   props: {
     filterBy: {
       type: String,
-      default: "",
+      default: "Name",
     },
     debounce: {
       type: Number,

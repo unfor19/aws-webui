@@ -24,49 +24,39 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="Name" :props="props">
-            {{ props.row.Name }}
-          </q-td>
-          <q-td key="Value" :props="props">
-            <div class="text-pre-wrap">{{ props.row.Value }}</div>
+          <q-td v-for="key in keys" :key="key.name" :props="props">
+            <div class="text-pre-wrap">{{ props.row[key.name] }}</div>
             <q-popup-edit
-              v-model="props.row.Value"
-              :validate="(val) => props.row.Value.length > 0"
+              v-if="key.editable && key.editable.type == 'textarea'"
+              v-model="props.row[key.name]"
+              :validate="(val) => props.row[key.name].length > 0"
               @save="onSave"
               @hide="onHidePopup"
               @show="onShowPopup(props.row)"
-              @change="onChange('Value')"
+              @change="onChange(key.name)"
               v-slot="scope"
               buttons
             >
               <q-input type="textarea" v-model="scope.value" dense autofocus />
             </q-popup-edit>
-          </q-td>
-          <q-td key="Type" :props="props">
-            <div class="text-pre-wrap">{{ props.row.Type }}</div>
             <q-popup-edit
-              v-model="props.row.Type"
+              v-if="key.editable && key.editable.type == 'select'"
+              v-model="props.row[key.name]"
               @save="onSave"
               @hide="onHidePopup"
               @show="onShowPopup(props.row)"
-              @change="onChange('Type')"
-              @blur="onChange('Type')"
+              @change="onChange(key.name)"
+              @blur="onChange(key.name)"
               v-slot="scope"
               buttons
             >
               <q-select
                 filled
                 v-model="scope.value"
-                :options="itemTypes"
-                label="Type"
+                :options="key.editable.data"
+                label="key.name"
               />
             </q-popup-edit>
-          </q-td>
-          <q-td key="LastModifiedDate" :props="props">
-            <div class="text-pre-wrap">{{ props.row.LastModifiedDate }}</div>
-          </q-td>
-          <q-td key="Version" :props="props">
-            <div class="text-pre-wrap">{{ props.row.Version }}</div>
           </q-td>
         </q-tr>
       </template>
@@ -93,17 +83,21 @@ export default {
   },
   props: {
     msg: String,
-    keys: Array,
-    items: Array,
-    loading: Boolean,
-    title: String,
+    keys: {
+      type: Array[Object],
+      default: [],
+    },
+    items: {
+      type: Array[Object],
+      default: [],
+    },
+    title: {
+      type: String,
+      default: "Page Title",
+    },
     rowKey: String,
     setItem: Function,
     getItems: Function,
-    editableColumns: {
-      type: Array[String],
-      default: [],
-    },
   },
   watch: {
     editItem: function (v, ov) {
@@ -120,10 +114,16 @@ export default {
       },
       filter: "",
       editItem: {},
-      itemTypes: ["String", "SecureString", "StringList"],
     };
   },
   computed: {
+    editableColumns: function () {
+      const editableColumns = this.keys
+        .filter((key) => key.editable)
+        .map((key) => key.name);
+      console.log("Editable columns:", editableColumns);
+      return editableColumns;
+    },
     pagesNumber: function () {
       return Math.ceil(this.items.length / this.pagination.rowsPerPage);
     },
@@ -158,6 +158,11 @@ export default {
       );
       this.editItem = {};
     },
+  },
+  async mounted() {
+    await this.getItems();
+    console.log("Number of items: ", this.items.length);
+    console.log("Items Array:", this.items);
   },
 };
 </script>
