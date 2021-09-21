@@ -54,7 +54,7 @@
                 filled
                 v-model="scope.value"
                 :options="key.editable.data"
-                label="key.name"
+                :label="key.name"
               />
             </q-popup-edit>
           </q-td>
