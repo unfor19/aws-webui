@@ -4,7 +4,6 @@
       :title="title"
       :keys="keys"
       :items="items"
-      :loading="loading"
       :setItem="setItem"
       :getItems="getItems"
       rowKey="Name"
@@ -59,7 +58,6 @@ export default {
         { name: "Version", field: "Version", label: "Version" },
       ],
       items: [],
-      loading: true,
       title: "SsmParameters",
     };
   },
@@ -68,7 +66,6 @@ export default {
   },
   methods: {
     async getItems() {
-      this.loading = true;
       try {
         var params = {
           Path: "/",
@@ -80,7 +77,6 @@ export default {
         const data = await ssmGetParametersByPath(params);
         this.items = data.items;
         console.log("Keys:", this.keys);
-        this.loading = false;
       } catch (err) {
         console.log("get error", err);
       }
