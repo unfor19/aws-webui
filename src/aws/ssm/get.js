@@ -1,6 +1,7 @@
 const {
   SSMClient,
   GetParameterCommand,
+  paginateGetParameterHistory,
   paginateGetParametersByPath,
 } = require("@aws-sdk/client-ssm"); // CommonJS import
 
@@ -40,4 +41,18 @@ export async function ssmGetParameterByName(name, withDecryption) {
     WithDecryption: withDecryption,
   });
   return await client.send(command);
+}
+
+export async function ssmGetParameterHistory(params) {
+  const parameterHistoryList = [];
+  for await (const page of paginateGetParameterHistory(
+    paginatorConfig,
+    params
+  )) {
+    parameterHistoryList.push(...page.Parameters);
+  }
+  console.log("First item in list:", parameterHistoryList[0]);
+  return {
+    items: parameterHistoryList,
+  };
 }
