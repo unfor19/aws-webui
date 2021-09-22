@@ -80,10 +80,10 @@ export default {
         console.log("get item error", err);
       }
     },
-    async getItems() {
+    async getItems(queryString) {
       try {
         var params = {
-          Path: "/",
+          Path: queryString,
           MaxResults: "10",
           Recursive: true,
           WithDecryption: true,

@@ -10,24 +10,44 @@
       v-model:pagination="pagination"
     >
       <template v-slot:top>
-        <q-input
-          bottom-slots
-          dense
-          :debounce="debounce"
-          :label="filterBy"
-          :color="color"
-          v-model="filter"
-        >
-          <template v-slot:append>
-            <q-icon
-              v-if="filter !== ''"
-              name="close"
-              @click="filter = ''"
-              class="cursor-pointer"
-            />
-            <q-icon name="search" />
-          </template>
-        </q-input>
+        <div class="q-gutter-y-md column" style="max-width: 300px">
+          <q-input
+            bottom-slots
+            dense
+            :color="color"
+            :debounce="queryStringDebounce"
+            v-model="queryString"
+            label="Query String"
+          >
+            <template v-slot:append>
+              <q-icon
+                v-if="filter !== ''"
+                name="close"
+                @click="filter = ''"
+                class="cursor-pointer"
+              />
+              <q-icon name="search" />
+            </template>
+          </q-input>
+          <q-input
+            bottom-slots
+            dense
+            :debounce="debounce"
+            :label="filterBy"
+            :color="color"
+            v-model="filter"
+          >
+            <template v-slot:append>
+              <q-icon
+                v-if="filter !== ''"
+                name="close"
+                @click="filter = ''"
+                class="cursor-pointer"
+              />
+              <q-icon name="filter_alt" />
+            </template>
+          </q-input>
+        </div>
       </template>
 
       <!-- Show "edit" icon on specific headers -->
@@ -114,6 +134,10 @@ export default {
       type: Number,
       default: 10,
     },
+    queryStringDebounce: {
+      type: Number,
+      default: 1000,
+    },
     // Body
     keys: {
       type: Array[Object],
@@ -133,6 +157,9 @@ export default {
     editItem: function (v, ov) {
       this.getItemsWrapper();
     },
+    queryString: function (v, ov) {
+      this.getItemsWrapper();
+    },
   },
   data: function () {
     return {
@@ -145,6 +172,7 @@ export default {
       editItem: {},
       viewItem: {},
       loading: false,
+      queryString: "",
     };
   },
   computed: {
@@ -168,7 +196,7 @@ export default {
   methods: {
     getItemsWrapper: async function () {
       this.loading = true;
-      await this.getItems();
+      await this.getItems(this.queryString);
       this.loading = false;
     },
     // Methods are ordered according to the sequence of events
