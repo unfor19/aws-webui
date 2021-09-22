@@ -6,6 +6,7 @@
       :columns="keys"
       :row-key="rowKey"
       :filter="filter"
+      :loading="loading"
       v-model:pagination="pagination"
     >
       <!-- Includes "Filter By", "Create" button and "Delete" button -->
@@ -48,6 +49,7 @@
         <q-tr :props="props">
           <q-td v-for="key in keys" :key="key.name" :props="props">
             <div class="text-pre-wrap">{{ props.row[key.name] }}</div>
+            <!-- Edit mode - renders only one of the q-popup-edit components -->
             <q-popup-edit
               v-if="key.editable && key.editable.type == 'textarea'"
               v-model="props.row[key.name]"
@@ -62,7 +64,7 @@
               <q-input type="textarea" v-model="scope.value" dense autofocus />
             </q-popup-edit>
             <q-popup-edit
-              v-if="key.editable && key.editable.type == 'select'"
+              v-else-if="key.editable && key.editable.type == 'select'"
               v-model="props.row[key.name]"
               @save="onSave"
               @hide="onHidePopup"
@@ -133,7 +135,7 @@ export default {
   },
   watch: {
     editItem: function (v, ov) {
-      this.getItems();
+      this.getItemsWrapper();
     },
   },
   data: function () {
@@ -145,6 +147,8 @@ export default {
       },
       filter: "",
       editItem: {},
+      viewItem: {},
+      loading: false,
     };
   },
   computed: {
@@ -166,6 +170,11 @@ export default {
     },
   },
   methods: {
+    getItemsWrapper: async function () {
+      this.loading = true;
+      await this.getItems();
+      this.loading = false;
+    },
     // Methods are ordered according to the sequence of events
     onShowPopup: function (item) {
       console.log("onShowPopup was triggered, Started Editing Item:", item);
@@ -194,7 +203,7 @@ export default {
     },
   },
   async mounted() {
-    await this.getItems();
+    await this.getItemsWrapper();
     console.log("Number of items: ", this.items.length);
     console.log("Items Array:", this.items);
   },
