@@ -1,7 +1,6 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      :title="title"
       :rows="items"
       :columns="keys"
       :row-key="rowKey"

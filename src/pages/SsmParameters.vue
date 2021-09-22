@@ -1,7 +1,7 @@
 <template>
+  <h4 class="q-pl-xl q-mb-xs">{{ title }}</h4>
   <q-page padding>
     <table-layout
-      :title="title"
       :keys="keys"
       :items="items"
       :getItem="getItem"
