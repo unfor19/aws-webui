@@ -9,11 +9,7 @@
       :loading="loading"
       v-model:pagination="pagination"
     >
-      <!-- Includes "Filter By", "Create" button and "Delete" button -->
       <template v-slot:top>
-        <!-- <q-btn color="primary" :disable="loading" label="Add row" @click="addRow" />
-              <q-btn class="q-ml-sm" color="primary" :disable="loading" label="Remove row" @click="removeRow" />
-              <q-space /> -->
         <q-input
           bottom-slots
           dense
