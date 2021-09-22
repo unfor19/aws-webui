@@ -57,6 +57,13 @@
       >
         <q-th :props="props">
           <q-icon name="edit" size="1.6em" class="q-pa-xs" />
+          <q-tooltip
+            anchor="top middle"
+            self="bottom middle"
+            :offset="[20, -5]"
+          >
+            Click on value to edit
+          </q-tooltip>
           {{ props.col.label }}
         </q-th>
       </template>
