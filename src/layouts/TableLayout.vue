@@ -7,6 +7,9 @@
       :filter="filter"
       :loading="loading"
       v-model:pagination="pagination"
+      v-model:selected="selected"
+      :selected-rows-label="getSelectedString"
+      selection="multiple"
     >
       <template v-slot:top>
         <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -69,6 +72,9 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
+          <q-td>
+            <q-checkbox v-model="props.selected" />
+          </q-td>
           <q-td v-for="key in keys" :key="key.name" :props="props">
             <div class="text-pre-wrap">{{ props.row[key.name] }}</div>
             <!-- Edit mode - renders only one of the q-popup-edit components -->
@@ -166,6 +172,9 @@ export default {
     queryString: function (v, ov) {
       this.getItemsWrapper();
     },
+    selected: function (v, ov) {
+      console.log(this.selected);
+    },
   },
   data: function () {
     return {
@@ -179,6 +188,7 @@ export default {
       viewItem: {},
       loading: false,
       queryString: "",
+      selected: [],
     };
   },
   computed: {
@@ -200,6 +210,13 @@ export default {
     },
   },
   methods: {
+    getSelectedString() {
+      return this.selected.length === 0
+        ? ""
+        : `${this.selected.length} record${
+            this.selected.length > 1 ? "s" : ""
+          } selected of ${this.items.length}`;
+    },
     getItemsWrapper: async function () {
       this.loading = true;
       await this.getItems(this.queryString);
