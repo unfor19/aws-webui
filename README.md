@@ -1,5 +1,7 @@
 # aws-webui
 
+[![Push to Docker Registries](https://github.com/unfor19/aws-webui/actions/workflows/docker-latest.yml/badge.svg)](https://github.com/unfor19/aws-webui/actions/workflows/docker-latest.yml)
+
 **Work In Progress (WIP)** - This is me, trying to learn frontend
 
 A Single Page Application to manage AWS resources efficiently.
