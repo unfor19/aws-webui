@@ -161,7 +161,7 @@ export default {
     }
 
     function deleteBtn(selected, rowKey) {
-      console.log(rowKey);
+      console.log("Row Key:", rowKey);
       $q.dialog({
         title: "Confirm",
         message: `
@@ -239,7 +239,7 @@ export default {
       this.getItemsWrapper();
     },
     selected: function (v, ov) {
-      console.log(this.selected);
+      console.log("Selected:", this.selected);
     },
   },
   data: function () {
