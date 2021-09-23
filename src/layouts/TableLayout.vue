@@ -7,6 +7,9 @@
       :filter="filter"
       :loading="loading"
       v-model:pagination="pagination"
+      v-model:selected="selected"
+      :selected-rows-label="getSelectedString"
+      selection="multiple"
     >
       <template v-slot:top>
         <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -46,6 +49,13 @@
               <q-icon name="filter_alt" />
             </template>
           </q-input>
+          <q-btn
+            class="q-ml-sm"
+            color="negative"
+            :disable="loading || !selected.length"
+            label="Delete"
+            @click="deleteBtn(selected, rowKey)"
+          />
         </div>
       </template>
 
@@ -69,6 +79,9 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
+          <q-td>
+            <q-checkbox v-model="props.selected" />
+          </q-td>
           <q-td v-for="key in keys" :key="key.name" :props="props">
             <div class="text-pre-wrap">{{ props.row[key.name] }}</div>
             <!-- Edit mode - renders only one of the q-popup-edit components -->
@@ -120,7 +133,114 @@
 </template>
 
 <script>
+import { useQuasar } from "quasar";
+
 export default {
+  setup: function () {
+    const $q = useQuasar();
+    function showNotifyCancelled() {
+      $q.notify({
+        message: "Cancelled",
+        color: "grey",
+        type: "info",
+        position: "top",
+        timeout: 1500,
+      });
+    }
+
+    function showNotifySuccessDelete(selectedLength) {
+      $q.notify({
+        message: `Successfully deleted ${selectedLength} ${
+          selectedLength > 1 ? "items" : "item"
+        }`,
+        color: "green",
+        type: "info",
+        position: "top",
+        timeout: 1500,
+      });
+    }
+
+    function showNotifyFailedDelete(selectedLength, err) {
+      $q.notify({
+        message: `<div>Failed to delete ${selectedLength} ${
+          selectedLength > 1 ? "items" : "item"
+        }</div>
+        <div>Error Message:</div>
+        <div>${JSON.stringify(err)}</div>`,
+        html: true,
+        type: "negative",
+        position: "top",
+        timeout: 60000,
+        actions: [
+          {
+            label: "Dismiss",
+            color: "white",
+            handler: () => {
+              /* ... */
+            },
+          },
+        ],
+      });
+    }
+
+    function deleteBtn(selected, rowKey) {
+      console.log("Row Key:", rowKey);
+      function generateUnorderedList(selected, rowKey) {
+        const m = selected.map((item) => item[rowKey]);
+        const tmpl = "<li>ROWKEY_VALUE</li>";
+        var unorderedList = "";
+        m.forEach((value, i) => {
+          unorderedList += tmpl.replace("ROWKEY_VALUE", value);
+        });
+        return unorderedList;
+      }
+
+      $q.dialog({
+        title: "Confirm",
+        message: `
+        <div>Are you sure you want to delete the following items?</div>
+        <div>
+          <ul>
+            ${generateUnorderedList(selected, rowKey)}
+          </ul>
+        </div>
+        `,
+        html: true,
+        ok: {
+          push: true,
+          color: "negative",
+        },
+        cancel: {
+          push: true,
+          color: "grey",
+        },
+        persistent: false,
+      })
+        .onOk(async () => {
+          const response = await this.deleteItemWrapper();
+          await this.getItemsWrapper();
+          console.log(
+            "deleteItemWrapper response:",
+            response.$metadata.httpStatusCode
+          );
+          if (
+            response.$metadata.httpStatusCode &&
+            response.$metadata.httpStatusCode >= 200 &&
+            response.$metadata.httpStatusCode < 300
+          ) {
+            showNotifySuccessDelete(this.selected.length);
+          } else {
+            showNotifyFailedDelete(this.selected.length, response.$metadata);
+          }
+
+          this.selected = [];
+        })
+        .onCancel(() => {
+          showNotifyCancelled();
+        });
+    }
+    return { deleteBtn };
+  },
   name: "TableLayout",
   props: {
     title: {
@@ -155,6 +275,7 @@ export default {
     },
     rowKey: String,
     // Functions
+    deleteItems: Function,
     setItem: Function,
     getItems: Function,
     getItem: Function,
@@ -165,6 +286,9 @@ export default {
     },
     queryString: function (v, ov) {
       this.getItemsWrapper();
+    },
+    selected: function (v, ov) {
+      console.log("Selected:", this.selected);
     },
   },
   data: function () {
@@ -179,6 +303,7 @@ export default {
       viewItem: {},
       loading: false,
       queryString: "",
+      selected: [],
     };
   },
   computed: {
@@ -200,10 +325,25 @@ export default {
     },
   },
   methods: {
+    getSelectedString() {
+      return this.selected.length === 0
+        ? ""
+        : `${this.selected.length} record${
+            this.selected.length > 1 ? "s" : ""
+          } selected of ${this.items.length}`;
+    },
+    deleteItemWrapper: async function () {
+      this.loading = true;
+      const response = await this.deleteItems(this.selected);
+      console.log("Response:", response);
+      this.loading = false;
+      return response;
+    },
     getItemsWrapper: async function () {
       this.loading = true;
       await this.getItems(this.queryString);
       this.loading = false;
+      return true;
     },
     // Methods are ordered according to the sequence of events
     onShowPopup: function (item) {

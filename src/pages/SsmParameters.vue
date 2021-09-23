@@ -4,6 +4,7 @@
     <table-layout
       :keys="keys"
       :items="items"
+      :deleteItems="deleteItems"
       :getItem="getItem"
       :setItem="setItem"
       :getItems="getItems"
@@ -14,6 +15,7 @@
 
 <script>
 import TableLayout from "../layouts/TableLayout.vue";
+import { ssmDeleteParametersByNames } from "../aws/ssm/delete";
 import { ssmGetParametersByPath, ssmGetParameterHistory } from "../aws/ssm/get";
 import { ssmSetParameter } from "../aws/ssm/set";
 
@@ -67,6 +69,19 @@ export default {
     TableLayout,
   },
   methods: {
+    async deleteItems(items) {
+      try {
+        const params = {
+          Names: items.map((item) => item.Name),
+        };
+        console.log("deleteItems params:", params);
+        const response = await ssmDeleteParametersByNames(params);
+        return response;
+      } catch (err) {
+        console.log("deleteItems error", err);
+        return err;
+      }
+    },
     async getItem(itemName) {
       try {
         var params = {
