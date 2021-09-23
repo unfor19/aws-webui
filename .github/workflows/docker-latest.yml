@@ -6,6 +6,8 @@ on:
     paths-ignore:
       - README.md
 
+  workflow_dispatch:
+
 env:
   DOCKER_ORG: unfor19
   DOCKER_REPO: aws-webui
