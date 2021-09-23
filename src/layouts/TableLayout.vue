@@ -49,6 +49,13 @@
               <q-icon name="filter_alt" />
             </template>
           </q-input>
+          <q-btn
+            class="q-ml-sm"
+            color="negative"
+            :disable="loading || !selected.length"
+            label="Delete"
+            @click="deleteBtn(selected, rowKey)"
+          />
         </div>
       </template>
 
@@ -126,7 +133,63 @@
 </template>
 
 <script>
+import { useQuasar } from "quasar";
+
 export default {
+  setup: function () {
+    const $q = useQuasar();
+    function showNotifyCancelled() {
+      $q.notify({
+        message: "Cancelled",
+        color: "grey",
+        type: "info",
+        position: "top",
+        timeout: 1000,
+      });
+    }
+
+    function showNotifyConfirmDelete(selectedLength) {
+      $q.notify({
+        message: `Successfully deleted ${selectedLength} item(s)`,
+        color: "green",
+        type: "info",
+        position: "top",
+        timeout: 1000,
+      });
+    }
+
+    function deleteBtn(selected, rowKey) {
+      console.log(rowKey);
+      $q.dialog({
+        title: "Confirm",
+        message: `
+        <div>Are you sure you want to delete the following items?</div>
+        <br>
+        ${selected.map((item) => item[rowKey])}
+        `,
+        html: true,
+        ok: {
+          push: true,
+          color: "negative",
+        },
+        cancel: {
+          push: true,
+          color: "grey",
+        },
+        persistent: false,
+      })
+        .onOk(async () => {
+          this.deleteItemWrapper();
+          await this.getItemsWrapper();
+          showNotifyConfirmDelete(this.selected.length);
+          this.selected = [];
+        })
+        .onCancel(() => {
+          showNotifyCancelled();
+        });
+    }
+    return { deleteBtn };
+  },
   name: "TableLayout",
   props: {
     title: {
@@ -161,6 +224,7 @@ export default {
     },
     rowKey: String,
     // Functions
+    deleteItems: Function,
     setItem: Function,
     getItems: Function,
     getItem: Function,
@@ -216,6 +280,12 @@ export default {
         : `${this.selected.length} record${
             this.selected.length > 1 ? "s" : ""
           } selected of ${this.items.length}`;
+    },
+    deleteItemWrapper: async function () {
+      this.loading = true;
+      const response = await this.deleteItems(this.selected);
+      console.log("Response:", response);
+      this.loading = false;
     },
     getItemsWrapper: async function () {
       this.loading = true;
