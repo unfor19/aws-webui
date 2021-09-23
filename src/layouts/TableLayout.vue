@@ -144,7 +144,7 @@ export default {
         color: "grey",
         type: "info",
         position: "top",
-        timeout: 1000,
+        timeout: 1500,
       });
     }
 
@@ -156,7 +156,7 @@ export default {
         color: "green",
         type: "info",
         position: "top",
-        timeout: 1000,
+        timeout: 1500,
       });
     }
 
