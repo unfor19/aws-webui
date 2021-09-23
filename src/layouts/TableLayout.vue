@@ -148,7 +148,7 @@ export default {
       });
     }
 
-    function showNotifyConfirmDelete(selectedLength) {
+    function showNotifySuccessDelete(selectedLength) {
       $q.notify({
         message: `Successfully deleted ${selectedLength} ${
           selectedLength > 1 ? "items" : "item"
@@ -157,6 +157,29 @@ export default {
         type: "info",
         position: "top",
         timeout: 1500,
+      });
+    }
+
+    function showNotifyFailedDelete(selectedLength, err) {
+      $q.notify({
+        message: `<div>Failed to delete ${selectedLength} ${
+          selectedLength > 1 ? "items" : "item"
+        }</div>
+        <div>Error Message:</div>
+        <div>${JSON.stringify(err)}</div>`,
+        html: true,
+        type: "negative",
+        position: "top",
+        timeout: 60000,
+        actions: [
+          {
+            label: "Dismiss",
+            color: "white",
+            handler: () => {
+              /* ... */
+            },
+          },
+        ],
       });
     }
 
@@ -194,9 +217,22 @@ export default {
         persistent: false,
       })
         .onOk(async () => {
-          this.deleteItemWrapper();
+          const response = await this.deleteItemWrapper();
           await this.getItemsWrapper();
-          showNotifyConfirmDelete(this.selected.length);
+          console.log(
+            "deleteItemWrapper response:",
+            response.$metadata.httpStatusCode
+          );
+          if (
+            response.$metadata.httpStatusCode &&
+            response.$metadata.httpStatusCode >= 200 &&
+            response.$metadata.httpStatusCode < 300
+          ) {
+            showNotifySuccessDelete(this.selected.length);
+          } else {
+            showNotifyFailedDelete(this.selected.length, response.$metadata);
+          }
+
           this.selected = [];
         })
         .onCancel(() => {
@@ -301,11 +337,13 @@ export default {
       const response = await this.deleteItems(this.selected);
       console.log("Response:", response);
       this.loading = false;
+      return response;
     },
     getItemsWrapper: async function () {
       this.loading = true;
       await this.getItems(this.queryString);
       this.loading = false;
+      return true;
     },
     // Methods are ordered according to the sequence of events
     onShowPopup: function (item) {
