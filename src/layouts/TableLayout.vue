@@ -162,12 +162,25 @@ export default {
 
     function deleteBtn(selected, rowKey) {
       console.log("Row Key:", rowKey);
+      function generateUnorderedList(selected, rowKey) {
+        const m = selected.map((item) => item[rowKey]);
+        const tmpl = "<li>ROWKEY_VALUE</li>";
+        var unorderedList = "";
+        m.forEach((value, i) => {
+          unorderedList += tmpl.replace("ROWKEY_VALUE", value);
+        });
+        return unorderedList;
+      }
+
       $q.dialog({
         title: "Confirm",
         message: `
         <div>Are you sure you want to delete the following items?</div>
-        <br>
-        ${selected.map((item) => item[rowKey])}
+        <div>
+          <ul>
+            ${generateUnorderedList(selected, rowKey)}
+          </ul>
+        </div>
         `,
         html: true,
         ok: {
