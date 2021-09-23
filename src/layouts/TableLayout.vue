@@ -150,7 +150,9 @@ export default {
 
     function showNotifyConfirmDelete(selectedLength) {
       $q.notify({
-        message: `Successfully deleted ${selectedLength} item(s)`,
+        message: `Successfully deleted ${selectedLength} ${
+          selectedLength > 1 ? "items" : "item"
+        }`,
         color: "green",
         type: "info",
         position: "top",
