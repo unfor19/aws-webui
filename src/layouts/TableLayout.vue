@@ -80,6 +80,7 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td>
+            <!-- Fixes `selected` issue where the checkboxes are corrupted -->
             <q-checkbox v-model="props.selected" />
           </q-td>
           <q-td v-for="key in keys" :key="key.name" :props="props">
