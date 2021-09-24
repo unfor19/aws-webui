@@ -40,6 +40,12 @@ import EssentialLink from "components/EssentialLink.vue";
 
 const linksList = [
   {
+    title: "Home",
+    caption: "",
+    icon: "home",
+    link: "#",
+  },
+  {
     title: "SSM Parameters",
     caption: "ssm-parameters",
     icon: "cloud",
@@ -52,16 +58,10 @@ const linksList = [
     link: "https://github.com/unfor19/aws-webui",
   },
   {
-    title: "Website",
+    title: "Blog",
     caption: "meirg.co.il",
-    icon: "home",
-    link: "https://meirg.co.il",
-  },
-  {
-    title: "Twitter",
-    caption: "@meirg23",
     icon: "rss_feed",
-    link: "https://twitter.com/meirg23",
+    link: "https://meirg.co.il",
   },
 ];
 
