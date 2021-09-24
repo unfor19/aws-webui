@@ -1,0 +1,16 @@
+<template>
+  <q-page>
+    <h5 class="q-pl-xl q-pt-xs q-mb-xs">{{ title }}</h5>
+  </q-page>
+</template>
+
+<script>
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  props: {
+    title: String,
+  },
+  name: "CreatePage",
+});
+</script>
