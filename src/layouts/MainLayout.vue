@@ -46,10 +46,10 @@ const linksList = [
     link: "#",
   },
   {
-    title: "SSM Parameters",
-    caption: "ssm-parameters",
+    title: "AWS Services",
+    caption: "services",
     icon: "cloud",
-    link: "/#/ssm-parameters",
+    link: "/#/services",
   },
   {
     title: "Github",

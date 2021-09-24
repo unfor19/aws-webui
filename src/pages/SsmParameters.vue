@@ -1,5 +1,4 @@
 <template>
-  <h4 class="q-pl-xl q-mb-xs">{{ title }}</h4>
   <q-page padding>
     <table-layout
       :keys="keys"
@@ -62,7 +61,6 @@ export default {
         { name: "Version", field: "Version", label: "Version" },
       ],
       items: [],
-      title: "SsmParameters",
     };
   },
   components: {

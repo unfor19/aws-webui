@@ -49,13 +49,25 @@
               <q-icon name="filter_alt" />
             </template>
           </q-input>
-          <q-btn
-            class="q-ml-sm"
-            color="negative"
-            :disable="loading || !selected.length"
-            label="Delete"
-            @click="deleteBtn(selected, rowKey)"
-          />
+          <div class="row">
+            <router-link :to="{ name: 'create' }" custom v-slot:default="props">
+              <q-btn
+                class="column q-mr-md"
+                color="primary"
+                :disable="loading"
+                label="Create"
+                v-bind="linkProps(props)"
+              />
+            </router-link>
+
+            <q-btn
+              class="column q-ml-md"
+              color="negative"
+              :disable="loading || !selected.length"
+              label="Delete"
+              @click="deleteBtn(selected, rowKey)"
+            />
+          </div>
         </div>
       </template>
 
@@ -326,6 +338,21 @@ export default {
     },
   },
   methods: {
+    linkClick: function (e, go) {
+      e.preventDefault(); // we choose when we navigate
+
+      // console.log('triggering navigation in 3s')
+      setTimeout(() => {
+        // console.log('navigating as promised 3s ago')
+        go();
+      }, 3000);
+    },
+    linkProps: function ({ route }) {
+      const props = {
+        to: route.path,
+      };
+      return props;
+    },
     getSelectedString() {
       return this.selected.length === 0
         ? ""
