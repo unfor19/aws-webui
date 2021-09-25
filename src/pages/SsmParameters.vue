@@ -52,15 +52,6 @@ export default {
           },
         },
         {
-          name: "Description",
-          field: "Description",
-          label: "Description",
-          sortable: false,
-          editable: {
-            type: "textarea",
-          },
-        },
-        {
           name: "LastModifiedDate",
           field: "LastModifiedDate",
           label: "LastModifiedDate",
