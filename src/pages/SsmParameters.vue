@@ -3,11 +3,11 @@
     <table-layout
       :keys="keys"
       :items="items"
-      :deleteItems="deleteItems"
-      :getItem="getItem"
-      :setItem="setItem"
-      :getItems="getItems"
-      :rowKey="rowKey"
+      :delete-items="deleteItems"
+      :get-item="getItem"
+      :set-item="setItem"
+      :get-items="getItems"
+      :row-key="rowKey"
     />
   </q-page>
 </template>
@@ -49,6 +49,15 @@ export default {
           editable: {
             type: "select",
             data: ["String", "SecureString", "StringList"],
+          },
+        },
+        {
+          name: "Description",
+          field: "Description",
+          label: "Description",
+          sortable: false,
+          editable: {
+            type: "textarea",
           },
         },
         {
@@ -116,6 +125,7 @@ export default {
           Value: item.Value,
           Type: item.Type,
           Overwrite: true,
+          Description: item.Description,
         };
         params[item._changedProperty] = v;
         console.log("setItem params:", params);
