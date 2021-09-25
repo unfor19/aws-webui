@@ -9,7 +9,10 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    title: String,
+    title: {
+      type: String,
+      default: "",
+    },
   },
   name: "CreatePage",
 });

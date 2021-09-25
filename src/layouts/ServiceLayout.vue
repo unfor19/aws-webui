@@ -11,7 +11,10 @@
 export default {
   name: "ServicePage",
   props: {
-    title: String,
+    title: {
+      type: String,
+      default: "",
+    },
   },
   data: function () {
     return {};

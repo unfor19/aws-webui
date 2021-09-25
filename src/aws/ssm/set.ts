@@ -1,4 +1,10 @@
-const { SSMClient, PutParameterCommand } = require("@aws-sdk/client-ssm"); // CommonJS import
+import { PutParameterCommandInput } from "@aws-sdk/client-ssm";
+
+const {
+  SSMClient,
+  PutParameterCommand,
+  PutParameterRequest,
+} = require("@aws-sdk/client-ssm"); // CommonJS import
 
 const client = new SSMClient({
   apiVersion: "2014-11-06",
@@ -11,7 +17,7 @@ const client = new SSMClient({
   endpoint: "http://localhost:4566",
 });
 
-export async function ssmSetParameter(params) {
+export async function ssmSetParameter(params: PutParameterCommandInput) {
   const command = new PutParameterCommand(params);
   const response = await client.send(command);
   return response;

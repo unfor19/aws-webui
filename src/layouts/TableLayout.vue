@@ -11,7 +11,7 @@
       :selected-rows-label="getSelectedString"
       selection="multiple"
     >
-      <template v-slot:top>
+      <template #top>
         <div class="q-gutter-y-md column" style="max-width: 300px">
           <q-input
             bottom-slots
@@ -21,7 +21,7 @@
             v-model="queryString"
             label="Query String"
           >
-            <template v-slot:append>
+            <template #append>
               <q-icon
                 v-if="filter !== ''"
                 name="close"
@@ -39,7 +39,7 @@
             :color="color"
             v-model="filter"
           >
-            <template v-slot:append>
+            <template #append>
               <q-icon
                 v-if="filter !== ''"
                 name="close"
@@ -50,7 +50,7 @@
             </template>
           </q-input>
           <div class="row">
-            <router-link :to="{ name: 'create' }" custom v-slot:default="props">
+            <router-link :to="{ name: 'create' }" custom v-slot="props">
               <q-btn
                 class="column q-mr-md"
                 color="primary"
@@ -75,7 +75,7 @@
       <template
         v-for="(item, i) in headerCellSlots"
         :key="item + i"
-        v-slot:[item]="props"
+        #[item]="props"
       >
         <q-th :props="props">
           <q-icon name="edit" size="1.6em" class="q-pa-xs" />
@@ -89,7 +89,7 @@
           {{ props.col.label }}
         </q-th>
       </template>
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props">
           <q-td>
             <!-- Fixes `selected` issue where the checkboxes are corrupted -->
@@ -286,12 +286,27 @@ export default {
       type: Array[Object],
       default: [],
     },
-    rowKey: String,
+    rowKey: {
+      type: String,
+      default: "",
+    },
     // Functions
-    deleteItems: Function,
-    setItem: Function,
-    getItems: Function,
-    getItem: Function,
+    deleteItems: {
+      type: Function,
+      default: () => {},
+    },
+    setItem: {
+      type: Function,
+      default: () => {},
+    },
+    getItems: {
+      type: Function,
+      default: () => {},
+    },
+    getItem: {
+      type: Function,
+      default: () => {},
+    },
   },
   watch: {
     editItem: function (v, ov) {

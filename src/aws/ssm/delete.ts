@@ -1,3 +1,5 @@
+import { DeleteParameterCommandInput } from "@aws-sdk/client-ssm";
+
 const { SSMClient, DeleteParametersCommand } = require("@aws-sdk/client-ssm"); // CommonJS import
 
 const client = new SSMClient({
@@ -11,7 +13,9 @@ const client = new SSMClient({
   endpoint: "http://localhost:4566",
 });
 
-export async function ssmDeleteParametersByNames(params) {
+export async function ssmDeleteParametersByNames(
+  params: DeleteParameterCommandInput
+) {
   const command = new DeleteParametersCommand(params);
   const response = await client.send(command);
   return response;

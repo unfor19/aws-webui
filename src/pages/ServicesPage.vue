@@ -16,11 +16,7 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <router-link
-            :to="{ name: 'ssm-parameters' }"
-            custom
-            v-slot:default="props"
-          >
+          <router-link :to="{ name: 'ssm-parameters' }" custom v-slot="props">
             <q-btn
               flat
               class="column q-mr-md"
@@ -29,7 +25,7 @@
               v-bind="linkProps(props)"
             />
           </router-link>
-          <router-link :to="{ name: 'create' }" custom v-slot:default="props">
+          <router-link :to="{ name: 'create' }" custom v-slot="props">
             <q-btn
               flat
               class="column q-mr-md"
@@ -70,7 +66,10 @@ export default {
     },
   },
   props: {
-    title: String,
+    title: {
+      type: String,
+      default: "",
+    },
   },
   data: function () {
     return {};
