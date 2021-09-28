@@ -103,7 +103,15 @@ const routes = [
                         default: "",
                       },
                       label: "Name *",
-                      rules: [(val) => (val && val.length > 0) || "Required *"],
+                      rules: [
+                        (val) =>
+                          (val &&
+                            val.length > 0 &&
+                            val.length < 1011 &&
+                            /[a-zA-Z0-9/_\.-]+/g.exec(val).join("").length ==
+                              val.length) ||
+                          "Allowed RegEx pattern: /[a-zA-Z0-9/_.-]+/g",
+                      ],
                     },
                     {
                       name: "Value",
@@ -112,7 +120,7 @@ const routes = [
                         type: "textarea",
                         default: "",
                       },
-                      rules: [(val) => (val && val.length > 0) || "Required *"],
+                      rules: [(val) => val && val.length > 0],
                     },
                     {
                       name: "Type",
