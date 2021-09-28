@@ -94,6 +94,7 @@ const routes = [
                 path: "create",
                 props: {
                   title: "Create SSM Parameter",
+                  createItem: ssmSetParameter,
                   keys: [
                     {
                       name: "Name",
@@ -106,11 +107,12 @@ const routes = [
                     },
                     {
                       name: "Value",
-                      label: "Value",
+                      label: "Value *",
                       editable: {
                         type: "textarea",
                         default: "",
                       },
+                      rules: [(val) => (val && val.length > 0) || "Required *"],
                     },
                     {
                       name: "Type",

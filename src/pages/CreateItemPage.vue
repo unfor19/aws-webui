@@ -50,6 +50,10 @@ export default defineComponent({
       type: Array,
       default: null,
     },
+    createItem: {
+      type: Function,
+      default: null,
+    },
   },
   data: function () {
     return {
@@ -69,6 +73,11 @@ export default defineComponent({
         }
       });
       this.models = defaultModels;
+    },
+    onSubmit: async function () {
+      console.log("Clicked submit!", this.models);
+      const response = await this.createItem(this.models);
+      console.log(response);
     },
     getShowInput: function (key: any, inputType: string): Boolean {
       let inputValue = this.models[key.name as keyof Object];
