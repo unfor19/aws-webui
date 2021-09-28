@@ -8,6 +8,7 @@
       @clicked-delete-button="onDeleteItems"
       @clicked-create="onClickedCreate"
       @clicked-set="onClickedSet"
+      @clicked-cancel="onClickedCancel"
       :items="items"
       :keys="keys"
       :row-key="rowKey"
@@ -233,6 +234,7 @@ export default defineComponent({
       showNotifyRefreshSuccess,
       showNotifyRefreshFailed,
       showNotifySuccessEdited,
+      showNotifyCancelled,
     };
   },
   methods: {
@@ -267,6 +269,9 @@ export default defineComponent({
       } finally {
         this.onGetItems(setItem.queryString);
       }
+    },
+    async onClickedCancel(setItem: any) {
+      this.showNotifyCancelled();
     },
     async onDeleteItems() {
       try {

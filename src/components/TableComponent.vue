@@ -160,6 +160,7 @@ export default defineComponent({
     "clickedDeleteButton",
     "clickedCreate",
     "clickedSet",
+    "clickedCancel",
   ],
   props: {
     items: {
@@ -275,6 +276,8 @@ export default defineComponent({
           item: this.editItem,
           queryString: this.queryString,
         });
+      } else {
+        this.$emit("clickedCancel", this.editItem);
       }
       console.log(
         "onHidePopup was triggeted, Stopped Editing Item:",
