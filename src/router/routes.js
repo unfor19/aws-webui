@@ -78,7 +78,7 @@ const routes = [
                     {
                       name: "LastModifiedDate",
                       field: "LastModifiedDate",
-                      label: "LastModifiedDate",
+                      label: "Last Modified Date",
                       format: (val) => `${val}`,
                       sortable: true,
                     },
