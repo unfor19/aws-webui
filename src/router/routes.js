@@ -9,9 +9,7 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     props: true,
     children: [
-      // { path: "", component: () => import("pages/Index.vue") },
-      // TODO: set a proper index page
-      // { path: "", component: () => import("pages/SsmParameters.vue") },
+      { path: "", component: () => import("pages/Index.vue") },
       {
         path: "/services",
         name: "services",
