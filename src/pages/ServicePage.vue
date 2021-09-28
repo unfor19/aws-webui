@@ -157,6 +157,17 @@ export default defineComponent({
         ],
       });
     }
+
+    function showNotifyRefreshWarning() {
+      $q.notify({
+        message: `Refresh - No Results`,
+        html: true,
+        type: "warning",
+        position: "top",
+        timeout: 1000,
+      });
+    }
+
     function showNotifyRefreshSuccess() {
       $q.notify({
         message: `Refreshed`,
@@ -235,6 +246,7 @@ export default defineComponent({
       showNotifyRefreshFailed,
       showNotifySuccessEdited,
       showNotifyCancelled,
+      showNotifyRefreshWarning,
     };
   },
   methods: {
@@ -246,7 +258,7 @@ export default defineComponent({
         if (this.items.length > 0) {
           this.showNotifyRefreshSuccess();
         } else {
-          this.showNotifyRefreshFailed(queryString, "Empty number of items");
+          this.showNotifyRefreshWarning();
         }
       } catch (err) {
         console.log("get itemS error", err);
