@@ -9,6 +9,7 @@
 !jsconfig.json
 !LICENSE
 !package.json
+!tsconfig.json
 !quasar.conf.js
 !yarn.lock
 !server
