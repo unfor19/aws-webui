@@ -155,7 +155,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "TableComponent",
@@ -212,7 +212,7 @@ export default defineComponent({
       filter: "",
       editItem: {},
       changedProperty: "",
-      selected: [],
+      selected: ref([{}]),
       pagination: {
         descending: false,
         page: 1,
@@ -263,6 +263,7 @@ export default defineComponent({
     onShowPopup: function (item: any) {
       console.log("onShowPopup was triggered, Started Editing Item:", item);
       this.editItem = item;
+      this.selected = [item];
     },
     onChange: function (name: string) {
       console.log(
@@ -289,6 +290,7 @@ export default defineComponent({
         "onHidePopup was triggeted, Stopped Editing Item:",
         this.editItem
       );
+      this.selected = [];
       this.editItem = {};
       this.changedProperty = "";
     },
