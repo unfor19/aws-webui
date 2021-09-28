@@ -78,8 +78,6 @@ docker run --rm -it -p 8080:8080 unfor19/aws-webui
 ## TODO
 
 - Add `Create Item (Parameter)` - add a `ItemLayout` modal, to get data use `get-parameter` and to set data `put-parameter`. The `get-parameter` and `get-parameter-history` to get more information than `get-parameters-by-path`.
-- Add `Delete Item (Parameter)` - multiple selection of parameters and clicking on a button to delete
-
 
 ## Authors
 

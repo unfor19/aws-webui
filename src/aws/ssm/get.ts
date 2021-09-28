@@ -1,6 +1,6 @@
 import {
-  GetParameterCommandInput,
   GetParameterHistoryCommandInput,
+  GetParametersByPathCommandInput,
 } from "@aws-sdk/client-ssm";
 
 const {
@@ -26,7 +26,13 @@ const paginatorConfig = {
   pageSize: 10, // Max items per API call is 10 - https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_GetParametersByPath.html
 };
 
-export async function ssmGetParametersByPath(params: GetParameterCommandInput) {
+export async function ssmGetParametersByPath(queryString: string) {
+  const params: GetParametersByPathCommandInput = {
+    Path: queryString,
+    MaxResults: 10,
+    Recursive: true,
+    WithDecryption: true,
+  };
   const parametersList = [];
   for await (const page of paginateGetParametersByPath(
     paginatorConfig,
@@ -41,7 +47,7 @@ export async function ssmGetParametersByPath(params: GetParameterCommandInput) {
 }
 
 export async function ssmGetParameterByName(
-  name: String,
+  name: string,
   withDecryption: Boolean
 ) {
   const command = GetParameterCommand({
