@@ -230,7 +230,7 @@ export default defineComponent({
       filter: "",
       editItem: {},
       changedProperty: "",
-      selected: ref([{}]),
+      selected: [{}],
       pagination: {
         descending: false,
         page: 1,
@@ -327,6 +327,7 @@ export default defineComponent({
     },
   },
   mounted() {
+    this.selected = [];
     this.$emit("getItems", this.queryString);
   },
 });

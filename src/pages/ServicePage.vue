@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import TableComponent from "../components/TableComponent.vue";
 import { useQuasar } from "quasar";
 
@@ -66,7 +66,7 @@ export default defineComponent({
   data: function () {
     return {
       items: [],
-      selected: [],
+      selected: ref([{}]),
       loading: false,
       countDeletedItems: 0,
     };
@@ -298,7 +298,7 @@ export default defineComponent({
         console.log("delete itemS error", err);
       }
     },
-    onSelectedChanged(selected: any) {
+    onSelectedChanged(selected: [{}]) {
       this.selected = selected;
     },
   },
