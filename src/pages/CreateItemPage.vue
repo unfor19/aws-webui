@@ -23,7 +23,13 @@
         </div>
         <div>
           <q-btn label="Apply" type="submit" color="positive" />
-          <q-btn label="Cancel" color="primary" flat class="q-ml-sm" />
+          <q-btn
+            @click="onBack"
+            label="Back"
+            color="primary"
+            flat
+            class="q-ml-sm"
+          />
           <q-btn
             label="Reset"
             type="reset"
@@ -121,6 +127,9 @@ export default defineComponent({
         }
       });
       this.models = defaultModels;
+    },
+    onBack: function () {
+      this.$router.back();
     },
     onSubmit: async function () {
       console.log("Clicked submit!", this.models);
