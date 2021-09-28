@@ -12,7 +12,7 @@
       selection="multiple"
     >
       <template #top>
-        <div class="q-gutter-y-md column" style="max-width: 300px">
+        <div class="q-gutter-y-md column" style="max-width: 500px">
           <q-input
             bottom-slots
             dense
@@ -49,27 +49,38 @@
               <q-icon name="filter_alt" />
             </template>
           </q-input>
-          <div class="row">
+          <div class="row q-gutter-md">
             <q-btn
-              class="column"
               label="Refresh"
+              class="col"
               color="primary"
               @click="$emit('getItems', queryString)"
             />
             <q-btn
-              class="column q-ml-md"
               color="positive"
+              class="col"
               :disable="loading"
               label="Create"
               @click="$emit('clickedCreate', true)"
             />
             <q-btn
-              class="column q-ml-md"
               color="negative"
+              class="col"
               :disable="loading || !selected.length"
               label="Delete"
               @click="$emit('clickedDeleteButton', true)"
             />
+          </div>
+          <div class="row q-gutter-md">
+            <div class="col q-mr-xs">
+              <div>
+                <q-checkbox
+                  v-model="selectAll"
+                  label="Select All"
+                  @click="getSelectedString"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </template>
@@ -218,6 +229,7 @@ export default defineComponent({
         page: 1,
         rowsPerPage: this.rowsPerPage,
       },
+      selectAll: false,
     };
   },
   watch: {
@@ -228,6 +240,14 @@ export default defineComponent({
     },
     queryString: function (queryString: string) {
       this.$emit("getItems", queryString);
+    },
+    selectAll: function (v: Boolean, ov: Boolean) {
+      if (v) {
+        this.selected = <[{}]>this.items;
+      } else {
+        this.selected = [];
+      }
+      this.$emit("selectedChanged", this.selected);
     },
   },
   computed: {
