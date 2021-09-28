@@ -92,7 +92,82 @@ const routes = [
               {
                 name: "ssm-parameters-create",
                 path: "create",
-                props: { title: "Create SSM Parameter" },
+                props: {
+                  title: "Create SSM Parameter",
+                  keys: [
+                    {
+                      name: "Name",
+                      editable: {
+                        type: "textarea",
+                        default: "",
+                      },
+                      label: "Name *",
+                      rules: [(val) => (val && val.length > 0) || "Required *"],
+                    },
+                    {
+                      name: "Value",
+                      label: "Value",
+                      editable: {
+                        type: "textarea",
+                        default: "",
+                      },
+                    },
+                    {
+                      name: "Type",
+                      label: "Type *",
+                      editable: {
+                        type: "select",
+                        data: ["String", "SecureString", "StringList"],
+                        default: "String",
+                      },
+                    },
+                    {
+                      name: "KeyId",
+                      label: "KMS Key Id",
+                      editable: {
+                        type: "textarea",
+                        default: "alias/aws/ssm",
+                      },
+                      depends_on: {
+                        name: "Type",
+                        value: "SecureString",
+                      },
+                    },
+                    {
+                      name: "Tier",
+                      label: "Tier",
+                      editable: {
+                        type: "select",
+                        data: ["Standard", "Advanced", "Intelligent-Tiering"],
+                        default: "Standard",
+                      },
+                    },
+                    {
+                      name: "Description",
+                      label: "Description",
+                      editable: {
+                        type: "textarea",
+                        default: "",
+                      },
+                    },
+                    {
+                      name: "AllowedPattern",
+                      label: "AllowedPattern",
+                      editable: {
+                        type: "textarea",
+                        default: "",
+                      },
+                    },
+                    {
+                      name: "Tags",
+                      label: "Tags",
+                      editable: {
+                        type: "textarea",
+                        default: [],
+                      },
+                    },
+                  ],
+                },
                 component: () => import("src/pages/CreateItemPage.vue"),
               },
             ],
