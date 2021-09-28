@@ -39,6 +39,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   props: {
@@ -54,6 +55,53 @@ export default defineComponent({
       type: Function,
       default: null,
     },
+  },
+  setup(props) {
+    const $q = useQuasar();
+
+    function stringifyMessage(msg: any) {
+      if (typeof msg == "string") {
+        return msg;
+      } else if (typeof msg == "object") {
+        return JSON.stringify(msg);
+      }
+    }
+
+    function showNotifySuccessApply(editedItem: any) {
+      $q.notify({
+        message: `Successfully applied`,
+        color: "green",
+        type: "info",
+        position: "top",
+        timeout: 1500,
+      });
+    }
+
+    function showNotifyFailedApply(err: any) {
+      $q.notify({
+        message: `<div>Failed to apply"</div>
+        <div>Error Message:</div>
+        <div>${stringifyMessage(err)}</div>`,
+        html: true,
+        type: "negative",
+        position: "top",
+        timeout: 60000,
+        actions: [
+          {
+            label: "Dismiss",
+            color: "white",
+            handler: () => {
+              /* ... */
+            },
+          },
+        ],
+      });
+    }
+
+    return {
+      showNotifySuccessApply,
+      showNotifyFailedApply,
+    };
   },
   data: function () {
     return {
@@ -77,6 +125,14 @@ export default defineComponent({
     onSubmit: async function () {
       console.log("Clicked submit!", this.models);
       const response = await this.createItem(this.models);
+      if (
+        response.$metadata.httpStatusCode >= 200 &&
+        response.$metadata.httpStatusCode < 300
+      ) {
+        this.showNotifySuccessApply(response);
+      } else {
+        this.showNotifyFailedApply(response);
+      }
       console.log(response);
     },
     getShowInput: function (key: any, inputType: string): Boolean {
