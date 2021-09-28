@@ -1,6 +1,22 @@
 <template>
   <q-page padding>
-    <h4 class="q-pl-xl q-pt-xs q-mb-xs">{{ title }}</h4>
+    <h4 class="q-pl-xl q-pt-xs q-mb-xs">
+      <router-link
+        :to="{ name: 'services' }"
+        custom
+        v-slot="{ href, navigate, isActive, isExactActive }"
+      >
+        <a
+          :class="[
+            isActive && 'router-link-active',
+            isExactActive && 'router-link-exact-active',
+          ]"
+          :href="href"
+          @click="navigate"
+          >{{ title }}</a
+        >
+      </router-link>
+    </h4>
     <div
       v-if="$route.path == '/services'"
       class="q-pa-md row items-start q-gutter-md"
@@ -74,3 +90,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+a,
+a:visited,
+a:hover,
+a:active {
+  color: #1976d2;
+  text-decoration: inherit;
+}
+</style>
