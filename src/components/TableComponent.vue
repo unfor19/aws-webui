@@ -20,6 +20,7 @@
                 anchor="bottom start"
                 self="bottom left"
                 :offset="[-30, 5]"
+                max-width="300px"
               >
                 Pull down to refresh
               </q-tooltip>
