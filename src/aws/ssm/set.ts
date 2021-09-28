@@ -17,7 +17,15 @@ const client = new SSMClient({
   endpoint: "http://localhost:4566",
 });
 
-export async function ssmSetParameter(params: PutParameterCommandInput) {
+export async function ssmSetParameter(item: any) {
+  const params: PutParameterCommandInput = {
+    Name: item.Name,
+    Value: item.Value,
+    Type: item.Type,
+    Tier: item.Tier,
+    Overwrite: true,
+  };
+  console.log("ssmSetParameter params:", params);
   const command = new PutParameterCommand(params);
   const response = await client.send(command);
   return response;
