@@ -23,6 +23,9 @@ export async function ssmSetParameter(item: any) {
     Value: item.Value,
     Type: item.Type,
     Tier: item.Tier,
+    Description: item.Description,
+    Tags: item.Tags,
+    AllowedPattern: item.AllowedPattern,
     Overwrite: true,
   };
   console.log("ssmSetParameter params:", params);
