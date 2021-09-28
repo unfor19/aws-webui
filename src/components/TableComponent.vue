@@ -112,7 +112,13 @@
               v-slot="scope"
               buttons
             >
-              <q-input type="textarea" v-model="scope.value" dense autofocus />
+              <q-input
+                :label="key.label"
+                type="textarea"
+                v-model="scope.value"
+                dense
+                autofocus
+              />
             </q-popup-edit>
             <q-popup-edit
               v-else-if="key.editable && key.editable.type == 'select'"
