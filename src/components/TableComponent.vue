@@ -14,17 +14,6 @@
       >
         <template #top>
           <div class="q-gutter-y-md" style="max-width: 500px">
-            <div class="q-gutter-y-md">
-              <q-icon color="primary" name="info"> </q-icon>
-              <q-tooltip
-                anchor="bottom start"
-                self="bottom left"
-                :offset="[-30, 5]"
-                max-width="300px"
-              >
-                Pull down to refresh
-              </q-tooltip>
-            </div>
             <q-input
               bottom-slots
               dense
