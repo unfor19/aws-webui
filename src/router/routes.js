@@ -93,7 +93,7 @@ const routes = [
                 name: "ssm-parameters-create",
                 path: "create",
                 props: { title: "Create SSM Parameter" },
-                component: () => import("pages/CreatePage.vue"),
+                component: () => import("src/pages/CreateItemPage.vue"),
               },
             ],
           },

@@ -14,6 +14,6 @@ export default defineComponent({
       default: "",
     },
   },
-  name: "CreatePage",
+  name: "CreateItemPage",
 });
 </script>
