@@ -1,158 +1,154 @@
 <template>
   <div padding class="q-pa-md">
-    <q-table
-      :rows="items"
-      :columns="keys"
-      :row-key="rowKey"
-      :filter="filter"
-      :loading="loading"
-      v-model:pagination="pagination"
-      :selected-rows-label="getSelectedString"
-      v-model:selected="selected"
-      selection="multiple"
-    >
-      <template #top>
-        <div class="q-gutter-y-md column" style="max-width: 500px">
-          <q-input
-            bottom-slots
-            dense
-            :color="color"
-            :debounce="queryStringDebounce"
-            label="Query String"
-            v-model="queryString"
-          >
-            <template #append>
-              <q-icon
-                v-if="filter !== ''"
-                name="close"
-                @click="filter = ''"
-                class="cursor-pointer"
-              />
-              <q-icon name="search" />
-            </template>
-          </q-input>
-          <q-input
-            bottom-slots
-            dense
-            :debounce="filterDebounce"
-            :label="filterBy"
-            :color="color"
-            v-model="filter"
-          >
-            <template #append>
-              <q-icon
-                v-if="filter !== ''"
-                name="close"
-                @click="filter = ''"
-                class="cursor-pointer"
-              />
-              <q-icon name="filter_alt" />
-            </template>
-          </q-input>
-          <div class="row q-gutter-md">
-            <q-btn
-              label="Refresh"
-              class="col"
-              color="primary"
-              @click="$emit('getItems', queryString)"
-            />
-            <q-btn
-              color="positive"
-              class="col"
-              :disable="loading"
-              label="Create"
-              @click="$emit('clickedCreate', true)"
-            />
-            <q-btn
-              color="negative"
-              class="col"
-              :disable="loading || !selected.length"
-              label="Delete"
-              @click="$emit('clickedDeleteButton', true)"
-            />
-          </div>
-          <div class="row q-gutter-md">
-            <div class="col q-mr-xs">
-              <div>
-                <q-checkbox
-                  v-model="selectAll"
-                  label="Select All"
-                  @click="getSelectedString"
+    <q-pull-to-refresh @refresh="onPullRefresh">
+      <q-table
+        :rows="items"
+        :columns="keys"
+        :row-key="rowKey"
+        :filter="filter"
+        :loading="loading"
+        v-model:pagination="pagination"
+        :selected-rows-label="getSelectedString"
+        v-model:selected="selected"
+        selection="multiple"
+      >
+        <template #top>
+          <div class="q-gutter-y-md column" style="max-width: 500px">
+            <q-input
+              bottom-slots
+              dense
+              :color="color"
+              :debounce="queryStringDebounce"
+              label="Query String"
+              v-model="queryString"
+            >
+              <template #append>
+                <q-icon
+                  v-if="filter !== ''"
+                  name="close"
+                  @click="filter = ''"
+                  class="cursor-pointer"
                 />
+                <q-icon name="search" />
+              </template>
+            </q-input>
+            <q-input
+              bottom-slots
+              dense
+              :debounce="filterDebounce"
+              :label="filterBy"
+              :color="color"
+              v-model="filter"
+            >
+              <template #append>
+                <q-icon
+                  v-if="filter !== ''"
+                  name="close"
+                  @click="filter = ''"
+                  class="cursor-pointer"
+                />
+                <q-icon name="filter_alt" />
+              </template>
+            </q-input>
+            <div class="row q-gutter-md">
+              <q-btn
+                color="positive"
+                class="col"
+                :disable="loading"
+                label="Create"
+                @click="$emit('clickedCreate', true)"
+              />
+              <q-btn
+                color="negative"
+                class="col"
+                :disable="loading || !selected.length"
+                label="Delete"
+                @click="$emit('clickedDeleteButton', true)"
+              />
+            </div>
+            <div class="row q-gutter-md">
+              <div class="col q-mr-xs">
+                <div>
+                  <q-checkbox
+                    v-model="selectAll"
+                    label="Select All"
+                    @click="getSelectedString"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </template>
+        </template>
 
-      <!-- Show "edit" icon on specific headers -->
-      <template
-        v-for="(item, i) in headerCellSlots"
-        :key="item + i"
-        #[item]="props"
-      >
-        <q-th :props="props">
-          <q-icon name="edit" size="1.6em" class="q-pa-xs" />
-          <q-tooltip
-            anchor="top middle"
-            self="bottom middle"
-            :offset="[20, -5]"
-          >
-            Click on value to edit
-          </q-tooltip>
-          {{ props.col.label }}
-        </q-th>
-      </template>
-      <template #body="props">
-        <q-tr :props="props">
-          <q-td>
-            <!-- Fixes `selected` issue where the checkboxes are corrupted -->
-            <q-checkbox v-model="props.selected" />
-          </q-td>
-          <q-td v-for="key in keys" :key="key.name" :props="props">
-            <div class="text-pre-wrap">{{ props.row[key.name] }}</div>
-            <!-- Edit mode - renders only one of the q-popup-edit components -->
-            <q-popup-edit
-              v-if="key.editable && key.editable.type == 'textarea'"
-              v-model="props.row[key.name]"
-              :validate="(val) => props.row[key.name].length > 0"
-              @save="onSave"
-              @hide="onHidePopup"
-              @show="onShowPopup(props.row)"
-              @change="onChange(key.name)"
-              v-slot="scope"
-              buttons
+        <!-- Show "edit" icon on specific headers -->
+        <template
+          v-for="(item, i) in headerCellSlots"
+          :key="item + i"
+          #[item]="props"
+        >
+          <q-th :props="props">
+            <q-icon name="edit" size="1.6em" class="q-pa-xs" />
+            <q-tooltip
+              anchor="top middle"
+              self="bottom middle"
+              :offset="[20, -5]"
             >
-              <q-input
-                :label="key.label"
-                type="textarea"
-                v-model="scope.value"
-                dense
-                autofocus
-              />
-            </q-popup-edit>
-            <q-popup-edit
-              v-else-if="key.editable && key.editable.type == 'select'"
-              v-model="props.row[key.name]"
-              @save="onSave"
-              @hide="onHidePopup"
-              @show="onShowPopup(props.row)"
-              @change="onChange(key.name)"
-              @blur="onChange(key.name)"
-              v-slot="scope"
-              buttons
-            >
-              <q-select
-                filled
-                v-model="scope.value"
-                :options="key.editable.data"
-                :label="key.name"
-              />
-            </q-popup-edit>
-          </q-td>
-        </q-tr>
-      </template>
-    </q-table>
+              Click on value to edit
+            </q-tooltip>
+            {{ props.col.label }}
+          </q-th>
+        </template>
+        <template #body="props">
+          <q-tr :props="props">
+            <q-td>
+              <!-- Fixes `selected` issue where the checkboxes are corrupted -->
+              <q-checkbox v-model="props.selected" />
+            </q-td>
+            <q-td v-for="key in keys" :key="key.name" :props="props">
+              <div class="text-pre-wrap">{{ props.row[key.name] }}</div>
+              <!-- Edit mode - renders only one of the q-popup-edit components -->
+              <q-popup-edit
+                v-if="key.editable && key.editable.type == 'textarea'"
+                v-model="props.row[key.name]"
+                :validate="(val) => props.row[key.name].length > 0"
+                @save="onSave"
+                @hide="onHidePopup"
+                @show="onShowPopup(props.row)"
+                @change="onChange(key.name)"
+                v-slot="scope"
+                buttons
+              >
+                <q-input
+                  :label="key.label"
+                  type="textarea"
+                  v-model="scope.value"
+                  dense
+                  autofocus
+                />
+              </q-popup-edit>
+              <q-popup-edit
+                v-else-if="key.editable && key.editable.type == 'select'"
+                v-model="props.row[key.name]"
+                @save="onSave"
+                @hide="onHidePopup"
+                @show="onShowPopup(props.row)"
+                @change="onChange(key.name)"
+                @blur="onChange(key.name)"
+                v-slot="scope"
+                buttons
+              >
+                <q-select
+                  filled
+                  v-model="scope.value"
+                  :options="key.editable.data"
+                  :label="key.name"
+                />
+              </q-popup-edit>
+            </q-td>
+          </q-tr>
+        </template>
+      </q-table>
+    </q-pull-to-refresh>
 
     <div class="row justify-center q-mt-md">
       <q-pagination
@@ -271,6 +267,10 @@ export default defineComponent({
     },
   },
   methods: {
+    async onPullRefresh(done: Function) {
+      this.$emit("getItems", this.queryString);
+      done();
+    },
     getSelectedString() {
       this.$emit("selectedChanged", this.selected);
       return this.selected.length === 0
