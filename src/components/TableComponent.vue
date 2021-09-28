@@ -113,8 +113,8 @@
                 :validate="(val) => props.row[key.name].length > 0"
                 @save="onSave"
                 @hide="onHidePopup"
-                @show="onShowPopup(props.row)"
-                @change="onChange(key.name)"
+                @show="onShowPopup(props.row, key.name)"
+                @cancel="onCancel(key.name)"
                 v-slot="scope"
                 buttons
               >
@@ -131,9 +131,8 @@
                 v-model="props.row[key.name]"
                 @save="onSave"
                 @hide="onHidePopup"
-                @show="onShowPopup(props.row)"
-                @change="onChange(key.name)"
-                @blur="onChange(key.name)"
+                @show="onShowPopup(props.row, key.name)"
+                @cancel="onCancel"
                 v-slot="scope"
                 buttons
               >
@@ -217,8 +216,9 @@ export default defineComponent({
     return {
       queryString: "",
       filter: "",
-      editItem: {},
+      editItem: ref({}),
       changedProperty: "",
+      toggleChanged: false,
       selected: [{}],
       pagination: {
         descending: false,
@@ -280,36 +280,43 @@ export default defineComponent({
           } selected of ${this.items.length}`;
     },
     // Methods are ordered according to the sequence of events
-    onShowPopup: function (item: any) {
+    onShowPopup: function (item: any, name: string) {
       console.log("onShowPopup was triggered, Started Editing Item:", item);
       this.editItem = item;
       this.selected = [item];
-    },
-    onChange: function (name: string) {
-      console.log(
-        "onChange was triggered, setting this.changedProperty =",
-        name
-      );
       this.changedProperty = name;
+    },
+    onCancel(v: any, ov: any) {
+      console.log("onCancel was triggered");
+      this.changedProperty = "";
     },
     onSave: function (v: any, ov: any) {
       console.log("onSave was triggered, invoking setItem on", this.editItem);
       console.log("New value:", v);
       console.log("Old value:", ov);
-    },
-    onHidePopup: function (e: any) {
-      if (this.changedProperty != "") {
+
+      if (v != ov) {
+        let tempEditItem: any = {};
+        Object.assign(tempEditItem, this.editItem);
+        console.log("tempedit item", tempEditItem);
+        tempEditItem[this.changedProperty] = v;
+        this.editItem = tempEditItem;
         this.$emit("clickedSet", {
           item: this.editItem,
           queryString: this.queryString,
         });
-      } else {
+        this.toggleChanged = true;
+      }
+    },
+    onHidePopup: function (e: any) {
+      if (this.toggleChanged == false) {
         this.$emit("clickedCancel", this.editItem);
       }
       console.log(
         "onHidePopup was triggeted, Stopped Editing Item:",
         this.editItem
       );
+      this.toggleChanged = false;
       this.selected = [];
       this.editItem = {};
       this.changedProperty = "";
