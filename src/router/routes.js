@@ -160,7 +160,7 @@ const routes = [
                     },
                     {
                       name: "AllowedPattern",
-                      label: "AllowedPattern",
+                      label: "Allowed Pattern",
                       editable: {
                         type: "textarea",
                         default: "",
