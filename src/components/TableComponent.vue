@@ -59,6 +59,13 @@
                 @click="$emit('clickedCreate', true)"
               />
               <q-btn
+                color="primary"
+                class="col"
+                :disable="loading || selected.length != 1"
+                label="Edit"
+                @click="$emit('clickedEdit', selected[0])"
+              />
+              <q-btn
                 color="negative"
                 class="col"
                 :disable="loading || !selected.length"
@@ -171,6 +178,7 @@ export default defineComponent({
     "selectedChanged",
     "clickedDeleteButton",
     "clickedCreate",
+    "clickedEdit",
     "clickedSet",
     "clickedCancel",
   ],
