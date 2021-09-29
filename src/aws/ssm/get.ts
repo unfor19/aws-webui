@@ -48,16 +48,39 @@ export async function ssmGetParametersByPath(queryString: string) {
 }
 
 export async function ssmGetParameterByName(name: string) {
-  const params: GetParameterCommandInput = {
-    Name: name,
-    WithDecryption: true,
-  };
-  const command = new GetParameterCommand(params);
-  const response = await client.send(command);
-  return {
-    item: response.Parameter,
-    metadata: response.$metadata,
-  };
+  try {
+    const params: GetParameterCommandInput = {
+      Name: name,
+      WithDecryption: true,
+    };
+    const command = new GetParameterCommand(params);
+    const response = await client.send(command);
+
+    const history: any = await ssmGetParameterHistory({
+      Name: name,
+    });
+    const itemsHistory = Array.from(history.items);
+
+    const itemLastHistory = itemsHistory[itemsHistory.length - 1];
+
+    const item: any = {};
+    Object.assign(item, response.Parameter);
+    Object.assign(item, itemLastHistory);
+    item.Value = response.Parameter.Value;
+    console.log("item full", item);
+    return {
+      item: item,
+      metadata: response.$metadata,
+      history: history,
+    };
+  } catch (err) {
+    console.log("Error setting parameter", err);
+    return {
+      item: {},
+      metadata: err,
+      history: {},
+    };
+  }
 }
 
 export async function ssmGetParameterHistory(
