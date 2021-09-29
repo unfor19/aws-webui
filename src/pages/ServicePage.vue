@@ -6,6 +6,7 @@
       @get-items="onGetItems"
       @selected-changed="onSelectedChanged"
       @clicked-delete-button="onDeleteItems"
+      @clicked-edit="onClickedEdit"
       @clicked-create="onClickedCreate"
       @clicked-set="onClickedSet"
       @clicked-cancel="onClickedCancel"
@@ -270,6 +271,19 @@ export default defineComponent({
     onClickedCreate() {
       console.log("Clicked create");
       this.$router.push({ name: this.name + "-create" });
+    },
+    onClickedEdit(item: any) {
+      console.log("Clicked edit", item);
+      const rowKey: string = this.rowKey;
+      let itemRowKeyValue: string = item[rowKey as keyof Object];
+      const targetPath: string = this.name + "/edit" + itemRowKeyValue;
+      const params: any = {};
+      params[rowKey] = itemRowKeyValue;
+      this.$router.push({
+        path: targetPath,
+        params: params,
+        name: this.name + "-edit",
+      });
     },
     async onClickedSet(setItem: any) {
       try {
