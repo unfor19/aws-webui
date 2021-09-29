@@ -1,11 +1,12 @@
 import {
   GetParameterHistoryCommandInput,
+  GetParameterCommandInput,
   GetParametersByPathCommandInput,
+  GetParameterCommand,
 } from "@aws-sdk/client-ssm";
 
 const {
   SSMClient,
-  GetParameterCommand,
   paginateGetParameterHistory,
   paginateGetParametersByPath,
 } = require("@aws-sdk/client-ssm"); // CommonJS import
@@ -46,15 +47,17 @@ export async function ssmGetParametersByPath(queryString: string) {
   };
 }
 
-export async function ssmGetParameterByName(
-  name: string,
-  withDecryption: Boolean
-) {
-  const command = GetParameterCommand({
+export async function ssmGetParameterByName(name: string) {
+  const params: GetParameterCommandInput = {
     Name: name,
-    WithDecryption: withDecryption,
-  });
-  return await client.send(command);
+    WithDecryption: true,
+  };
+  const command = new GetParameterCommand(params);
+  const response = await client.send(command);
+  return {
+    item: response.Parameter,
+    metadata: response.$metadata,
+  };
 }
 
 export async function ssmGetParameterHistory(
