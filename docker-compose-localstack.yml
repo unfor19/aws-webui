@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.9"
 
 networks:
   shared:
@@ -24,3 +24,15 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       - shared
+
+  aws-webui:
+    depends_on:
+      - localstack
+    container_name: aws-webui
+    image: unfor19/aws-webui
+    ports:
+      - "8081:8080"
+    networks:
+      - shared
+    profiles:
+      - frontend
