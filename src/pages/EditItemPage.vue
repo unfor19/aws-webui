@@ -81,6 +81,38 @@ export default defineComponent({
       }
     }
 
+    function showNotifyRefreshSuccess() {
+      $q.notify({
+        message: `Refreshed`,
+        html: true,
+        type: "positive",
+        position: "top",
+        timeout: 1000,
+        color: "primary",
+      });
+    }
+
+    function showNotifyRefreshFailed(err: any) {
+      $q.notify({
+        message: `<div>Failed to refresh item</div>
+        <div>Error Message:</div>
+        <div>${stringifyMessage(err)}</div>`,
+        html: true,
+        type: "negative",
+        position: "top",
+        timeout: 60000,
+        actions: [
+          {
+            label: "Dismiss",
+            color: "white",
+            handler: () => {
+              /* ... */
+            },
+          },
+        ],
+      });
+    }
+
     function showNotifySuccessApply(editedItem: any) {
       $q.notify({
         message: `Successfully applied`,
@@ -115,6 +147,8 @@ export default defineComponent({
     return {
       showNotifySuccessApply,
       showNotifyFailedApply,
+      showNotifyRefreshSuccess,
+      showNotifyRefreshFailed,
     };
   },
   data: function () {
@@ -127,12 +161,20 @@ export default defineComponent({
   name: "EditItemPage",
   methods: {
     onRefresh: async function () {
-      await this.getItem(this.itemKey);
+      this.onReset();
     },
     onReset: async function () {
       const response = await this.getItem(this.itemKey);
-      this.models = response.item;
-      console.log(response);
+      console.log("onReset response", response.item);
+      if (
+        response.metadata.httpStatusCode >= 200 &&
+        response.metadata.httpStatusCode < 300
+      ) {
+        this.models = Object.assign({}, response.item);
+        this.showNotifyRefreshSuccess();
+      } else {
+        this.showNotifyRefreshFailed(response);
+      }
     },
     onBack: function () {
       this.$router.back();
