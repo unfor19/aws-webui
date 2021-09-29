@@ -22,7 +22,7 @@
           />
         </div>
         <div>
-          <q-btn label="Apply" type="submit" color="positive" />
+          <q-btn label="Apply" type="submit" color="primary" />
           <q-btn
             @click="onBack"
             label="Back"
