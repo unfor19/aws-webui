@@ -78,6 +78,7 @@ docker run --rm -it -p 8080:8080 unfor19/aws-webui
 ## TODO
 
 - Add `Edit Item` Page - add `EditItemPage`, to get data use `get-parameter` and to set data `put-parameter`. The `get-parameter` and `get-parameter-history` to get more information than `get-parameters-by-path`.
+- Add a comment about `Tier is not supported by localstack, so the values are always undefined`
 
 ## Authors
 
