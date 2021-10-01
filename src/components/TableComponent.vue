@@ -70,7 +70,7 @@
                 class="col"
                 :disable="loading || !selected.length"
                 label="Delete"
-                @click="$emit('clickedDeleteButton', true)"
+                @click="$emit('clickedDelete', true)"
               />
             </div>
             <div class="row q-gutter-md">
@@ -176,7 +176,7 @@ export default defineComponent({
     "changedQueryString",
     "getItems",
     "selectedChanged",
-    "clickedDeleteButton",
+    "clickedDelete",
     "clickedCreate",
     "clickedEdit",
     "clickedSet",
