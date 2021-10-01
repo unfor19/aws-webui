@@ -30,7 +30,7 @@ This application was built with:
    ```bash
    docker-compose -p awswebui --profile frontend -f docker-compose-localstack.yml up --detach
    ```
-1. Open application in browser - [http://localhost:8080](http://localhost:8080)
+1. Open application in browser - [http://localhost:8081](http://localhost:8081)
 
 ### Run From Source Code
 
