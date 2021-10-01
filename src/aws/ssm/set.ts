@@ -1,10 +1,6 @@
 import { PutParameterCommandInput } from "@aws-sdk/client-ssm";
 
-const {
-  SSMClient,
-  PutParameterCommand,
-  PutParameterRequest,
-} = require("@aws-sdk/client-ssm"); // CommonJS import
+const { SSMClient, PutParameterCommand } = require("@aws-sdk/client-ssm"); // CommonJS import
 
 const client = new SSMClient({
   apiVersion: "2014-11-06",
