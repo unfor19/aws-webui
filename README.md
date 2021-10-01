@@ -8,7 +8,7 @@ This application was built with:
 
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vue v3](https://v3.vuejs.org/guide/introduction.html)
-- [Quasar v2](https://v3.vuejs.org/guide/introduction.html)
+- [Quasar v2](https://quasar.dev/)
 - [AWS SDK for JavaScript v3](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html)
   
 ## Requirements
