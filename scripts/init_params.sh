@@ -48,4 +48,4 @@ done
 # For 20 parameters, doing it parallel decreases the time from 25 seconds to 5 seconds
 wait
 
-log_msg "Completed successfully puting ${_NUM_OF_PARAMS} SSM Parameters"
+log_msg "Completed successfully putting ${_NUM_OF_PARAMS} SSM Parameters"

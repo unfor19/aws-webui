@@ -9,7 +9,7 @@ A Single Page Application to manage AWS resources efficiently.
 ## Requirements
 
 - [Node](https://nodejs.org/en/download/) 14.x+
-- [quaser CLI](https://quasar.dev/quasar-cli/installation) v3.x
+- [quasar CLI](https://quasar.dev/quasar-cli/installation) v3.x
 - [Docker](https://docs.docker.com/get-docker/) and [Docker-Compose](https://docs.docker.com/compose/install/) for testing locally with localstack
 - (Optional) [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) - for modifying values via terminal
 
