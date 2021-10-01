@@ -2,10 +2,15 @@
 
 [![Push to Docker Registries](https://github.com/unfor19/aws-webui/actions/workflows/docker-latest.yml/badge.svg)](https://github.com/unfor19/aws-webui/actions/workflows/docker-latest.yml)
 
-**Work In Progress (WIP)** - This is me, trying to learn frontend
-
 A Single Page Application to manage AWS resources efficiently.
 
+This application was built with:
+
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vue v3](https://v3.vuejs.org/guide/introduction.html)
+- [Quasar v2](https://v3.vuejs.org/guide/introduction.html)
+- [AWS SDK for JavaScript v3](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html)
+  
 ## Requirements
 
 - [Node](https://nodejs.org/en/download/) 14.x+
@@ -15,21 +20,17 @@ A Single Page Application to manage AWS resources efficiently.
 
 ## Getting Started
 
-1. Fork/Clone this repo
-2. Install dependencies
-   ```bash
-   yarn install
-   ```
-3. Start localstack
-    ```bash
-    yarn localstack:up
-    ```
-4. Start development server - will automatically open a new browser with hot-reload
-   ```bash
-   yarn serve
-   ```
+### Quick Start
 
-## Production Mode
+1. Download relevant files
+   ```bash
+   curl -sL -o docker-compose-localstack.yml "https://raw.githubusercontent.com/unfor19/aws-webui/master/docker-compose-localstack.yml"
+   ```
+1. Run application and LocalStack locally
+   ```bash
+   docker-compose -p awswebui --profile frontend -f docker-compose-localstack.yml up --detach
+   ```
+1. Open application in browser - [http://localhost:8080](http://localhost:8080)
 
 ### Run From Source Code
 
@@ -44,12 +45,16 @@ A Single Page Application to manage AWS resources efficiently.
    yarn && \
    cd ..
    ```
-1. Run application in production mode
+1. Start localstack
+   ```bash
+   yarn localstack:up
+   ```
+2. Run application in production mode
    ```bash
    yarn serve:prod
    ```
 
-### Run With Docker
+### Docker
 
 #### Run Official Container
 
@@ -68,6 +73,31 @@ docker run --rm -it -p 8080:8080 unfor19/aws-webui
    ```bash
    docker run --rm -it -p 8080:8080 aws-webui
    ```
+
+## Contributing
+
+Report issues/questions/feature requests on the [Issues](https://github.com/unfor19/terraform-aws-ssm-parameters/issues) section.
+
+Pull requests are welcome! These are the steps:
+
+1. Fork this repo
+1. Install dependencies
+   ```bash
+   yarn install
+   ```
+1. Create your feature branch from master (`git checkout -b my-new-feature`)
+1. Start localstack
+    ```bash
+    yarn localstack:up
+    ```
+1. Start development server - will automatically open a new browser with hot-reload
+   ```bash
+   yarn serve
+   ```    
+1. Add the code of your new feature; expand the above *Local Development* section to learn how
+1. Commit your remarkable changes (`git commit -am 'Added new feature'`)
+1. Push to the branch (`git push --set-up-stream origin my-new-feature`)
+1. Create a new Pull Request and provide details about your changes
 
 ## Authors
 
