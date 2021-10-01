@@ -4,8 +4,7 @@
 // when using Vue Router "history" mode
 const express = require("express"),
   serveStatic = require("serve-static"),
-  history = require("connect-history-api-fallback"),
-  port = process.env.PORT || 8080;
+  history = require("connect-history-api-fallback");
 
 // Constants
 const PORT = process.env.PORT ? process.env.PORT : 8080;
