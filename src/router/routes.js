@@ -118,7 +118,7 @@ const routes = [
                         type: "textarea",
                         default: "",
                       },
-                      rules: [(val) => val && val.length > 0],
+                      rules: [(val) => (val && val.length > 0) || "Required *"],
                     },
                     {
                       name: "Type",
@@ -212,7 +212,7 @@ const routes = [
                         type: "textarea",
                         default: "",
                       },
-                      rules: [(val) => val && val.length > 0],
+                      rules: [(val) => (val && val.length > 0) || "Required *"],
                     },
                     {
                       name: "Type",
