@@ -141,15 +141,15 @@ const routes = [
                         value: "SecureString",
                       },
                     },
-                    {
-                      name: "Tier",
-                      label: "Tier",
-                      editable: {
-                        type: "select",
-                        data: ["Standard", "Advanced", "Intelligent-Tiering"],
-                        default: "Standard",
-                      },
-                    },
+                    // {
+                    //   name: "Tier",
+                    //   label: "Tier",
+                    //   editable: {
+                    //     type: "select",
+                    //     data: ["Standard", "Advanced", "Intelligent-Tiering"],
+                    //     default: "Standard",
+                    //   },
+                    // },
                     {
                       name: "Description",
                       label: "Description",
@@ -235,15 +235,15 @@ const routes = [
                         value: "SecureString",
                       },
                     },
-                    {
-                      name: "Tier",
-                      label: "Tier",
-                      editable: {
-                        type: "select",
-                        data: ["Standard", "Advanced", "Intelligent-Tiering"],
-                        default: "Standard",
-                      },
-                    },
+                    // {
+                    //   name: "Tier",
+                    //   label: "Tier",
+                    //   editable: {
+                    //     type: "select",
+                    //     data: ["Standard", "Advanced", "Intelligent-Tiering"],
+                    //     default: "Standard",
+                    //   },
+                    // },
                     {
                       name: "Description",
                       label: "Description",

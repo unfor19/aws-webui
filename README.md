@@ -12,23 +12,19 @@ A Single Page Application to manage AWS resources efficiently.
 - [quaser CLI](https://quasar.dev/quasar-cli/installation) v3.x
 - [Docker](https://docs.docker.com/get-docker/) and [Docker-Compose](https://docs.docker.com/compose/install/) for testing locally with localstack
 - (Optional) [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) - for modifying values via terminal
-### Install the dependencies
-```bash
-yarn
-```
 
 ## Getting Started
 
 1. Fork/Clone this repo
-1. Start localstack
+2. Install dependencies
+   ```bash
+   yarn install
+   ```
+3. Start localstack
     ```bash
     yarn localstack:up
     ```
-1. Add parameters with AWS CLI (required until I add the `Add parameter` feature)
-   ```bash
-   yarn init-params:20
-   ```
-1. Start development server - will automatically open a new browser with hot-reload
+4. Start development server - will automatically open a new browser with hot-reload
    ```bash
    yarn serve
    ```
@@ -57,8 +53,6 @@ yarn
 
 #### Run Official Container
 
-TODO: Add CI/CD to build and push to DockerHub
-
 ```bash
 docker run --rm -it -p 8080:8080 unfor19/aws-webui
 ```
@@ -74,11 +68,6 @@ docker run --rm -it -p 8080:8080 unfor19/aws-webui
    ```bash
    docker run --rm -it -p 8080:8080 aws-webui
    ```
-
-## TODO
-
-- Add `Edit Item` Page - add `EditItemPage`, to get data use `get-parameter` and to set data `put-parameter`. The `get-parameter` and `get-parameter-history` to get more information than `get-parameters-by-path`.
-- Add a comment about `Tier is not supported by localstack, so the values are always undefined`
 
 ## Authors
 
