@@ -6,14 +6,14 @@ const routes = [
   {
     // Main Layout
     path: "/",
-    component: () => import("layouts/MainLayout.vue"),
+    component: () => require("layouts/MainLayout.vue"),
     props: true,
     children: [
-      { path: "", component: () => import("pages/Index.vue") },
+      { path: "", component: () => require("pages/Index.vue") },
       {
         path: "/services",
         name: "services",
-        component: () => import("pages/ServicesPage.vue"),
+        component: () => require("pages/ServicesPage.vue"),
         props: {
           title: "AWS Services",
           // Services Cards
@@ -33,7 +33,7 @@ const routes = [
             props: {
               title: "SSM Parameters",
             },
-            component: () => import("layouts/ServiceLayout.vue"),
+            component: () => require("layouts/ServiceLayout.vue"),
             children: [
               {
                 name: "ssm-parameters",
@@ -51,8 +51,8 @@ const routes = [
                     {
                       name: "Name",
                       align: "left",
-                      field: (item) => item.Name,
-                      format: (val) => `${val}`,
+                      field: (item: any) => item.Name,
+                      format: (val: any) => `${val}`,
                       sortable: true,
                       label: "Name",
                     },
@@ -79,13 +79,13 @@ const routes = [
                       name: "LastModifiedDate",
                       field: "LastModifiedDate",
                       label: "Last Modified Date",
-                      format: (val) => `${val}`,
+                      format: (val: any) => `${val}`,
                       sortable: true,
                     },
                     { name: "Version", field: "Version", label: "Version" },
                   ],
                 },
-                component: () => import("pages/ServicePage.vue"),
+                component: () => require("pages/ServicePage.vue"),
               },
               {
                 name: "ssm-parameters-create",
@@ -102,12 +102,11 @@ const routes = [
                       },
                       label: "Name *",
                       rules: [
-                        (val) =>
+                        (val: any) =>
                           (val &&
                             val.length > 0 &&
                             val.length < 1011 &&
-                            /[a-zA-Z0-9/_\.-]+/g.exec(val).join("").length ==
-                              val.length) ||
+                            /[a-zA-Z0-9/_\.-]+/g.exec(val)?.join("").length) ||
                           "Allowed RegEx pattern: /[a-zA-Z0-9/_.-]+/g",
                       ],
                     },
@@ -118,7 +117,9 @@ const routes = [
                         type: "textarea",
                         default: "",
                       },
-                      rules: [(val) => (val && val.length > 0) || "Required *"],
+                      rules: [
+                        (val: any) => (val && val.length > 0) || "Required *",
+                      ],
                     },
                     {
                       name: "Type",
@@ -176,12 +177,12 @@ const routes = [
                     },
                   ],
                 },
-                component: () => import("src/pages/CreateItemPage.vue"),
+                component: () => require("src/pages/CreateItemPage.vue"),
               },
               {
                 name: "ssm-parameters-edit",
                 path: "edit/:Name([a-zA-Z0-9/_.-]+)",
-                component: () => import("src/pages/EditItemPage.vue"),
+                component: () => require("src/pages/EditItemPage.vue"),
                 props: {
                   title: "Edit SSM Parameter",
                   getItem: ssmGetParameterByName,
@@ -196,12 +197,11 @@ const routes = [
                       },
                       label: "Name *",
                       rules: [
-                        (val) =>
+                        (val: any) =>
                           (val &&
                             val.length > 0 &&
                             val.length < 1011 &&
-                            /[a-zA-Z0-9/_\.-]+/g.exec(val).join("").length ==
-                              val.length) ||
+                            /[a-zA-Z0-9/_\.-]+/g.exec(val)?.join("").length) ||
                           "Allowed RegEx pattern: /[a-zA-Z0-9/_.-]+/g",
                       ],
                     },
@@ -212,7 +212,9 @@ const routes = [
                         type: "textarea",
                         default: "",
                       },
-                      rules: [(val) => (val && val.length > 0) || "Required *"],
+                      rules: [
+                        (val: any) => (val && val.length > 0) || "Required *",
+                      ],
                     },
                     {
                       name: "Type",
@@ -282,7 +284,7 @@ const routes = [
   // but you can also remove it
   {
     path: "/:catchAll(.*)*",
-    component: () => import("pages/Error404.vue"),
+    component: () => require("pages/Error404.vue"),
   },
 ];
 
