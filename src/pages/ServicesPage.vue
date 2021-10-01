@@ -69,20 +69,43 @@ const IService = require("../aws-webui/interfaces");
 export default defineComponent({
   name: "ServicesPage",
   methods: {
-    linkProps: function (routeObject: any) {
-      const route = routeObject.route;
-      const props = {
-        to: route.path,
-        href: "/#" + route.path,
+    /**
+     * Sets the props of the link according to the route object
+     *
+     * Example
+     * ```html
+     * <router-link :to="{ name: service.RouteName }" custom v-slot="props">
+     *   <q-btn
+     *     flat
+     *     class="column q-mr-md"
+     *     color="primary"
+     *     label="View"
+     *     v-bind="linkProps(props)" <!-- Bind `href` and `to` -->
+     *   />
+     * </router-link>
+     * ```
+     *
+     * @param {any} props - RouterLink object properties
+     */
+    linkProps: function (props: any) {
+      return {
+        to: props.route.path,
+        href: "/#" + props.route.path,
       };
-      return props;
     },
   },
+
   props: {
+    /**
+     * @param {string} title - Page title
+     */
     title: {
       type: String,
-      default: "",
+      default: "Services Page Title",
     },
+    /**
+     * @param {Array} services - List of services, provided in src/router/routes.js
+     */
     services: {
       type: Array,
       default: null,

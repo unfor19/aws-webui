@@ -5,7 +5,7 @@
     <table-component
       @get-items="onGetItems"
       @selected-changed="onSelectedChanged"
-      @clicked-delete-button="onDeleteItems"
+      @clicked-delete="onClickedDelete"
       @clicked-edit="onClickedEdit"
       @clicked-create="onClickedCreate"
       @clicked-set="onClickedSet"
@@ -251,6 +251,10 @@ export default defineComponent({
     };
   },
   methods: {
+    /**
+     * Gets a list of items, according to queryString and stores the results in `this.items`
+     * @param {string} queryString - The value is fetched from user input, and then passed to `this.getItems`
+     */
     async onGetItems(queryString: string) {
       try {
         this.loading = true;
@@ -268,10 +272,19 @@ export default defineComponent({
         this.loading = false;
       }
     },
+    /**
+     * The event `clickedCreate` is emitted from the child component `TableComponent`.
+     * This event instructs the $router to navigate to the `CreateItemPage` page of the service.
+     */
     onClickedCreate() {
       console.log("Clicked create");
       this.$router.push({ name: this.name + "-create" });
     },
+    /**
+     * The event `clickedEdit` is emitted from the child component `TableComponent`.
+     * This event creates a `route` object with `params`. The `params` include a dynamic key `params[rowKey]` which represents the unique ID of the item to be edited.
+     * The $router pushes the new route and navigates to the `EditItemPage` and passes the params `params[rowKey]`.
+     */
     onClickedEdit(item: any) {
       console.log("Clicked edit", item);
       const rowKey: string = this.rowKey;
@@ -285,6 +298,10 @@ export default defineComponent({
         name: this.name + "-edit",
       });
     },
+    /**
+     * The event `clickedEdit` is emitted from the child component `TableComponent`. This event is triggered upon "inline-editing".
+     * @param {any} setItem - This value is passed to the `this.setItem` function, provided in [src/router/routes.js](src/router/routes.js)
+     */
     async onClickedSet(setItem: any) {
       try {
         const setStatus = await this.setItem(setItem.item);
@@ -296,10 +313,19 @@ export default defineComponent({
         this.onGetItems(setItem.queryString);
       }
     },
+    /**
+     * The event `clickedCancel` is emitted from the child component `TableComponent`.
+     * This event shows a popup notification
+     * @param {any} setItem - Unused at the moment
+     */
     async onClickedCancel(setItem: any) {
       this.showNotifyCancelled();
     },
-    async onDeleteItems() {
+    /**
+     * The event `clickedDelete` is emitted from the child component `TableComponent`.
+     * This event invokes the function `this.deleteButton` which in turn calls the `deleteItems` function.
+     */
+    async onClickedDelete() {
       try {
         const deleteStatus = await this.deleteButton(
           this.selected,
@@ -312,6 +338,11 @@ export default defineComponent({
         console.log("delete itemS error", err);
       }
     },
+    /**
+     * The event `selectedChanged` is emitted from the child component `TableComponent`.
+     * This event sets the current data property `selected` according to the provided selection in the child component.
+     * @param {[{}]} selected - List of objects that were selected in the child component
+     */
     onSelectedChanged(selected: [{}]) {
       this.selected = selected;
     },

@@ -48,15 +48,28 @@ import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
 
 export default defineComponent({
+  name: "CreateItemPage",
   props: {
+    /**
+     * Page Title
+     */
     title: {
       type: String,
-      default: "",
+      default: "CreateItemPage Title",
     },
+    /**
+     * List of keys, provided in [src/router/routes.js](src/router/routes.js)
+     * The inputs will appear according to the given keys
+     */
     keys: {
       type: Array,
       default: null,
     },
+    /**
+     * User-defined function provided in [src/aws/${SERVICE_NAME}](src/aws)
+     * @param {any} item - The item object that will be used in the user-defined function.
+     * @returns {HttpResponse} - The response is according to the service's response, it can vary.
+     */
     createItem: {
       type: Function,
       default: null,
@@ -111,11 +124,19 @@ export default defineComponent({
   },
   data: function () {
     return {
+      /**
+       * Reactive values of the inputs
+       * The function `({})` is used to allow any object to be referenced.
+       */
       models: ref({}),
     };
   },
-  name: "CreateItemPage",
   methods: {
+    /**
+     * This function is triggered on `mounted` and when user clicks the **RESET** button
+     * Checks if default values were provided in [src/router/routes.js](src/router/routes.js)
+     * If a default value exists, it is set in the input, otherwise it'll be a blank string ""
+     */
     onReset: function () {
       let defaultModels: any = {};
       this.keys.forEach((key: any) => {
@@ -128,9 +149,17 @@ export default defineComponent({
       });
       this.models = defaultModels;
     },
+    /**
+     * This function is triggered on user clicks the **BACK** button.
+     * The $router object navigates to the previous page.
+     */
     onBack: function () {
       this.$router.back();
     },
+    /**
+     * This function is triggered on user clicks the **SUBMIT** button.
+     * The `this.models` object is the "item" that is passed to `this.createItem` function.
+     */
     onSubmit: async function () {
       console.log("Clicked submit!", this.models);
       const response = await this.createItem(this.models);
@@ -144,6 +173,13 @@ export default defineComponent({
       }
       console.log(response);
     },
+    /**
+     * This function helps determining whether an input should be rendered.
+     *
+     * @param {any} key - Key object that was declared in [src/router/routes.js](src/router/routes.js)
+     * @param {string} inputType - Input type is used to check whether this input type exists in the VIEW.
+     * @returns {Boolean} - Returns true if all conditions are met, otherwise returns false
+     */
     getShowInput: function (key: any, inputType: string): Boolean {
       let inputValue = this.models[key.name as keyof Object];
       let dependantInputValue = undefined;
@@ -165,6 +201,14 @@ export default defineComponent({
         return false;
       }
     },
+
+    /**
+     * This function gets the rules of the object from [src/router/routes.js](src/router/routes.js).
+     * If the `rules` property wasn't defined, it will be empty and any input will be considered as valid.
+     *
+     * @param {any} key - Key object that was declared in [src/router/routes.js](src/router/routes.js).
+     * @param {string} inputType - Input type is used to check whether this input type exists in the VIEW.
+     */
     getRules: function (key: any) {
       let rules = [];
       try {
@@ -172,12 +216,13 @@ export default defineComponent({
       } catch (e) {
         // do nothing
       }
-      // :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       return rules;
     },
   },
+  /**
+   * Invoked `this.onReset` to initialize default values
+   */
   mounted() {
-    // Initialize default values
     this.onReset();
   },
 });
