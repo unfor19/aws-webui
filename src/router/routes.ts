@@ -6,6 +6,7 @@ const routes = [
   {
     // Main Layout
     path: "/",
+    // @ts-ignore
     component: () => import("layouts/MainLayout.vue"),
     props: true,
     name: "root",
@@ -13,12 +14,14 @@ const routes = [
       {
         name: "index",
         path: "",
+        // @ts-ignore
         component: () => import("pages/Index.vue"),
       },
       {
         // Services Page
         path: "/services",
         name: "services",
+        // @ts-ignore
         component: () => import("pages/ServicesPage.vue"),
         props: {
           title: "AWS Services",
@@ -39,6 +42,7 @@ const routes = [
             props: {
               title: "SSM Parameters",
             },
+            // @ts-ignore
             component: () => import("layouts/ServiceLayout.vue"),
             children: [
               {
@@ -91,6 +95,7 @@ const routes = [
                     { name: "Version", field: "Version", label: "Version" },
                   ],
                 },
+                // @ts-ignore
                 component: () => import("pages/ServicePage.vue"),
               },
               {
@@ -183,11 +188,13 @@ const routes = [
                     },
                   ],
                 },
+                // @ts-ignore
                 component: () => import("src/pages/CreateItemPage.vue"),
               },
               {
                 name: "ssm-parameters-edit",
                 path: "edit/:Name([a-zA-Z0-9/_.-]+)",
+                // @ts-ignore
                 component: () => import("src/pages/EditItemPage.vue"),
                 props: {
                   title: "Edit SSM Parameter",
@@ -290,6 +297,7 @@ const routes = [
   // but you can also remove it
   {
     path: "/:catchAll(.*)*",
+    // @ts-ignore
     component: () => import("pages/Error404.vue"),
   },
 ];
