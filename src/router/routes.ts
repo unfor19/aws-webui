@@ -1,14 +1,15 @@
 import { ssmSetParameter } from "../aws/ssm/set";
 import { ssmGetParameterByName, ssmGetParametersByPath } from "../aws/ssm/get";
 import { ssmDeleteParametersByNames } from "src/aws/ssm/delete";
+import { RouteRecordNormalized } from "vue-router";
 
-const routes = [
+const routes: RouteRecordNormalized[] = [
   {
     // Main Layout
     path: "/",
     // @ts-ignore
     component: () => import("layouts/MainLayout.vue"),
-    props: true,
+    props: {},
     name: "root",
     children: [
       {
