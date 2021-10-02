@@ -63,7 +63,7 @@ export default defineComponent({
      */
     keys: {
       type: Array,
-      default: null,
+      default: ref([{}]),
     },
     /**
      * User-defined function provided in [src/aws/${SERVICE_NAME}](src/aws)
@@ -72,7 +72,7 @@ export default defineComponent({
      */
     createItem: {
       type: Function,
-      default: null,
+      default: ref(Function),
     },
   },
   setup(props) {
@@ -126,7 +126,6 @@ export default defineComponent({
     return {
       /**
        * Reactive values of the inputs
-       * The function `({})` is used to allow any object to be referenced.
        */
       models: ref({}),
     };
