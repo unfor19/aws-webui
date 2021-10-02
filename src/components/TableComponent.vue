@@ -121,7 +121,7 @@
                 @save="onSave"
                 @hide="onHidePopup"
                 @show="onShowPopup(props.row, key.name)"
-                @cancel="onCancel(key.name)"
+                @cancel="onCancel"
                 v-slot="scope"
                 buttons
               >
@@ -169,6 +169,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { keysValidator, IKey, TKey } from "../aws-webui/interfaces";
 
 export default defineComponent({
   name: "TableComponent",
@@ -185,11 +186,11 @@ export default defineComponent({
   props: {
     items: {
       type: Array,
-      default: null,
+      default: ref([]),
     },
     keys: {
-      type: Array,
-      default: null,
+      validator: keysValidator,
+      default: ref([]),
     },
     rowKey: {
       type: String,
@@ -262,7 +263,8 @@ export default defineComponent({
       return Math.ceil(this.items.length / this.pagination.rowsPerPage);
     },
     editableColumns: function () {
-      const editableColumns = this.keys
+      const keys = this.keys as unknown as IKey[];
+      const editableColumns = keys
         .filter((key: any) => key.editable)
         .map((key: any) => key.name);
       console.log("Editable columns:", editableColumns);
