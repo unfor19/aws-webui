@@ -2,10 +2,10 @@
 
 ## Props
 
-| Name       | Type     | Description | Default                 |
-| ---------- | -------- | ----------- | ----------------------- |
-| `title`    | `String` |             | `"Services Page Title"` |
-| `services` | `Array`  |             | `null`                  |
+| Name       | Type                                          | Description                                | Default                 |
+| ---------- | --------------------------------------------- | ------------------------------------------ | ----------------------- |
+| `title`    | `String`                                      | Page title                                 | `"Services Page Title"` |
+| `services` | [`TService[]`](./src/aws-webui/interfaces.ts) | List of services that will appear in cards | `[{}]`                  |
 
 ## Methods
 
@@ -29,7 +29,7 @@ Example
 **Syntax**
 
 ```typescript
-linkProps(props: any): void
+linkProps(props: any): props
 ```
 
 **Parameters**

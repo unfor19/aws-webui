@@ -63,8 +63,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-const IService = require("../aws-webui/interfaces");
+import { servicesValidator } from "src/aws-webui/interfaces";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "ServicesPage",
@@ -86,8 +86,9 @@ export default defineComponent({
      * ```
      *
      * @param {any} props - RouterLink object properties
+     * @returns {props}
      */
-    linkProps: function (props: any) {
+    linkProps: function (props: any): Object {
       return {
         to: props.route.path,
         href: "/#" + props.route.path,
@@ -97,6 +98,7 @@ export default defineComponent({
 
   props: {
     /**
+     * Page title
      * @param {string} title - Page title
      */
     title: {
@@ -104,11 +106,14 @@ export default defineComponent({
       default: "Services Page Title",
     },
     /**
-     * @param {Array} services - List of services, provided in src/router/routes.js
-     */
+     * List of services that will appear in cards
+     * @typeref ./src/aws-webui/interfaces.ts
+     * @type {TService[]}
+     * @default [{}]
+     * */
     services: {
-      type: Array,
-      default: null,
+      validator: servicesValidator,
+      default: ref([{}]),
     },
   },
 });
