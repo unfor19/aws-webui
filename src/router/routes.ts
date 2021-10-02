@@ -204,6 +204,10 @@ const routes: RouteRecordNormalized[] = [
                   rowKey: "Name",
                   keys: [
                     {
+                      name: "Version",
+                      label: "Version",
+                    },
+                    {
                       name: "Name",
                       editable: {
                         type: "textarea",

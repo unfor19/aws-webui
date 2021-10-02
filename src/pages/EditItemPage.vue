@@ -1,44 +1,86 @@
 <template>
   <q-page>
     <h5 class="q-pl-xl q-pt-xs q-mb-xs">{{ title }}</h5>
-    <div class="q-pa-md" style="max-width: 400px">
-      <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-        <div v-for="key in keys" :key="key.name">
-          <q-input
-            v-if="getShowInput(key, 'textarea')"
-            :label="key.label"
-            v-model="models[key.name]"
-            lazy-rules
-            :rules="getRules(key)"
-          />
-          <q-select
-            v-else-if="getShowInput(key, 'select')"
-            filled
-            :options="key.editable.data"
-            :label="key.label"
-            v-model="models[key.name]"
-            lazy-rules
-            :rules="getRules(key)"
-          />
-        </div>
-        <div>
-          <q-btn label="Apply" type="submit" color="primary" />
-          <q-btn
-            @click="onBack"
-            label="Back"
-            color="primary"
-            flat
-            class="q-ml-sm"
-          />
-          <q-btn
-            label="Reset"
-            type="reset"
-            color="primary"
-            flat
-            class="q-ml-sm"
-          />
-        </div>
-      </q-form>
+    <div class="row">
+      <div class="col q-pa-md" style="max-width: 500px">
+        <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+          <div v-for="key in keys" :key="key.name">
+            <q-field
+              filled
+              disable
+              v-if="getShowInput(key, 'label')"
+              :label="key.label"
+              stack-label
+            >
+              <template #control>
+                <div class="self-center full-width no-outline" tabindex="0">
+                  {{ models[key.name] }}
+                </div>
+              </template>
+            </q-field>
+            <q-input
+              v-else-if="getShowInput(key, 'textarea')"
+              :label="key.label"
+              v-model="models[key.name]"
+              lazy-rules
+              :rules="getRules(key)"
+            />
+            <q-select
+              v-else-if="getShowInput(key, 'select')"
+              filled
+              :options="key.editable.data"
+              :label="key.label"
+              v-model="models[key.name]"
+              lazy-rules
+              :rules="getRules(key)"
+            />
+          </div>
+          <div>
+            <q-btn label="Apply" type="submit" color="primary" />
+            <q-btn
+              @click="onBack"
+              label="Back"
+              color="primary"
+              flat
+              class="q-ml-sm"
+            />
+            <q-btn
+              label="Reset"
+              type="reset"
+              color="primary"
+              flat
+              class="q-ml-sm"
+            />
+          </div>
+        </q-form>
+      </div>
+
+      <div v-if="itemHistoryArray && itemHistoryArray.length > 1" class="col">
+        <h5 class="q-pl-xl q-mt-xs q-mb-xs">History</h5>
+        <q-scroll-area style="height: 500px; max-width: 700px">
+          <q-markup-table separator="horizontal">
+            <thead>
+              <th v-for="(value, key) in itemHistoryArray[0]" :key="key">
+                {{ key }}
+              </th>
+            </thead>
+            <tbody>
+              <tr v-for="(itemHistory, i) in itemHistoryArray" :key="i">
+                <td v-for="(value, key) in itemHistory" :key="key">
+                  {{ value }}
+                </td>
+              </tr>
+            </tbody>
+          </q-markup-table>
+          <!-- <q-list bordered separator>
+            <q-item v-for="(itemHistory, i) in itemHistoryArray" :key="i">
+              <q-item-section v-for="(value, key) in itemHistory" :key="key">
+                {{ key }}: {{ value }}
+              </q-item-section>
+            </q-item>
+          </q-list> -->
+        </q-scroll-area>
+      </div>
     </div>
   </q-page>
 </template>
@@ -156,6 +198,7 @@ export default defineComponent({
       models: ref({}),
       routeParams: ref({}),
       itemKey: ref({}),
+      itemHistoryArray: ref([{}]),
     };
   },
   name: "EditItemPage",
@@ -171,6 +214,12 @@ export default defineComponent({
         response.metadata.httpStatusCode < 300
       ) {
         this.models = Object.assign({}, response.item);
+        try {
+          this.itemHistoryArray = response.history.items;
+          console.log("itemHistoryArray", this.itemHistoryArray);
+        } catch (e) {
+          // do nothing
+        }
         this.showNotifyRefreshSuccess();
       } else {
         this.showNotifyRefreshFailed(response);
@@ -201,8 +250,16 @@ export default defineComponent({
       } catch (e) {
         // do nothing
       }
-
-      if (dependantInputValue == undefined && key.editable.type == inputType) {
+      if (
+        dependantInputValue == undefined &&
+        !("editable" in key) &&
+        inputType == "label"
+      ) {
+        return true;
+      } else if (
+        dependantInputValue == undefined &&
+        key.editable.type == inputType
+      ) {
         return true;
       } else if (
         key.editable.type == inputType &&
