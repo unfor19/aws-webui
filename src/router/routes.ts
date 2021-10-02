@@ -209,19 +209,7 @@ const routes: RouteRecordNormalized[] = [
                     },
                     {
                       name: "Name",
-                      editable: {
-                        type: "textarea",
-                        default: "",
-                      },
-                      label: "Name *",
-                      rules: [
-                        (val: any) =>
-                          (val &&
-                            val.length > 0 &&
-                            val.length < 1011 &&
-                            /[a-zA-Z0-9/_\.-]+/g.exec(val)?.join("").length) ||
-                          "Allowed RegEx pattern: /[a-zA-Z0-9/_.-]+/g",
-                      ],
+                      label: "Name",
                     },
                     {
                       name: "Value",
