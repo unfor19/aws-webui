@@ -11,12 +11,12 @@ const routes = [
     children: [
       { path: "", component: () => require("pages/Index.vue") },
       {
+        // Services Page
         path: "/services",
         name: "services",
         component: () => require("pages/ServicesPage.vue"),
         props: {
           title: "AWS Services",
-          // Services Cards
           services: [
             {
               Title: "SSM Parameters",
@@ -26,7 +26,7 @@ const routes = [
             },
           ],
         },
-        // Services Pages
+        // Service Pages
         children: [
           {
             path: "ssm-parameters",
