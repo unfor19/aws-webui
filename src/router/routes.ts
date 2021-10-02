@@ -6,15 +6,20 @@ const routes = [
   {
     // Main Layout
     path: "/",
-    component: () => require("layouts/MainLayout.vue"),
+    component: () => import("layouts/MainLayout.vue"),
     props: true,
+    name: "root",
     children: [
-      { path: "", component: () => require("pages/Index.vue") },
+      {
+        name: "index",
+        path: "",
+        component: () => import("pages/Index.vue"),
+      },
       {
         // Services Page
         path: "/services",
         name: "services",
-        component: () => require("pages/ServicesPage.vue"),
+        component: () => import("pages/ServicesPage.vue"),
         props: {
           title: "AWS Services",
           services: [
@@ -29,11 +34,12 @@ const routes = [
         // Service Pages
         children: [
           {
+            name: "ssm-parameters-root",
             path: "ssm-parameters",
             props: {
               title: "SSM Parameters",
             },
-            component: () => require("layouts/ServiceLayout.vue"),
+            component: () => import("layouts/ServiceLayout.vue"),
             children: [
               {
                 name: "ssm-parameters",
@@ -85,7 +91,7 @@ const routes = [
                     { name: "Version", field: "Version", label: "Version" },
                   ],
                 },
-                component: () => require("pages/ServicePage.vue"),
+                component: () => import("pages/ServicePage.vue"),
               },
               {
                 name: "ssm-parameters-create",
@@ -177,12 +183,12 @@ const routes = [
                     },
                   ],
                 },
-                component: () => require("src/pages/CreateItemPage.vue"),
+                component: () => import("src/pages/CreateItemPage.vue"),
               },
               {
                 name: "ssm-parameters-edit",
                 path: "edit/:Name([a-zA-Z0-9/_.-]+)",
-                component: () => require("src/pages/EditItemPage.vue"),
+                component: () => import("src/pages/EditItemPage.vue"),
                 props: {
                   title: "Edit SSM Parameter",
                   getItem: ssmGetParameterByName,
@@ -284,7 +290,7 @@ const routes = [
   // but you can also remove it
   {
     path: "/:catchAll(.*)*",
-    component: () => require("pages/Error404.vue"),
+    component: () => import("pages/Error404.vue"),
   },
 ];
 
