@@ -56,7 +56,9 @@
       </div>
 
       <div v-if="itemHistoryArray && itemHistoryArray.length > 1" class="col">
-        <h5 class="q-pl-xl q-mt-xs q-mb-xs">History</h5>
+        <h5 class="q-pl-xl q-mt-xs q-mb-xs">
+          History ({{ itemHistoryArray.length }} records)
+        </h5>
         <q-scroll-area style="height: 500px; max-width: 700px">
           <q-markup-table separator="horizontal">
             <thead>
