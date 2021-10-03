@@ -55,26 +55,34 @@
         </q-form>
       </div>
 
-      <div v-if="itemHistoryArray && itemHistoryArray.length > 1" class="col">
+      <div
+        class="col"
+        style="max-width: 500px"
+        v-if="
+          itemHistoryArray && itemHistoryArray.length > 1 && historyRowKey != ''
+        "
+      >
         <h5 class="q-pl-xl q-mt-xs q-mb-xs">
           History ({{ itemHistoryArray.length }} records)
         </h5>
-        <q-scroll-area style="height: 500px; max-width: 700px">
-          <q-markup-table separator="horizontal">
-            <thead>
-              <th v-for="(value, key) in itemHistoryArray[0]" :key="key">
-                {{ key }}
-              </th>
-            </thead>
-            <tbody>
-              <tr v-for="(itemHistory, i) in itemHistoryArray" :key="i">
-                <td v-for="(value, key) in itemHistory" :key="key">
-                  {{ value }}
-                </td>
-              </tr>
-            </tbody>
-          </q-markup-table>
-        </q-scroll-area>
+        <q-list bordered class="rounded-borders">
+          <q-expansion-item
+            expand-separator
+            :label="itemHistory[historyRowKey]"
+            :caption="historyRowKey"
+            v-for="(itemHistory, i) in itemHistoryArray"
+            :key="i"
+          >
+            <q-card v-for="(value, key) in itemHistory" :key="key">
+              <q-card-section>
+                <div class="row">
+                  <div class="col">{{ key }}</div>
+                  <div class="col">{{ value }}</div>
+                </div>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+        </q-list>
       </div>
     </div>
   </q-page>
