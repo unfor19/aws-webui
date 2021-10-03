@@ -28,11 +28,14 @@ This application was built with:
    ```
 1. Run application and LocalStack locally
    ```bash
-   # '--profile  frontend' means it will run aws-webui container
-   # Omitting the '--profile' argument instructs docker-compose to only run 'localstack'
    docker-compose -p awswebui --profile frontend up --detach
    ```
-1. Open application in browser - [http://localhost:8081](http://localhost:8081)
+2. Open application in browser - [http://localhost:8081](http://localhost:8081)
+3. Cleanup
+   ```bash
+   docker-compose -p awswebui down && \
+   rm docker-compose.yml
+   ```
 
 ### Run From Source Code
 
