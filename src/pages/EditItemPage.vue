@@ -8,7 +8,7 @@
     />
     <q-card style="max-width: 500px">
       <q-card-section v-if="!historyDisabled && showHistory">
-        <h5 class="q-pl-xl q-mt-xs q-mb-xs">
+        <h5 class="q-pl-xl q-mt-xs q-mb-lg">
           History ({{ itemHistoryArray.length }} records)
         </h5>
         <q-list bordered class="rounded-borders">
@@ -31,7 +31,13 @@
         </q-list>
       </q-card-section>
       <q-separator />
-      <q-card-section dense class="col">
+      <q-card-section dense>
+        <h5
+          class="q-pl-xl q-mt-xs q-mb-lg"
+          v-if="!historyDisabled && showHistory"
+        >
+          Form
+        </h5>
         <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
           <div v-for="key in keys" :key="key.name">
             <q-field
