@@ -202,6 +202,7 @@ const routes: RouteRecordNormalized[] = [
                   getItem: ssmGetParameterByName,
                   setItem: ssmSetParameter,
                   rowKey: "Name",
+                  historyRowKey: "Version",
                   keys: [
                     {
                       name: "Version",

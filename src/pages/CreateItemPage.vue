@@ -1,45 +1,47 @@
 <template>
   <q-page>
     <h5 class="q-pl-xl q-pt-xs q-mb-xs">{{ title }}</h5>
-    <div class="q-pa-md" style="max-width: 400px">
-      <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-        <div v-for="key in keys" :key="key.name">
-          <q-input
-            v-if="getShowInput(key, 'textarea')"
-            :label="key.label"
-            v-model="models[key.name]"
-            lazy-rules
-            :rules="getRules(key)"
-          />
-          <q-select
-            v-else-if="getShowInput(key, 'select')"
-            filled
-            :options="key.editable.data"
-            :label="key.label"
-            v-model="models[key.name]"
-            lazy-rules
-            :rules="getRules(key)"
-          />
-        </div>
-        <div>
-          <q-btn label="Apply" type="submit" color="positive" />
-          <q-btn
-            @click="onBack"
-            label="Back"
-            color="primary"
-            flat
-            class="q-ml-sm"
-          />
-          <q-btn
-            label="Reset"
-            type="reset"
-            color="primary"
-            flat
-            class="q-ml-sm"
-          />
-        </div>
-      </q-form>
-    </div>
+    <q-card class="q-pa-md" style="max-width: 400px">
+      <q-card-section>
+        <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+          <div v-for="key in keys" :key="key.name">
+            <q-input
+              v-if="getShowInput(key, 'textarea')"
+              :label="key.label"
+              v-model="models[key.name]"
+              lazy-rules
+              :rules="getRules(key)"
+            />
+            <q-select
+              v-else-if="getShowInput(key, 'select')"
+              filled
+              :options="key.editable.data"
+              :label="key.label"
+              v-model="models[key.name]"
+              lazy-rules
+              :rules="getRules(key)"
+            />
+          </div>
+          <div>
+            <q-btn label="Apply" type="submit" color="positive" />
+            <q-btn
+              @click="onBack"
+              label="Back"
+              color="primary"
+              flat
+              class="q-ml-sm"
+            />
+            <q-btn
+              label="Reset"
+              type="reset"
+              color="primary"
+              flat
+              class="q-ml-sm"
+            />
+          </div>
+        </q-form>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 

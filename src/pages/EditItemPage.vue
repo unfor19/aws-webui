@@ -1,8 +1,37 @@
 <template>
   <q-page>
     <h5 class="q-pl-xl q-pt-xs q-mb-xs">{{ title }}</h5>
-    <div class="row">
-      <div class="col q-pa-md" style="max-width: 500px">
+    <q-toggle
+      v-model="showHistory"
+      label="Show History"
+      :disable="historyDisabled"
+    />
+    <q-card style="max-width: 500px">
+      <q-card-section v-if="!historyDisabled && showHistory">
+        <h5 class="q-pl-xl q-mt-xs q-mb-xs">
+          History ({{ itemHistoryArray.length }} records)
+        </h5>
+        <q-list bordered class="rounded-borders">
+          <q-expansion-item
+            expand-separator
+            :label="itemHistory[historyRowKey]"
+            :caption="historyRowKey"
+            v-for="(itemHistory, i) in itemHistoryArray"
+            :key="i"
+          >
+            <q-card v-for="(value, key) in itemHistory" :key="key">
+              <q-card-section>
+                <div class="row">
+                  <div class="col">{{ key }}</div>
+                  <div class="col">{{ value }}</div>
+                </div>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+        </q-list>
+      </q-card-section>
+      <q-separator />
+      <q-card-section dense class="col">
         <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
           <div v-for="key in keys" :key="key.name">
             <q-field
@@ -53,37 +82,8 @@
             />
           </div>
         </q-form>
-      </div>
-
-      <div v-if="itemHistoryArray && itemHistoryArray.length > 1" class="col">
-        <h5 class="q-pl-xl q-mt-xs q-mb-xs">
-          History ({{ itemHistoryArray.length }} records)
-        </h5>
-        <q-scroll-area style="height: 500px; max-width: 700px">
-          <q-markup-table separator="horizontal">
-            <thead>
-              <th v-for="(value, key) in itemHistoryArray[0]" :key="key">
-                {{ key }}
-              </th>
-            </thead>
-            <tbody>
-              <tr v-for="(itemHistory, i) in itemHistoryArray" :key="i">
-                <td v-for="(value, key) in itemHistory" :key="key">
-                  {{ value }}
-                </td>
-              </tr>
-            </tbody>
-          </q-markup-table>
-          <!-- <q-list bordered separator>
-            <q-item v-for="(itemHistory, i) in itemHistoryArray" :key="i">
-              <q-item-section v-for="(value, key) in itemHistory" :key="key">
-                {{ key }}: {{ value }}
-              </q-item-section>
-            </q-item>
-          </q-list> -->
-        </q-scroll-area>
-      </div>
-    </div>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
@@ -110,6 +110,10 @@ export default defineComponent({
       default: null,
     },
     rowKey: {
+      type: String,
+      default: "",
+    },
+    historyRowKey: {
       type: String,
       default: "",
     },
@@ -201,9 +205,23 @@ export default defineComponent({
       routeParams: ref({}),
       itemKey: ref({}),
       itemHistoryArray: ref([{}]),
+      showHistory: ref(false),
     };
   },
   name: "EditItemPage",
+  computed: {
+    historyDisabled: function () {
+      if (
+        this.itemHistoryArray &&
+        this.itemHistoryArray.length > 1 &&
+        this.historyRowKey != ""
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+  },
   methods: {
     onRefresh: async function () {
       this.onReset();
