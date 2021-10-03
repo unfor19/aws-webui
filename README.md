@@ -112,7 +112,6 @@ Pull requests are welcome! These are the steps:
 ## TODO
 
 - Add the action `bulk edit value` with the options to `find and replace` and `add prefix/suffix`. Requires a new function `editItems(items)`
-- Add the action - `export selected items to JSON`, the structure per service should be declared in `src/router/routes.ts`. For SSM the structure as in [unfor19/parzival](https://github.com/unfor19/parzival/blob/master/cmd/config.go). Requires a new function `exportItems(items)`
 - Add the action - `export selected items to a JSON file`, the structure per service should be declared in `src/router/routes.ts`. For SSM the structure as in [unfor19/parzival](https://github.com/unfor19/parzival/blob/master/cmd/config.go). Requires a new function `exportItemsToFile(items)`
 - Add the action - `export selected items to a JSON string`, the structure per service should be declared in `src/router/routes.ts`. For SSM the structure as in [unfor19/parzival](https://github.com/unfor19/parzival/blob/master/cmd/config.go). Requires a new function `exportItemsToString(string)`
 - Add the action - `import items from a JSON file` attempts to create/update items, and returns information about which ones were successfully updated and which ones failed. Requires a new function `importItemsFromFile(inputFilePath)`
