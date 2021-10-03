@@ -69,7 +69,7 @@ onClickedEdit(item: any): void
 
 ### onClickedSet()
 
-The event `clickedEdit` is emitted from the child component `TableComponent`.
+The event `clickedSet` is emitted from the child component `TableComponent`.
 This event is triggered upon "inline-editing".
 
 **Syntax**

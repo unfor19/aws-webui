@@ -299,7 +299,7 @@ export default defineComponent({
       });
     },
     /**
-     * The event `clickedEdit` is emitted from the child component `TableComponent`. This event is triggered upon "inline-editing".
+     * The event `clickedSet` is emitted from the child component `TableComponent`. This event is triggered upon "inline-editing".
      * @param {any} setItem - This value is passed to the `this.setItem` function, provided in [src/router/routes.js](src/router/routes.js)
      */
     async onClickedSet(setItem: any) {
