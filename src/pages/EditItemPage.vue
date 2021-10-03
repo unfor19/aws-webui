@@ -74,13 +74,6 @@
               </tr>
             </tbody>
           </q-markup-table>
-          <!-- <q-list bordered separator>
-            <q-item v-for="(itemHistory, i) in itemHistoryArray" :key="i">
-              <q-item-section v-for="(value, key) in itemHistory" :key="key">
-                {{ key }}: {{ value }}
-              </q-item-section>
-            </q-item>
-          </q-list> -->
         </q-scroll-area>
       </div>
     </div>
