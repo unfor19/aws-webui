@@ -16,7 +16,7 @@ This application was built with:
 - [Node](https://nodejs.org/en/download/) 14.x+
 - [yarn](https://classic.yarnpkg.com/lang/en/docs/install) 1.22+
 - [quasar CLI](https://quasar.dev/quasar-cli/installation) v3.x
-- [Docker](https://docs.docker.com/get-docker/) and [Docker-Compose](https://docs.docker.com/compose/install/) for testing locally with localstack
+- [Docker](https://docs.docker.com/get-docker/) and [Docker-Compose](https://docs.docker.com/compose/install/) for testing locally with [localstack](https://github.com/localstack/localstack)
 - (Optional) [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) - for modifying values via terminal
 
 ## Getting Started
@@ -27,7 +27,7 @@ This application was built with:
    ```bash
    curl -sL -o docker-compose.yml "https://raw.githubusercontent.com/unfor19/aws-webui/master/docker-compose.yml"
    ```
-2. Run application (GUI) and localstack - a backend server that immitates [AWS SSM Parameters API](https://docs.aws.amazon.com/systems-manager/latest/APIReference/Welcome.html)
+2. Run application (GUI) and [localstack](https://github.com/localstack/localstack) - a backend server that immitates [AWS SSM Parameters API](https://docs.aws.amazon.com/systems-manager/latest/APIReference/Welcome.html)
    ```bash
    docker-compose -p awswebui --profile frontend up --detach
    ```
@@ -55,7 +55,7 @@ This application was built with:
    yarn install && \
    cd ..
    ```
-5. Start localstack
+5. Start [localstack](https://github.com/localstack/localstack)
    ```bash
    yarn localstack:up
    ```
@@ -100,7 +100,7 @@ Pull requests are welcome! These are the steps:
    yarn install
    ```
 1. Create your feature branch from master (`git checkout -b my-new-feature`)
-1. Start localstack
+1. Start [localstack](https://github.com/localstack/localstack)
     ```bash
     yarn localstack:up
     ```
