@@ -59,14 +59,17 @@ This application was built with:
    ```bash
    yarn serve:prod
    ```
+7. Open application in browser - [http://localhost:8080](http://localhost:8080)
 
 ### Docker
 
 #### Run Official Container
 
-```bash
-docker run --rm -it -p 8080:8080 unfor19/aws-webui
-```
+1. Run application in Docker
+   ```bash
+   docker run --rm -it -p 8080:8080 unfor19/aws-webui
+   ```
+1. Open application in browser - [http://localhost:8080](http://localhost:8080)
 
 #### Build Docker Image From Source Code
 
@@ -79,6 +82,7 @@ docker run --rm -it -p 8080:8080 unfor19/aws-webui
    ```bash
    docker run --rm -it -p 8080:8080 aws-webui
    ```
+1. Open application in browser - [http://localhost:8080](http://localhost:8080)   
 
 ## Contributing
 
