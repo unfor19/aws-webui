@@ -24,11 +24,13 @@ This application was built with:
 
 1. Download relevant files
    ```bash
-   curl -sL -o docker-compose-localstack.yml "https://raw.githubusercontent.com/unfor19/aws-webui/master/docker-compose-localstack.yml"
+   curl -sL -o docker-compose.yml "https://raw.githubusercontent.com/unfor19/aws-webui/master/docker-compose.yml"
    ```
 1. Run application and LocalStack locally
    ```bash
-   docker-compose -p awswebui --profile frontend -f docker-compose-localstack.yml up --detach
+   # '--profile  frontend' means it will run aws-webui container
+   # Omitting the '--profile' argument instructs docker-compose to only run 'localstack'
+   docker-compose -p awswebui --profile frontend up --detach
    ```
 1. Open application in browser - [http://localhost:8081](http://localhost:8081)
 
