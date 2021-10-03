@@ -1,6 +1,6 @@
 # aws-webui
 
-[![Push to Docker Registries](https://github.com/unfor19/aws-webui/actions/workflows/docker-latest.yml/badge.svg)](https://github.com/unfor19/aws-webui/actions/workflows/docker-latest.yml)
+[![Push to Docker Registries](https://github.com/unfor19/aws-webui/actions/workflows/docker-latest.yml/badge.svg)](https://github.com/unfor19/aws-webui/actions/workflows/docker-latest.yml) [![Dockerhub pulls](https://img.shields.io/docker/pulls/unfor19/aws-webui)](https://hub.docker.com/r/unfor19/aws-webui)
 
 A Single Page Application to manage AWS resources efficiently.
 
@@ -35,21 +35,25 @@ This application was built with:
 ### Run From Source Code
 
 1. Fork/Clone this repo
-1. Build the application
+2. Install application dependencies
+   ```bash
+   yarn install
+   ```
+3. Build the application
     ```bash
     yarn build
     ```
-1. Install server dependencies (do it once)
+4. Install server dependencies
    ```bash
    cd server && \
-   yarn && \
+   yarn install && \
    cd ..
    ```
-1. Start localstack
+5. Start localstack - a backend server that immitates [AWS SSM Parameters API](https://docs.aws.amazon.com/systems-manager/latest/APIReference/Welcome.html)
    ```bash
    yarn localstack:up
    ```
-2. Run application in production mode
+6. Run application in production mode
    ```bash
    yarn serve:prod
    ```
@@ -94,10 +98,10 @@ Pull requests are welcome! These are the steps:
    ```bash
    yarn serve
    ```    
-1. Add the code of your new feature; expand the above *Local Development* section to learn how
-1. Commit your remarkable changes (`git commit -am 'Added new feature'`)
-1. Push to the branch (`git push --set-up-stream origin my-new-feature`)
-1. Create a new Pull Request and provide details about your changes
+2. Add the code of your new feature
+3. Commit your remarkable changes (`git commit -am 'Added new feature'`)
+4. Push to the branch (`git push --set-up-stream origin my-new-feature`)
+5. Create a new Pull Request and provide details about your changes
 
 ## Authors
 
