@@ -106,6 +106,10 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    historyRowKey: {
+      type: String,
+      default: "",
+    },
   },
   setup(props) {
     const $q = useQuasar();
