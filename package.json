@@ -6,6 +6,7 @@
   "author": "Meir Gabay <unfor19@gmail.com>",
   "private": true,
   "scripts": {
+    "docs": "vuedoc.md src/**/*.vue --output docs/",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "serve": "quasar dev -p 8080 --open",
