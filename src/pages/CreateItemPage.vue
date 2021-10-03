@@ -60,7 +60,7 @@ export default defineComponent({
       default: "CreateItemPage Title",
     },
     /**
-     * List of keys, provided in [src/router/routes.js](src/router/routes.js)
+     * List of keys, provided in [src/router/routes.ts](src/router/routes.ts)
      * The inputs will appear according to the given keys
      */
     keys: {
@@ -135,7 +135,7 @@ export default defineComponent({
   methods: {
     /**
      * This function is triggered on `mounted` and when user clicks the **RESET** button
-     * Checks if default values were provided in [src/router/routes.js](src/router/routes.js)
+     * Checks if default values were provided in [src/router/routes.ts](src/router/routes.ts)
      * If a default value exists, it is set in the input, otherwise it'll be a blank string ""
      */
     onReset: function () {
@@ -177,7 +177,7 @@ export default defineComponent({
     /**
      * This function helps determining whether an input should be rendered.
      *
-     * @param {any} key - Key object that was declared in [src/router/routes.js](src/router/routes.js)
+     * @param {any} key - Key object that was declared in [src/router/routes.ts](src/router/routes.ts)
      * @param {string} inputType - Input type is used to check whether this input type exists in the VIEW.
      * @returns {Boolean} - Returns true if all conditions are met, otherwise returns false
      */
@@ -204,10 +204,10 @@ export default defineComponent({
     },
 
     /**
-     * This function gets the rules of the object from [src/router/routes.js](src/router/routes.js).
+     * This function gets the rules of the object from [src/router/routes.ts](src/router/routes.ts).
      * If the `rules` property wasn't defined, it will be empty and any input will be considered as valid.
      *
-     * @param {any} key - Key object that was declared in [src/router/routes.js](src/router/routes.js).
+     * @param {any} key - Key object that was declared in [src/router/routes.ts](src/router/routes.ts).
      * @param {string} inputType - Input type is used to check whether this input type exists in the VIEW.
      */
     getRules: function (key: any) {

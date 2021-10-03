@@ -5,7 +5,7 @@
 | Name          | Type       | Description                                                                                                               | Default                  |
 | ------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
 | `title`       | `String`   | Page Title                                                                                                                | `"CreateItemPage Title"` |
-| `keys`        | `Array`    | List of keys, provided in [src/router/routes.js](src/router/routes.js) The inputs will appear according to the given keys | `ref([{}])`              |
+| `keys`        | `Array`    | List of keys, provided in [src/router/routes.ts](src/router/routes.ts) The inputs will appear according to the given keys | `ref([{}])`              |
 | `create-item` | `Function` | User-defined function provided in [src/aws/${SERVICE_NAME}](src/aws)                                                      | `ref(Function)`          |
 
 ## Data
@@ -21,7 +21,7 @@
 This function is triggered on `mounted` and when user clicks the **RESET**
 button
 Checks if default values were provided in
-[src/router/routes.js](src/router/routes.js)
+[src/router/routes.ts](src/router/routes.ts)
 If a default value exists, it is set in the input, otherwise it'll be a blank
 string ""
 
@@ -67,7 +67,7 @@ getShowInput(key: any, inputType: string): Boolean
 **Parameters**
 
 - `key: any`<br/>
-  Key object that was declared in [src/router/routes.js](src/router/routes.js)
+  Key object that was declared in [src/router/routes.ts](src/router/routes.ts)
 
 - `inputType: string`<br/>
   Input type is used to check whether this input type exists in the VIEW.
@@ -79,7 +79,7 @@ Returns true if all conditions are met, otherwise returns false
 ### getRules()
 
 This function gets the rules of the object from
-[src/router/routes.js](src/router/routes.js).
+[src/router/routes.ts](src/router/routes.ts).
 If the `rules` property wasn't defined, it will be empty and any input will be
 considered as valid.
 
@@ -92,7 +92,7 @@ getRules(key: any, inputType: string): void
 **Parameters**
 
 - `key: any`<br/>
-  Key object that was declared in [src/router/routes.js](src/router/routes.js).
+  Key object that was declared in [src/router/routes.ts](src/router/routes.ts).
 
 - `inputType: string`<br/>
   Input type is used to check whether this input type exists in the VIEW.

@@ -82,7 +82,7 @@ async onClickedSet(setItem: any): Promise
 
 - `setItem: any`<br/>
   This value is passed to the `this.setItem` function, provided in
-  [src/router/routes.js](src/router/routes.js)
+  [src/router/routes.ts](src/router/routes.ts)
 
 ### onClickedCancel()
 

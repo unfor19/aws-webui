@@ -300,7 +300,7 @@ export default defineComponent({
     },
     /**
      * The event `clickedSet` is emitted from the child component `TableComponent`. This event is triggered upon "inline-editing".
-     * @param {any} setItem - This value is passed to the `this.setItem` function, provided in [src/router/routes.js](src/router/routes.js)
+     * @param {any} setItem - This value is passed to the `this.setItem` function, provided in [src/router/routes.ts](src/router/routes.ts)
      */
     async onClickedSet(setItem: any) {
       try {
