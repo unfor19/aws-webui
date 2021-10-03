@@ -26,12 +26,12 @@ This application was built with:
    ```bash
    curl -sL -o docker-compose.yml "https://raw.githubusercontent.com/unfor19/aws-webui/master/docker-compose.yml"
    ```
-1. Run application and LocalStack locally
+2. Run application (GUI) and localstack - a backend server that immitates [AWS SSM Parameters API](https://docs.aws.amazon.com/systems-manager/latest/APIReference/Welcome.html)
    ```bash
    docker-compose -p awswebui --profile frontend up --detach
    ```
-2. Open application in browser - [http://localhost:8081](http://localhost:8081)
-3. Cleanup
+3. Open application in browser - [http://localhost:8081](http://localhost:8081)
+4. Cleanup
    ```bash
    docker-compose -p awswebui down && \
    rm docker-compose.yml
@@ -54,7 +54,7 @@ This application was built with:
    yarn install && \
    cd ..
    ```
-5. Start localstack - a backend server that immitates [AWS SSM Parameters API](https://docs.aws.amazon.com/systems-manager/latest/APIReference/Welcome.html)
+5. Start localstack
    ```bash
    yarn localstack:up
    ```
