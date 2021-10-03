@@ -49,17 +49,6 @@ export interface IKey {
   align?: string | "";
 }
 
-export type TKey = {
-  name: string;
-  label: string;
-  field?: string;
-  format?: any;
-  sortable?: false;
-  editable?: IEditable | [];
-  rules?: [];
-  align?: string;
-};
-
 class KeyClass {
   public name: string = "";
   public label: string = "";

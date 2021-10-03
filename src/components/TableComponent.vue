@@ -169,7 +169,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { keysValidator, IKey, TKey } from "../aws-webui/interfaces";
+import { keysValidator, IKey } from "../aws-webui/interfaces";
 
 export default defineComponent({
   name: "TableComponent",

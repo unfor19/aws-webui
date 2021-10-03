@@ -2,10 +2,10 @@
 
 ## Props
 
-| Name       | Type                                          | Description                                | Default                 |
-| ---------- | --------------------------------------------- | ------------------------------------------ | ----------------------- |
-| `title`    | `String`                                      | Page title                                 | `"Services Page Title"` |
-| `services` | [`TService[]`](./src/aws-webui/interfaces.ts) | List of services that will appear in cards | `[{}]`                  |
+| Name       | Type                                                                                            | Description                                | Default                 |
+| ---------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------ | ----------------------- |
+| `title`    | `String`                                                                                        | Page title                                 | `"Services Page Title"` |
+| `services` | [`IService[]`](https://github.com/unfor19/aws-webui/blob/master/src/aws-webui/interfaces.ts#L1) | List of services that will appear in cards | `[{}]`                  |
 
 ## Methods
 

@@ -107,7 +107,7 @@ export default defineComponent({
     },
     /**
      * List of services that will appear in cards
-     * @typeref ./src/aws-webui/interfaces.ts
+     * @typeref https://github.com/unfor19/aws-webui/blob/master/src/aws-webui/interfaces.ts#L1
      * @type {IService[]}
      * @default [{}]
      * */

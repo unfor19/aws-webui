@@ -5,14 +5,14 @@
 | Name          | Type       | Description                                                                                                               | Default                  |
 | ------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
 | `title`       | `String`   | Page Title                                                                                                                | `"CreateItemPage Title"` |
-| `keys`        | `Array`    | List of keys, provided in [src/router/routes.js](src/router/routes.js) The inputs will appear according to the given keys | `null`                   |
-| `create-item` | `Function` | User-defined function provided in [src/aws/${SERVICE_NAME}](src/aws)                                                      | `null`                   |
+| `keys`        | `Array`    | List of keys, provided in [src/router/routes.js](src/router/routes.js) The inputs will appear according to the given keys | `ref([{}])`              |
+| `create-item` | `Function` | User-defined function provided in [src/aws/${SERVICE_NAME}](src/aws)                                                      | `ref(Function)`          |
 
 ## Data
 
-| Name     | Type      | Description                                                                                     | Initial value |
-| -------- | --------- | ----------------------------------------------------------------------------------------------- | ------------- |
-| `models` | `unknown` | Reactive values of the inputs The function `({})` is used to allow any object to be referenced. | `ref({})`     |
+| Name     | Type      | Description                   | Initial value |
+| -------- | --------- | ----------------------------- | ------------- |
+| `models` | `unknown` | Reactive values of the inputs | `ref({})`     |
 
 ## Methods
 
