@@ -3,6 +3,7 @@
 ## Requirements
 
 - [Node](https://nodejs.org/en/download/) 14.x+
+- [yarn](https://classic.yarnpkg.com/lang/en/docs/install) 1.22+
 
 ## Getting Started
 
