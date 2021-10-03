@@ -19,7 +19,7 @@
               dense
               :color="color"
               :debounce="queryStringDebounce"
-              label="Query String"
+              :label="queryStringBy"
               v-model="queryString"
             >
               <template #append>
@@ -258,6 +258,9 @@ export default defineComponent({
   computed: {
     filterBy: function () {
       return "Filter by " + this.rowKey;
+    },
+    queryStringBy: function () {
+      return "Query String by " + this.rowKey;
     },
     pagesNumber: function () {
       return Math.ceil(this.items.length / this.pagination.rowsPerPage);
