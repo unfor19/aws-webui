@@ -158,11 +158,11 @@ export default defineComponent({
       this.$router.back();
     },
     /**
-     * This function is triggered on user clicks the **SUBMIT** button.
+     * This function is triggered on user clicks the **APPLY** button.
      * The `this.models` object is the "item" that is passed to `this.createItem` function.
      */
     onSubmit: async function () {
-      console.log("Clicked submit!", this.models);
+      console.log("Clicked apply!", this.models);
       const response = await this.createItem(this.models);
       if (
         response.$metadata.httpStatusCode >= 200 &&

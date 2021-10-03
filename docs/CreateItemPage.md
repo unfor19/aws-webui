@@ -44,7 +44,7 @@ onBack(): void
 
 ### onSubmit()
 
-This function is triggered on user clicks the **SUBMIT** button.
+This function is triggered on user clicks the **APPLY** button.
 The `this.models` object is the "item" that is passed to `this.createItem`
 function.
 

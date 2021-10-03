@@ -255,7 +255,7 @@ export default defineComponent({
       this.$router.back();
     },
     onSubmit: async function () {
-      console.log("Clicked submit!", this.models);
+      console.log("Clicked apply!", this.models);
       const response = await this.setItem(this.models);
       if (
         response.$metadata.httpStatusCode >= 200 &&
