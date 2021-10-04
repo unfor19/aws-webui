@@ -1,4 +1,4 @@
-import { ssmSetParameter } from "../aws/ssm/set";
+import { ssmSetParameter, ssmSetParameters } from "../aws/ssm/set";
 import { ssmGetParameterByName, ssmGetParametersByPath } from "../aws/ssm/get";
 import { ssmDeleteParametersByNames } from "src/aws/ssm/delete";
 import { RouteRecordNormalized } from "vue-router";
@@ -226,6 +226,85 @@ const routes: RouteRecordNormalized[] = [
                     {
                       name: "Type",
                       label: "Type *",
+                      editable: {
+                        type: "select",
+                        data: ["String", "SecureString", "StringList"],
+                        default: "String",
+                      },
+                    },
+                    {
+                      name: "KeyId",
+                      label: "KMS Key Id",
+                      editable: {
+                        type: "textarea",
+                        default: "alias/aws/ssm",
+                      },
+                      depends_on: {
+                        name: "Type",
+                        value: "SecureString",
+                      },
+                    },
+                    // {
+                    //   name: "Tier",
+                    //   label: "Tier",
+                    //   editable: {
+                    //     type: "select",
+                    //     data: ["Standard", "Advanced", "Intelligent-Tiering"],
+                    //     default: "Standard",
+                    //   },
+                    // },
+                    {
+                      name: "Description",
+                      label: "Description",
+                      editable: {
+                        type: "textarea",
+                        default: "",
+                      },
+                    },
+                    {
+                      name: "AllowedPattern",
+                      label: "Allowed Pattern",
+                      editable: {
+                        type: "textarea",
+                        default: "",
+                      },
+                    },
+                    {
+                      name: "Tags",
+                      label: "Tags",
+                      editable: {
+                        type: "textarea",
+                        default: [],
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                name: "ssm-parameters-modify",
+                path: "modify",
+                // @ts-ignore
+                component: () => import("src/pages/ModifyItemsPage.vue"),
+                props: {
+                  title: "Modify SSM Parameters",
+                  setItems: ssmSetParameters,
+                  rowKey: "Name",
+                  keys: [
+                    {
+                      name: "Name",
+                      label: "Name",
+                    },
+                    {
+                      name: "Value",
+                      label: "Value",
+                      editable: {
+                        type: "textarea",
+                        default: "",
+                      },
+                    },
+                    {
+                      name: "Type",
+                      label: "Type",
                       editable: {
                         type: "select",
                         data: ["String", "SecureString", "StringList"],

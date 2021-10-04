@@ -10,6 +10,7 @@
       @clicked-create="onClickedCreate"
       @clicked-set="onClickedSet"
       @clicked-cancel="onClickedCancel"
+      @clicked-modify="onClickedModify"
       :items="items"
       :keys="keys"
       :row-key="rowKey"
@@ -296,6 +297,24 @@ export default defineComponent({
         path: targetPath,
         params: params,
         name: this.name + "-edit",
+      });
+    },
+    /**
+     * The event `clickedModify` is emitted from the child component `TableComponent`.
+     * This event creates a `route` object with `params`. The `params` include the selected items.
+     * The $router pushes the new route and navigates to the `ModifyItemsPage` and passes the params `this.selected`.
+     */
+    onClickedModify() {
+      console.log("Clicked modify", this.selected);
+      const rowKey: string = this.rowKey;
+      const targetPath: string = this.name + "/modify";
+      const params: any = {
+        items: this.selected,
+      };
+      this.$router.push({
+        path: targetPath,
+        params: params,
+        name: this.name + "-modify",
       });
     },
     /**

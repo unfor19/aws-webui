@@ -29,3 +29,16 @@ export async function ssmSetParameter(item: any) {
   const response = await client.send(command);
   return response;
 }
+
+export async function ssmSetParameters(items: any[]) {
+  let promises: Promise<any>[] = [];
+
+  items.forEach((item: any) => {
+    const promise = ssmSetParameter(item);
+    promises.push(promise);
+  });
+  console.log("promises", promises);
+  const response = await Promise.all(promises);
+  console.log("response", response);
+  return response;
+}
