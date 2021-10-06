@@ -90,7 +90,7 @@ This application was built with:
 
 ## Contributing
 
-Report issues/questions/feature requests on the [Issues](https://github.com/unfor19/terraform-aws-ssm-parameters/issues) section.
+Report issues/questions/feature requests on the [Issues](https://github.com/unfor19/aws-webui/issues) section.
 
 Pull requests are welcome! These are the steps:
 
