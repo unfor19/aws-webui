@@ -1,3 +1,5 @@
+import { RouteParamsRaw } from "vue-router";
+
 interface IService {
   Title: string;
   RouteName: string;
@@ -78,4 +80,8 @@ export function keysValidator(keys: IKey[]): boolean {
     });
   });
   return isValid;
+}
+
+export interface IModifyParams extends RouteParamsRaw {
+  items: any[];
 }

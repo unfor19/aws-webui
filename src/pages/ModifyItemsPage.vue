@@ -3,38 +3,25 @@
     <h5 class="q-pl-xl q-pt-xs q-mb-xs">{{ title }}</h5>
     <q-card style="max-width: 500px">
       <q-card-section dense>
-        <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-          <div v-for="key in keys" :key="key.name">
-            <q-field
-              filled
-              disable
-              v-if="getShowInput(key, 'label')"
-              :label="key.label"
-              stack-label
-            >
-              <template #control>
-                <div class="self-center full-width no-outline" tabindex="0">
-                  {{ models[key.name] }}
+        <q-list bordered class="rounded-borders">
+          <q-expansion-item
+            expand-separator
+            :label="rowKey"
+            :caption="rowKey"
+            v-for="(item, i) in items"
+            :key="i"
+          >
+            <q-card v-for="(value, key) in item" :key="key">
+              <q-card-section>
+                <div class="row">
+                  <div class="col">{{ key }}</div>
+                  <div class="col">{{ value }}</div>
                 </div>
-              </template>
-            </q-field>
-            <q-input
-              v-else-if="getShowInput(key, 'textarea')"
-              :label="key.label"
-              v-model="models[key.name]"
-              lazy-rules
-              :rules="getRules(key)"
-            />
-            <q-select
-              v-else-if="getShowInput(key, 'select')"
-              filled
-              :options="key.editable.data"
-              :label="key.label"
-              v-model="models[key.name]"
-              lazy-rules
-              :rules="getRules(key)"
-            />
-          </div>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+        </q-list>
+        <!-- <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
           <div>
             <q-btn label="Apply" type="submit" color="primary" />
             <q-btn
@@ -52,7 +39,7 @@
               class="q-ml-sm"
             />
           </div>
-        </q-form>
+        </q-form> -->
       </q-card-section>
     </q-card>
   </q-page>
@@ -61,6 +48,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
+import { IModifyParams } from "../aws-webui/interfaces";
 
 export default defineComponent({
   props: {
@@ -83,6 +71,27 @@ export default defineComponent({
   },
   setup(props) {
     const $q = useQuasar();
+
+    function setSessionStorage(key: string, value: any) {
+      try {
+        $q.sessionStorage.set(key, value);
+        console.log(`Session storage was set`);
+      } catch (e) {
+        throw new Error(
+          `SessionStorage failed to set the key "${key}"\n\n${e}`
+        );
+      }
+    }
+
+    async function getSessionStorage(key: string) {
+      try {
+        return await $q.sessionStorage.getItem(key);
+      } catch (e) {
+        throw new Error(
+          `SessionStorage failed to get the key "${key}"\n\n${e}`
+        );
+      }
+    }
 
     function stringifyMessage(msg: any) {
       if (typeof msg == "string") {
@@ -160,13 +169,15 @@ export default defineComponent({
       showNotifyFailedApply,
       showNotifyRefreshSuccess,
       showNotifyRefreshFailed,
+      setSessionStorage,
+      getSessionStorage,
     };
   },
   data: function () {
     return {
       models: ref({}),
-      routeParams: ref({}),
-      itemKey: ref({}),
+      routeParams: ref(<IModifyParams>{}),
+      items: [],
     };
   },
   name: "ModifyItemsPage",
@@ -251,9 +262,21 @@ export default defineComponent({
   },
   async mounted() {
     // Initialize item based on router path
-    this.routeParams = this.$route.params;
-    this.itemKey = this.routeParams[this.rowKey as keyof Object];
-    // await this.onReset();
+    const initialItemsKey = "initial-items";
+    let items = <any>this.$route.params.items;
+    if (!items || items.length < 1) {
+      let items: any = await this.getSessionStorage(initialItemsKey);
+      if (!items) {
+        console.log("No items were passed! Go back!");
+      } else {
+        console.log("items", items);
+        this.items.push(<never>items);
+      }
+    } else {
+      console.log("items", items);
+      this.items.push(<never>items);
+      this.setSessionStorage("initial-items", items);
+    }
   },
 });
 </script>

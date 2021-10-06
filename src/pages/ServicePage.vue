@@ -24,6 +24,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import TableComponent from "../components/TableComponent.vue";
+import { IModifyParams } from "../aws-webui/interfaces";
 import { useQuasar } from "quasar";
 
 export default defineComponent({
@@ -306,13 +307,12 @@ export default defineComponent({
      */
     onClickedModify() {
       console.log("Clicked modify", this.selected);
-      const rowKey: string = this.rowKey;
-      const targetPath: string = this.name + "/modify";
-      const params: any = {
-        items: this.selected,
+      const params: IModifyParams = {
+        items: <any[]>this.selected,
+        rowKey: this.rowKey,
       };
       this.$router.push({
-        path: targetPath,
+        path: this.name + "/modify",
         params: params,
         name: this.name + "-modify",
       });
