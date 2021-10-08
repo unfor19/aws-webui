@@ -72,27 +72,6 @@ export default defineComponent({
   setup(props) {
     const $q = useQuasar();
 
-    function setSessionStorage(key: string, value: any) {
-      try {
-        $q.sessionStorage.set(key, value);
-        console.log(`Session storage was set`);
-      } catch (e) {
-        throw new Error(
-          `SessionStorage failed to set the key "${key}"\n\n${e}`
-        );
-      }
-    }
-
-    async function getSessionStorage(key: string) {
-      try {
-        return await $q.sessionStorage.getItem(key);
-      } catch (e) {
-        throw new Error(
-          `SessionStorage failed to get the key "${key}"\n\n${e}`
-        );
-      }
-    }
-
     function stringifyMessage(msg: any) {
       if (typeof msg == "string") {
         return msg;
@@ -169,8 +148,6 @@ export default defineComponent({
       showNotifyFailedApply,
       showNotifyRefreshSuccess,
       showNotifyRefreshFailed,
-      setSessionStorage,
-      getSessionStorage,
     };
   },
   data: function () {
@@ -264,18 +241,11 @@ export default defineComponent({
     // Initialize item based on router path
     const initialItemsKey = "initial-items";
     let items = <any>this.$route.params.items;
-    if (!items || items.length < 1) {
-      let items: any = await this.getSessionStorage(initialItemsKey);
-      if (!items) {
-        console.log("No items were passed! Go back!");
-      } else {
-        console.log("items", items);
-        this.items.push(<never>items);
-      }
+    if (!items) {
+      console.log("No items were passed! Go back!");
     } else {
       console.log("items", items);
       this.items.push(<never>items);
-      this.setSessionStorage("initial-items", items);
     }
   },
 });
