@@ -21,7 +21,7 @@
             </q-card>
           </q-expansion-item>
         </q-list>
-        <!-- <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+        <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
           <div>
             <q-btn label="Apply" type="submit" color="primary" />
             <q-btn
@@ -31,15 +31,15 @@
               flat
               class="q-ml-sm"
             />
-            <q-btn
+            <!-- <q-btn
               label="Reset"
               type="reset"
               color="primary"
               flat
               class="q-ml-sm"
-            />
+            /> -->
           </div>
-        </q-form> -->
+        </q-form>
       </q-card-section>
     </q-card>
   </q-page>
