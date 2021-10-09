@@ -303,15 +303,6 @@ const routes: RouteRecordNormalized[] = [
                         default: "",
                       },
                     },
-                    {
-                      name: "Type",
-                      label: "Type",
-                      editable: {
-                        type: "select",
-                        data: ["String", "SecureString", "StringList"],
-                        default: "String",
-                      },
-                    },
                     // {
                     //   name: "KeyId",
                     //   label: "KMS Key Id",
