@@ -1,27 +1,10 @@
 <template>
   <q-page>
     <h5 class="q-pl-xl q-pt-xs q-mb-xs">{{ title }}</h5>
-    <q-card style="max-width: 500px">
-      <q-card-section dense>
-        <q-list bordered class="rounded-borders">
-          <q-expansion-item
-            expand-separator
-            :label="rowKey"
-            :caption="rowKey"
-            v-for="(item, i) in items"
-            :key="i"
-          >
-            <q-card v-for="(value, key) in item" :key="key">
-              <q-card-section>
-                <div class="row">
-                  <div class="col">{{ key }}</div>
-                  <div class="col">{{ value }}</div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </q-expansion-item>
-        </q-list>
-        <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <q-card class="q-ma-md">
+      <ManipulationComponent />
+      <div padding class="q-pa-md">
+        <q-form @submit="onSubmit" @reset="onReset" class="q-pb-lg">
           <div>
             <q-btn label="Apply" type="submit" color="primary" />
             <q-btn
@@ -40,7 +23,17 @@
             /> -->
           </div>
         </q-form>
-      </q-card-section>
+        <q-table :rows="currentItems" :columns="keys" :row-key="rowKey" dense>
+          <template #body="props">
+            <q-tr :props="props">
+              <!-- v-for="(item, i) in currentItems" :key="i" -->
+              <q-td v-for="key in keys" :key="key.name" :props="props">
+                <div class="text-pre-wrap">{{ props.row[key.name] }}</div>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
+      </div>
     </q-card>
   </q-page>
 </template>
@@ -49,16 +42,21 @@
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
 import { IModifyParams } from "../aws-webui/interfaces";
+import { keysValidator } from "../aws-webui/interfaces";
+import ManipulationComponent from "../components/ManipulationComponent.vue";
 
 export default defineComponent({
+  components: {
+    ManipulationComponent,
+  },
   props: {
     title: {
       type: String,
-      default: "",
+      default: ref(""),
     },
     keys: {
-      type: Array,
-      default: null,
+      validator: keysValidator,
+      default: ref([]),
     },
     setItems: {
       type: Function,
@@ -66,7 +64,7 @@ export default defineComponent({
     },
     rowKey: {
       type: String,
-      default: "",
+      default: ref(""),
     },
   },
   setup(props) {
@@ -154,7 +152,7 @@ export default defineComponent({
     return {
       models: ref({}),
       routeParams: ref(<IModifyParams>{}),
-      items: [],
+      itemsLists: ref([]),
     };
   },
   name: "ModifyItemsPage",
@@ -237,15 +235,32 @@ export default defineComponent({
       return rules;
     },
   },
+  watch: {
+    itemsLists: function (v: any) {
+      console.log("itemsLists changed", v);
+    },
+  },
+  computed: {
+    currentItems: function () {
+      return <any>this.itemsLists[this.itemsLists.length - 1];
+    },
+  },
   async mounted() {
     // Initialize item based on router path
-    const initialItemsKey = "initial-items";
-    let items = <any>this.$route.params.items;
-    if (!items) {
-      console.log("No items were passed! Go back!");
-    } else {
-      console.log("items", items);
-      this.items.push(<never>items);
+    console.log("mounted");
+    try {
+      const paramsItems: Array<any> = JSON.parse(
+        <string>this.$route.params.items
+      );
+      if (!paramsItems || paramsItems.length < 1) {
+        console.log("No items were passed! Go back!");
+      } else {
+        this.itemsLists.push(<never>paramsItems);
+        console.log("itemsLists", this.itemsLists);
+        console.log("items", paramsItems);
+      }
+    } catch (e) {
+      // do nothing
     }
   },
 });

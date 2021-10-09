@@ -307,12 +307,13 @@ export default defineComponent({
      */
     onClickedModify() {
       console.log("Clicked modify", this.selected);
+      const items = JSON.stringify(this.selected);
       const params: IModifyParams = {
-        items: <any[]>this.selected,
+        items: items,
         rowKey: this.rowKey,
       };
+      console.log("modify params", params.items);
       this.$router.push({
-        path: this.name + "/modify",
         params: params,
         name: this.name + "-modify",
       });

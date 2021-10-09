@@ -293,6 +293,7 @@ const routes: RouteRecordNormalized[] = [
                     {
                       name: "Name",
                       label: "Name",
+                      align: "left",
                     },
                     {
                       name: "Value",
@@ -311,18 +312,18 @@ const routes: RouteRecordNormalized[] = [
                         default: "String",
                       },
                     },
-                    {
-                      name: "KeyId",
-                      label: "KMS Key Id",
-                      editable: {
-                        type: "textarea",
-                        default: "alias/aws/ssm",
-                      },
-                      depends_on: {
-                        name: "Type",
-                        value: "SecureString",
-                      },
-                    },
+                    // {
+                    //   name: "KeyId",
+                    //   label: "KMS Key Id",
+                    //   editable: {
+                    //     type: "textarea",
+                    //     default: "alias/aws/ssm",
+                    //   },
+                    //   depends_on: {
+                    //     name: "Type",
+                    //     value: "SecureString",
+                    //   },
+                    // },
                     // {
                     //   name: "Tier",
                     //   label: "Tier",
@@ -332,30 +333,30 @@ const routes: RouteRecordNormalized[] = [
                     //     default: "Standard",
                     //   },
                     // },
-                    {
-                      name: "Description",
-                      label: "Description",
-                      editable: {
-                        type: "textarea",
-                        default: "",
-                      },
-                    },
-                    {
-                      name: "AllowedPattern",
-                      label: "Allowed Pattern",
-                      editable: {
-                        type: "textarea",
-                        default: "",
-                      },
-                    },
-                    {
-                      name: "Tags",
-                      label: "Tags",
-                      editable: {
-                        type: "textarea",
-                        default: [],
-                      },
-                    },
+                    // {
+                    //   name: "Description",
+                    //   label: "Description",
+                    //   editable: {
+                    //     type: "textarea",
+                    //     default: "",
+                    //   },
+                    // },
+                    // {
+                    //   name: "AllowedPattern",
+                    //   label: "Allowed Pattern",
+                    //   editable: {
+                    //     type: "textarea",
+                    //     default: "",
+                    //   },
+                    // },
+                    // {
+                    //   name: "Tags",
+                    //   label: "Tags",
+                    //   editable: {
+                    //     type: "textarea",
+                    //     default: [],
+                    //   },
+                    // },
                   ],
                 },
               },

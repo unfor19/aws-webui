@@ -83,5 +83,5 @@ export function keysValidator(keys: IKey[]): boolean {
 }
 
 export interface IModifyParams extends RouteParamsRaw {
-  items: any[];
+  items: string;
 }
