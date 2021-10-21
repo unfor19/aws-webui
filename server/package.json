@@ -5,6 +5,9 @@
   "author": "Meir Gabay <unfor19@gmail.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "install-dependencies": "yarn install"
+  },
   "dependencies": {
     "connect-history-api-fallback": "1.6.0",
     "express": "^4.17.1",

@@ -27,11 +27,11 @@ This application was built with:
    ```bash
    curl -sL -o docker-compose.yml "https://raw.githubusercontent.com/unfor19/aws-webui/master/docker-compose.yml"
    ```
-2. Run application (GUI) and [localstack](https://github.com/localstack/localstack) - a backend server that immitates [AWS SSM Parameters API](https://docs.aws.amazon.com/systems-manager/latest/APIReference/Welcome.html)
+2. Run the application (GUI) and [localstack](https://github.com/localstack/localstack) - a backend server that immitates [AWS SSM Parameters API](https://docs.aws.amazon.com/systems-manager/latest/APIReference/Welcome.html)
    ```bash
    docker-compose -p awswebui --profile frontend up --detach
    ```
-3. Open application in browser - [http://localhost:8081](http://localhost:8081)
+3. View the application in a browser - [http://localhost:8081](http://localhost:8081)
 4. Cleanup
    ```bash
    docker-compose -p awswebui down && \
@@ -41,7 +41,7 @@ This application was built with:
 ### Run From Source Code
 
 1. Fork/Clone this repo
-2. Install application dependencies
+2. Install application's dependencies
    ```bash
    yarn install
    ```
@@ -49,31 +49,29 @@ This application was built with:
     ```bash
     yarn build
     ```
-4. Install server dependencies
+4. Install server's ([Express JS](https://expressjs.com/)) dependencies
    ```bash
-   cd server && \
-   yarn install && \
-   cd ..
+   yarn --cwd server run install-dependencies
    ```
 5. Start [localstack](https://github.com/localstack/localstack)
    ```bash
    yarn localstack:up
    ```
-6. Run application in production mode
+6. Run the application in production mode
    ```bash
    yarn serve:prod
    ```
-7. Open application in browser - [http://localhost:8080](http://localhost:8080)
+7. View the application in a browser - [http://localhost:8080](http://localhost:8080)
 
 ### Docker
 
 #### Run Official Container
 
-1. Run application in Docker
+1. Run the application in Docker
    ```bash
    docker run --rm -it -p 8080:8080 unfor19/aws-webui
    ```
-1. Open application in browser - [http://localhost:8080](http://localhost:8080)
+1. View the application in a browser - [http://localhost:8080](http://localhost:8080)
 
 #### Build Docker Image From Source Code
 
@@ -82,11 +80,11 @@ This application was built with:
    ```bash
    docker build -t aws-webui .
    ```
-1. Run application in production mode
+1. Run the application in production mode
    ```bash
    docker run --rm -it -p 8080:8080 aws-webui
    ```
-1. Open application in browser - [http://localhost:8080](http://localhost:8080)   
+1. View the application in a browser - [http://localhost:8080](http://localhost:8080)   
 
 ## Contributing
 
@@ -95,7 +93,7 @@ Report issues/questions/feature requests on the [Issues](https://github.com/unfo
 Pull requests are welcome! These are the steps:
 
 1. Fork this repo
-1. Install dependencies
+1. Install application's dependencies
    ```bash
    yarn install
    ```
@@ -115,7 +113,7 @@ Pull requests are welcome! These are the steps:
 
 ## TODO
 
-- Add the action `bulk edit value` with the options to `find and replace` and `add prefix/suffix`. Requires a new function `editItems(items)`
+- **(WIP)** Add the action `bulk edit value` with the options to `find and replace` and `add prefix/suffix`. Requires a new function `editItems(items)`
 - Add the action - `export selected items to a JSON file`, the structure per service should be declared in `src/router/routes.ts`. For SSM the structure as in [unfor19/parzival](https://github.com/unfor19/parzival/blob/master/cmd/config.go). Requires a new function `exportItemsToFile(items)`
 - Add the action - `export selected items to a JSON string`, the structure per service should be declared in `src/router/routes.ts`. For SSM the structure as in [unfor19/parzival](https://github.com/unfor19/parzival/blob/master/cmd/config.go). Requires a new function `exportItemsToString(string)`
 - Add the action - `import items from a JSON file` attempts to create/update items, and returns information about which ones were successfully updated and which ones failed. Requires a new function `importItemsFromFile(inputFilePath)`
