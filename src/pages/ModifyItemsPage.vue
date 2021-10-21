@@ -22,23 +22,31 @@
         @end="drag = false"
         item-key="id"
         tag="div"
-        class="list-group q-pa-xs"
+        class="list-group"
       >
         <template #item="{ element }">
           <q-item v-if="element.id" class="list-group-item">
             <div class="cursor-pointer">
               <div class="row items-start">
-                <q-icon name="drag_indicator" />
-                <span>{{ element.manipulation }} </span>
-                <ManipulationFindAndReplaceComponent
-                  :keys="filteredKeys"
-                  :row-key="rowKey"
-                />
-                <q-btn
-                  label="Remove"
-                  @click="onRemove(element.id)"
-                  color="negative"
-                />
+                <q-item class="q-pa-md">
+                  <q-icon name="drag_indicator" />
+                </q-item>
+                <q-item class="q-pa-md">
+                  <span>{{ element.manipulation }} </span>
+                </q-item>
+                <q-item class="q-pa-md">
+                  <ManipulationFindAndReplaceComponent
+                    :keys="filteredKeys"
+                    :row-key="rowKey"
+                  />
+                </q-item>
+                <q-item class="q-pa-md">
+                  <q-btn
+                    label="Remove"
+                    @click="onRemove(element.id)"
+                    color="negative"
+                  />
+                </q-item>
               </div>
             </div>
           </q-item>

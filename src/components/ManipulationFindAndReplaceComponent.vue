@@ -1,13 +1,13 @@
 <template>
   <div class="row">
-    <div class="col">
+    <div class="col q-pa-md">
       <q-select v-model="givenStr" :options="keys" label="Select Key" />
     </div>
-    <div class="col">
-      <q-input v-model="findStr" type="textarea" />
+    <div class="col q-pa-md">
+      <q-input v-model="findStr" type="text" />
     </div>
-    <div class="col">
-      <q-input v-model="replaceWithStr" type="textarea" />
+    <div class="col q-pa-md">
+      <q-input v-model="replaceWithStr" type="text" />
     </div>
   </div>
 </template>
