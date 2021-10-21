@@ -26,29 +26,33 @@
       >
         <template #item="{ element }">
           <q-item v-if="element.id" class="list-group-item">
-            <div class="cursor-pointer">
-              <div class="row items-start">
-                <q-item class="q-pa-md">
-                  <q-icon name="drag_indicator" />
-                </q-item>
-                <q-item class="q-pa-md">
-                  <span>{{ element.manipulation }} </span>
-                </q-item>
-                <q-item class="q-pa-md">
-                  <ManipulationFindAndReplaceComponent
-                    :keys="filteredKeys"
-                    :row-key="rowKey"
-                  />
-                </q-item>
-                <q-item class="q-pa-md">
-                  <q-btn
-                    label="Remove"
-                    @click="onRemove(element.id)"
-                    color="negative"
-                  />
-                </q-item>
-              </div>
-            </div>
+            <q-card>
+              <q-card-section>
+                <div class="cursor-pointer">
+                  <div class="row items-start">
+                    <q-item class="q-pa-md">
+                      <q-icon name="drag_indicator" />
+                    </q-item>
+                    <q-item class="q-pa-md">
+                      <span>{{ element.manipulation }} </span>
+                    </q-item>
+                    <q-item class="q-pa-md">
+                      <ManipulationFindAndReplaceComponent
+                        :keys="filteredKeys"
+                        :row-key="rowKey"
+                      />
+                    </q-item>
+                    <q-item class="q-pa-md">
+                      <q-btn
+                        label="Remove"
+                        @click="onRemove(element.id)"
+                        color="negative"
+                      />
+                    </q-item>
+                  </div>
+                </div>
+              </q-card-section>
+            </q-card>
           </q-item>
         </template>
       </draggable>

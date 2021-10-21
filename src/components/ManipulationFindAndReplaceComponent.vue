@@ -1,12 +1,12 @@
 <template>
   <div class="row">
-    <div class="col q-pa-md">
+    <div class="col q-mr-md q-ml-md q-pa-xs">
       <q-select v-model="givenStr" :options="keys" label="Select Key" />
     </div>
-    <div class="col q-pa-md">
+    <div class="col q-mr-md q-ml-md q-pa-xs">
       <q-input v-model="findStr" type="text" />
     </div>
-    <div class="col q-pa-md">
+    <div class="col q-mr-md q-ml-md q-pa-xs">
       <q-input v-model="replaceWithStr" type="text" />
     </div>
   </div>
