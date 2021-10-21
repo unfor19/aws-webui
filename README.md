@@ -51,9 +51,7 @@ This application was built with:
     ```
 4. Install server's ([Express JS](https://expressjs.com/)) dependencies
    ```bash
-   cd server && \
-   yarn install && \
-   cd ..
+   yarn --cwd server run install-dependencies
    ```
 5. Start [localstack](https://github.com/localstack/localstack)
    ```bash
