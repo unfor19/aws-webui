@@ -1,17 +1,33 @@
 <template>
-  <q-item class="list-group-item">
-    <div class="row items-start">
+  <div class="row">
+    <div class="col">
+      <q-select v-model="givenStr" :options="keys" label="Select Key" />
+    </div>
+    <div class="col">
       <q-input v-model="findStr" type="textarea" />
+    </div>
+    <div class="col">
       <q-input v-model="replaceWithStr" type="textarea" />
     </div>
-  </q-item>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { keysValidator } from "../aws-webui/interfaces";
 
 export default defineComponent({
   name: "ManipulationFindAndReplaceComponent",
+  props: {
+    rowKey: {
+      type: String,
+      default: ref(""),
+    },
+    keys: {
+      validator: keysValidator,
+      default: ref([]),
+    },
+  },
   methods: {
     findAndReplace: function (
       givenStr: string,
@@ -23,6 +39,7 @@ export default defineComponent({
   },
   data() {
     return {
+      givenStr: ref(""),
       findStr: ref(""),
       replaceWithStr: ref(""),
     };

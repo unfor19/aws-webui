@@ -305,7 +305,7 @@ const routes: RouteRecordNormalized[] = [
                     },
                     {
                       name: "Type",
-                      label: "Type *",
+                      label: "Type",
                       editable: {
                         type: "select",
                         data: ["String", "SecureString", "StringList"],

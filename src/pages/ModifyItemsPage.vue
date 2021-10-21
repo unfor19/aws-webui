@@ -6,7 +6,7 @@
         <span>{{ manipulation.id }}, </span>
       </span>
       <q-form @submit="onAdd" class="q-pa-md">
-        <div class="q-pa-lg">
+        <div class="q-pa-md">
           <q-option-group
             v-model="manipulationSelected"
             :options="manipulationOptions"
@@ -15,13 +15,6 @@
         </div>
         <q-btn label="Add" type="submit" color="primary" />
       </q-form>
-      <q-item class="list-group-item">
-        <div class="cursor-pointer">
-          <div class="row items-start">
-            <span>{{ initialManipulation }} </span>
-          </div>
-        </div>
-      </q-item>
       <draggable
         v-model="groupsWithItems"
         group="children"
@@ -36,8 +29,11 @@
             <div class="cursor-pointer">
               <div class="row items-start">
                 <q-icon name="drag_indicator" />
-                <span>{{ element.id }} </span>
-                <ManipulationFindAndReplaceComponent />
+                <span>{{ element.manipulation }} </span>
+                <ManipulationFindAndReplaceComponent
+                  :keys="filteredKeys"
+                  :row-key="rowKey"
+                />
                 <q-btn
                   label="Remove"
                   @click="onRemove(element.id)"
@@ -323,6 +319,10 @@ export default defineComponent({
     },
   },
   computed: {
+    filteredKeys() {
+      let k = <any[]>(<unknown>this.keys);
+      return <any[]>(<unknown>k.filter((obj: any) => obj.name != this.rowKey));
+    },
     currentItems: function () {
       return <any>this.itemsLists[this.itemsLists.length - 1];
     },
