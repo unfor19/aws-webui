@@ -2,7 +2,52 @@
   <q-page>
     <h5 class="q-pl-xl q-pt-xs q-mb-xs">{{ title }}</h5>
     <q-card class="q-ma-md">
-      <ManipulationComponent />
+      <span v-for="manipulation in currentManipulation" :key="manipulation.id">
+        <span>{{ manipulation.id }}, </span>
+      </span>
+      <q-form @submit="onAdd" class="q-pa-md">
+        <div class="q-pa-lg">
+          <q-option-group
+            v-model="manipulationSelected"
+            :options="manipulationOptions"
+            color="primary"
+          />
+        </div>
+        <q-btn label="Add" type="submit" color="primary" />
+      </q-form>
+      <q-item class="list-group-item">
+        <div class="cursor-pointer">
+          <div class="row items-start">
+            <span>{{ initialManipulation }} </span>
+          </div>
+        </div>
+      </q-item>
+      <draggable
+        v-model="groupsWithItems"
+        group="children"
+        @start="drag = true"
+        @end="drag = false"
+        item-key="id"
+        tag="div"
+        class="list-group q-pa-xs"
+      >
+        <template #item="{ element }">
+          <q-item v-if="element.id" class="list-group-item">
+            <div class="cursor-pointer">
+              <div class="row items-start">
+                <q-icon name="drag_indicator" />
+                <span>{{ element.id }} </span>
+                <ManipulationFindAndReplaceComponent />
+                <q-btn
+                  label="Remove"
+                  @click="onRemove(element.id)"
+                  color="negative"
+                />
+              </div>
+            </div>
+          </q-item>
+        </template>
+      </draggable>
       <div padding class="q-pa-md">
         <q-form @submit="onSubmit" @reset="onReset" class="q-pb-lg">
           <div>
@@ -43,11 +88,13 @@ import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
 import { IModifyParams } from "../aws-webui/interfaces";
 import { keysValidator } from "../aws-webui/interfaces";
-import ManipulationComponent from "../components/ManipulationComponent.vue";
+import draggable from "vuedraggable";
+import ManipulationFindAndReplaceComponent from "../components/ManipulationFindAndReplaceComponent.vue";
 
 export default defineComponent({
   components: {
-    ManipulationComponent,
+    ManipulationFindAndReplaceComponent,
+    draggable,
   },
   props: {
     title: {
@@ -153,13 +200,48 @@ export default defineComponent({
       models: ref({}),
       routeParams: ref(<IModifyParams>{}),
       itemsLists: ref([]),
+      drag: ref(false),
+      initialManipulation: {
+        id: 1,
+        manipulation: "initial",
+      },
+      groupsWithItems: ref([{}]),
+      manipulationSelected: ref("findAndReplace"),
+      manipulationOptions: [
+        {
+          label: "Find And Replace",
+          value: "findAndReplace",
+        },
+        {
+          label: "Another Manipulation",
+          value: "anotherManipulation",
+        },
+      ],
     };
   },
   name: "ModifyItemsPage",
   methods: {
+    getMaxItemId: function () {
+      const myArray = this.currentManipulation.sort(function (a, b) {
+        return a.id - b.id;
+      });
+      return this.currentManipulation[this.currentManipulation.length - 1].id;
+    },
+    onRemove: function (id: number) {
+      this.groupsWithItems = this.groupsWithItems.filter(
+        (obj: any) => obj.id !== id
+      );
+    },
     onRefresh: async function () {
       this.onReset();
     },
+    onAdd: function () {
+      this.groupsWithItems.push({
+        id: this.getMaxItemId() + 1,
+        manipulation: this.manipulationSelected,
+      });
+    },
+    onClickedCreate: function (e: any) {},
     onReset: async function () {
       // const response = await this.getItem(this.itemKey);
       // console.log("onReset response", response.item);
@@ -243,6 +325,12 @@ export default defineComponent({
   computed: {
     currentItems: function () {
       return <any>this.itemsLists[this.itemsLists.length - 1];
+    },
+    currentManipulation: function () {
+      return Array.prototype.concat(
+        [this.initialManipulation],
+        this.groupsWithItems.filter((x) => "id" in x)
+      );
     },
   },
   async mounted() {
