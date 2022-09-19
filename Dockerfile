@@ -7,9 +7,18 @@ ARG ALPINE_VERSION="3.16"
 
 
 ### ---------------------------------------------------
+### Base image
+### ---------------------------------------------------
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} as base
+ARG NODE_OPTIONS="--openssl-legacy-provider"
+ENV NODE_OPTIONS="${NODE_OPTIONS}"
+### ---------------------------------------------------
+
+
+### ---------------------------------------------------
 ### Build the application
 ### ---------------------------------------------------
-FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} as build
+FROM base as build
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -27,7 +36,7 @@ RUN  yarn build
 ### ---------------------------------------------------
 ### Server running the application
 ### ---------------------------------------------------
-FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} as server
+FROM base as server
 
 # Create server directory
 WORKDIR /app/server/
